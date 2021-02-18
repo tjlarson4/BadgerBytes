@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import Firebase
+import Firebase
 
 class SignUpVC: UIViewController {
     
@@ -32,32 +32,31 @@ class SignUpVC: UIViewController {
     
     @objc func handleSignUp() {
         
-//        guard let email = emailInputView.input.text else {return}
-//        guard let password = passwordInputView.input.text else {return}
-//        guard let firstName = firstNameInputView.input.text else {return}
-//        guard let lastName = lastNameInputView.input.text else {return}
-//
-//        Auth.auth().createUser(withEmail: email, password: password) { (data, err) in
-//            if let err = err {
-//                print("Registration error: " + err.localizedDescription)
-//            }
-//
-//            print("Successfully created user with id: " + (Auth.auth().currentUser?.uid)!)
-//
-//            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-//            let username = String(email.split(separator: "@")[0])
-//            let values = ["firstName": firstName, "lastName": lastName, "username": username]
-//
-//            Database.database().reference().child("user_info").child(currentUserID).setValue(values, withCompletionBlock: { (err, ref) in
-//                if let err = err {
-//                    print("Database info error: " + err.localizedDescription)
-//                }
-//
-//                print("Successfully stored user info")
-//            })
-//
-//            self.resetUI()
-//        }
+        guard let email = emailInputView.input.text else {return}
+        guard let password = passwordInputView.input.text else {return}
+        guard let firstName = firstNameInputView.input.text else {return}
+        guard let lastName = lastNameInputView.input.text else {return}
+
+        Auth.auth().createUser(withEmail: email, password: password) { (data, err) in
+            if let err = err {
+                print("Registration error: " + err.localizedDescription)
+            }
+
+            print("Successfully created user with id: " + (Auth.auth().currentUser?.uid)!)
+
+            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+            let username = String(email.split(separator: "@")[0])
+            let values = ["firstName": firstName, "lastName": lastName, "username": username]
+
+            Database.database().reference().child("user_info").child(currentUserID).setValue(values, withCompletionBlock: { (err, ref) in
+                if let err = err {
+                    print("Database info error: " + err.localizedDescription)
+                }
+
+                print("Successfully stored user info")
+            })
+
+        }
         
     }
     

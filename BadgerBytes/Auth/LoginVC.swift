@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import Firebase
+import Firebase
 
 class LoginVC: UIViewController {
     
@@ -28,31 +28,29 @@ class LoginVC: UIViewController {
     }
     
     @objc func handleSignUp() {
-        self.present(SignUpVC(), animated: true, completion: nil)
+        let signUpVC = SignUpVC()
+        signUpVC.modalPresentationStyle = .overFullScreen
+        self.present(signUpVC, animated: true, completion: nil)
     }
     
     @objc func handleSignIn() {
         
-//        guard let email = emailInputView.input.text else {return}
-//        guard let password = passwordInputView.input.text else {return}
-//
-//        Auth.auth().signIn(withEmail: email, password: password) { (data, err) in
-//            if let err = err {
-//                print("Sign in error: " + err.localizedDescription)
-//            }
-//
-//            print("Successfully signed in user with id: " + (Auth.auth().currentUser?.uid)!)
-//
-//            let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
-//
-//            tabBarVC.setUpViewControllers()
-//            let homeNavVC = tabBarVC.viewControllers![0] as! UINavigationController
-//            let homeVC = homeNavVC.viewControllers.first as! HomeVC
-//            homeVC.fetchPosts()
-//
-//            self.view.endEditing(true)
-//            self.dismiss(animated: true, completion: nil)
-//        }
+        guard let email = emailInputView.input.text else {return}
+        guard let password = passwordInputView.input.text else {return}
+
+        Auth.auth().signIn(withEmail: email, password: password) { (data, err) in
+            if let err = err {
+                print("Sign in error: " + err.localizedDescription)
+            }
+
+            print("Successfully signed in user with id: " + (Auth.auth().currentUser?.uid)!)
+
+            let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
+
+            tabBarVC.setUpViewControllers()
+            self.view.endEditing(true)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func handleForgotPassword() {
