@@ -52,7 +52,8 @@ class SignUpVC: UIViewController {
 
                 print("Successfully stored user info")
             })
-
+            
+            self.resetUI()
         }
         
     }
