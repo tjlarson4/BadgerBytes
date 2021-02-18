@@ -72,7 +72,7 @@ class LoginVC: UIViewController {
     
     let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.add(text: "Welcome to Ario", font: UIFont(name: "PingFangHK-Regular", size: 29)!, textColor: .subtitle_label)
+        lbl.add(text: "BadgerBytes", font: UIFont(name: "PingFangHK-Regular", size: 45)!, textColor: .subtitle_label)
         lbl.textAlignment = .center
         return lbl
     }()
@@ -126,7 +126,7 @@ class LoginVC: UIViewController {
         containerView.heightAnchor.constraint(equalToConstant: 489).isActive = true
         containerView.anchorCenterSuperview()
         
-        titleLabel.anchor(containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, topConstant: 5, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 41)
+        titleLabel.anchor(containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, topConstant: 5, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 60)
         
         inputBackgroundView.anchor(titleLabel.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, topConstant: 54, leftConstant: 20, bottomConstant: 0, rightConstant: 20, widthConstant: 0, heightConstant: 314)
         
