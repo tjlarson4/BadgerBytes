@@ -11,11 +11,26 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        setAppearances()
+
         return true
+    }
+    
+    func setAppearances() {
+                
+        // Changes system nav bar attributes
+        UINavigationBar.appearance().barTintColor = .nav_bar
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.main_label]
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().tintColor = .main_label
+        
+        // Changes system tab bar background text color
+        UITabBar.appearance().barTintColor = .tab_bar
+        UITabBar.appearance().tintColor = .white
+        
     }
 
     // MARK: UISceneSession Lifecycle
