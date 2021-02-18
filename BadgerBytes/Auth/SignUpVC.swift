@@ -23,9 +23,6 @@ class SignUpVC: UIViewController {
     func resetUI() {
         let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
         tabBarVC.setUpViewControllers()
-//        let homeNavVC = tabBarVC.viewControllers![0] as! UINavigationController
-//        let homeVC = homeNavVC.viewControllers.first as! HomeVC
-//        homeVC.fetchPosts()
         self.view.endEditing(true)
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
