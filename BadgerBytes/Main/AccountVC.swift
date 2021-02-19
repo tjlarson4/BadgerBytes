@@ -52,7 +52,6 @@ class AccountVC: UIViewController {
                 
         logoutButton.anchor(nil, left: nil, bottom: nil, right: nil, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 200, heightConstant: 40)
         logoutButton.anchorCenterSuperview()
-
         
 
     }
