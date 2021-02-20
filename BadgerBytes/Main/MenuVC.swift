@@ -22,20 +22,30 @@ class MenuVC: UIViewController {
     //
     
     @objc func handleStartOrder() {
-        
-        
+        // Move to menu screen
+        print("Order started")
     }
 
     //
     // MARK: UI Setup
     //
     
-    let containerView = UIView()
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
     
+    let backgroundImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "auth_background")
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+
     let welcomeLabel: UILabel = {
         let lbl = UILabel()
         lbl.add(text: "Welcome to...", font: UIFont(regularWithSize: 23), textColor: .main_label)
-        lbl.textAlignment = .center
+        lbl.textAlignment = .left
         return lbl
     }()
     
@@ -58,14 +68,14 @@ class MenuVC: UIViewController {
     
     func setUpViews() {
         
-        self.view.addSubviews(views: [containerView, welcomeLabel, titleLabel, startOrderButton])
-        
-        containerView.backgroundColor = .red
-        
-        containerView.anchor(nil, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 500)
-        containerView.anchorCenterYToSuperview()
-
+        self.view.addSubviews(views: [welcomeLabel, titleLabel, startOrderButton])
                 
+        welcomeLabel.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 40, leftConstant: 20, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 35)
+        
+        titleLabel.anchor(welcomeLabel.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
+        
+        startOrderButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 200, leftConstant: 30, bottomConstant: 40, rightConstant: 30, widthConstant: 0, heightConstant: 50)
+        startOrderButton.anchorCenterXToSuperview()
 
     }
 
