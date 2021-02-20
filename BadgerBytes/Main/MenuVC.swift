@@ -21,22 +21,61 @@ class MenuVC: UIViewController {
     // MARK: Functions
     //
     
-
+    @objc func handleStartOrder() {
+        // Move to menu screen
+        print("Order started")
+    }
 
     //
     // MARK: UI Setup
     //
     
-    let tempLabel: UILabel = {
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
+    
+    let backgroundImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "auth_background")
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+
+    let welcomeLabel: UILabel = {
         let lbl = UILabel()
-        lbl.add(text: "This is the menu screen.", font: UIFont(regularWithSize: 23), textColor: .main_label)
+        lbl.add(text: "Welcome to...", font: UIFont(regularWithSize: 23), textColor: .main_label)
+        lbl.textAlignment = .left
+        return lbl
+    }()
+    
+    let titleLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "BadgerBytes", font: UIFont(name: "PingFangHK-Regular", size: 45)!, textColor: .subtitle_label)
         lbl.textAlignment = .center
         return lbl
     }()
     
+    let startOrderButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.add(text: "Start your order", font: UIFont(boldWithSize: 18), textColor: .subtitle_label)
+        btn.layer.borderColor = UIColor.subtitle_label.cgColor
+        btn.layer.borderWidth = 1
+        btn.addTarget(self, action: #selector(handleStartOrder), for: .touchUpInside)
+        return btn
+    }()
+    
     func setUpViews() {
+        
+        self.view.addSubviews(views: [welcomeLabel, titleLabel, startOrderButton])
                 
-        self.view.backgroundColor = .green
+        welcomeLabel.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 40, leftConstant: 20, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 35)
+        
+        titleLabel.anchor(welcomeLabel.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
+        
+        startOrderButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 200, leftConstant: 30, bottomConstant: 40, rightConstant: 30, widthConstant: 0, heightConstant: 50)
+        startOrderButton.anchorCenterXToSuperview()
 
     }
 

@@ -1,0 +1,6 @@
+framework module Pods_BadgerBytesTests {
+  umbrella header "Pods-BadgerBytesTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

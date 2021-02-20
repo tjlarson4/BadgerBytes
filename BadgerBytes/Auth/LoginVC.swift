@@ -40,6 +40,7 @@ class LoginVC: UIViewController {
 
         Auth.auth().signIn(withEmail: email, password: password) { (data, err) in
             if let err = err {
+                // TODO: error handling
                 print("Sign in error: " + err.localizedDescription)
             }
 
