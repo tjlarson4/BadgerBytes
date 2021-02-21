@@ -20,10 +20,12 @@ class MenuVC: UIViewController {
     //
     // MARK: Functions
     //
+    var orderNum = 1
     
     @objc func handleStartOrder() {
         // Move to menu screen
-        print("Order started")
+        print("Order \(orderNum) started")
+        orderNum += 1
     }
 
     //
