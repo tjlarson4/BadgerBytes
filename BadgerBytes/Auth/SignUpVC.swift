@@ -9,7 +9,6 @@ import UIKit
 import Firebase
 
 class SignUpVC: UIViewController {
-    
     override func viewDidLoad() {
         setUpViews()
         firstNameInputView.input.becomeFirstResponder()
@@ -33,7 +32,10 @@ class SignUpVC: UIViewController {
         guard let password = passwordInputView.input.text else {return}
         guard let firstName = firstNameInputView.input.text else {return}
         guard let lastName = lastNameInputView.input.text else {return}
-
+        guard let phoneNum = lastNameInputView.input.text else {return}
+        guard let address = lastNameInputView.input.text else {return}
+        
+        
         Auth.auth().createUser(withEmail: email, password: password) { (data, err) in
             if let err = err {
                 print("Registration error: " + err.localizedDescription)
@@ -42,10 +44,9 @@ class SignUpVC: UIViewController {
             print("Successfully created user with id: " + (Auth.auth().currentUser?.uid)!)
 
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-            let username = String(email.split(separator: "@")[0])
-            let values = ["firstName": firstName, "lastName": lastName, "username": username]
-
-            Database.database().reference().child("user_info").child(currentUserID).setValue(values, withCompletionBlock: { (err, ref) in
+            let values = ["firstName": firstName, "lastName": lastName, "email": email, "phoneNum":phoneNum, "address":address]
+            
+            Database.database().reference().child("Users").child(currentUserID).setValue(values, withCompletionBlock: { (err, ref) in
                 if let err = err {
                     print("Database info error: " + err.localizedDescription)
                 }
@@ -85,11 +86,13 @@ class SignUpVC: UIViewController {
     
     let firstNameInputView = AuthInputView(placeholder: "First name", keyboardType: .namePhonePad, isPassword: false)
     let lastNameInputView = AuthInputView(placeholder: "Last name", keyboardType: .namePhonePad, isPassword: false)
+    let phoneNumInputView = AuthInputView(placeholder: "Phone Number", keyboardType: .numberPad, isPassword: false)
+    let addressInputView = AuthInputView(placeholder: "Address", keyboardType: .namePhonePad, isPassword: false)
     let emailInputView = AuthInputView(placeholder: "Email", keyboardType: .emailAddress, isPassword: false)
     let passwordInputView = AuthInputView(placeholder: "Password", keyboardType: .default, isPassword: true)
     
     lazy var inputStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [firstNameInputView, lastNameInputView, emailInputView, passwordInputView])
+        let sv = UIStackView(arrangedSubviews: [firstNameInputView, lastNameInputView,phoneNumInputView,addressInputView, emailInputView, passwordInputView])
         sv.axis = .vertical
         sv.distribution = .equalSpacing
         return sv
