@@ -23,6 +23,7 @@ class AuthInputView: UIView {
         tf.tintColor = .main_label
         tf.font = UIFont(regularWithSize: 16)
         tf.keyboardAppearance = .dark
+        tf.autocapitalizationType = .none
         return tf
     }()
     

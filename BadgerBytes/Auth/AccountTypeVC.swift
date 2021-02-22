@@ -8,17 +8,30 @@
 import UIKit
 
 class AccountTypeVC: UIViewController{
+    
+    //
+    // MARK: View Lifecycle
+    //
+    
     override func viewDidLoad() {
         setUpViews()
         //firstNameInputView.input.becomeFirstResponder()
     }
+    
+    //
+    // MARK: Functions
+    //
     
     @objc func handleDismiss() {
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func handleSignUp() {
+    @objc func handleSignUp(sender: UIButton) {
+        
+        // TODO: set global user account type, probably can store in Firebase
+        print("Button tag: ", sender.tag) // 0 = Admin, 1 = Staff, 2 = Customer
+    
         let signUpVC = SignUpVC()
         signUpVC.modalPresentationStyle = .overFullScreen
         self.present(signUpVC, animated: true, completion: nil)
@@ -31,7 +44,9 @@ class AccountTypeVC: UIViewController{
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
-    
+    //
+    // MARK: UI Setup
+    //
     
     let backgroundImageView: UIImageView = {
         let iv = UIImageView()
@@ -58,8 +73,9 @@ class AccountTypeVC: UIViewController{
         return vw
     }()
     
-    let StaffBtn: UIButton = {
+    let staffBtn: UIButton = {
         let btn = UIButton(type: .system)
+        btn.tag = 1
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
         btn.add(text: "Staff", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
@@ -67,9 +83,9 @@ class AccountTypeVC: UIViewController{
         return btn
     }()
     
-    
-    let AdminBtn: UIButton = {
+    let adminBtn: UIButton = {
         let btn = UIButton(type: .system)
+        btn.tag = 0
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
         btn.add(text: "Admin", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
@@ -77,9 +93,9 @@ class AccountTypeVC: UIViewController{
         return btn
     }()
     
-    
-    let CustomerBtn: UIButton = {
+    let customerBtn: UIButton = {
         let btn = UIButton(type: .system)
+        btn.tag = 2
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
         btn.add(text: "Customer", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
@@ -94,19 +110,12 @@ class AccountTypeVC: UIViewController{
         return lbl
     }()
     
-    
-    
-    
-   
-    
     lazy var inputStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [accountTypeLbl, AdminBtn, StaffBtn, CustomerBtn])
+        let sv = UIStackView(arrangedSubviews: [accountTypeLbl, adminBtn, staffBtn, customerBtn])
         sv.axis = .vertical
         sv.distribution = .equalSpacing
         return sv
     }()
-    
-    
     
     func setUpViews() {
         

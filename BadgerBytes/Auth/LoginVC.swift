@@ -27,16 +27,11 @@ class LoginVC: UIViewController {
         self.view.endEditing(true)
     }
     
-    
-    
     @objc func handleSignUp() {
-        let signUpVC = SignUpVC()
-        signUpVC.modalPresentationStyle = .overFullScreen
-        self.present(signUpVC, animated: true, completion: nil)
+        let accountTypVC = AccountTypeVC()
+        accountTypVC.modalPresentationStyle = .overFullScreen
+        self.present(accountTypVC, animated: true, completion: nil)
     }
-    
-    
-    
     
     @objc func handleSignIn() {
         
@@ -110,7 +105,7 @@ class LoginVC: UIViewController {
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
         btn.add(text: "Sign up", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
-        btn.addTarget(self, action: #selector(openNextView), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return btn
     }()
     
@@ -121,12 +116,9 @@ class LoginVC: UIViewController {
         return btn
     }()
     
-    @objc func openNextView(){
-        let accountType = AccountTypeVC()
-        present(accountType, animated: true, completion: nil)
-    }
-    
     func setUpViews() {
+        
+        
                 
         self.containerView.addSubviews(views: [titleLabel, inputBackgroundView, emailInputView, passwordInputView, signInButton, signUpButton, forgotPasswordButton])
         self.view.addSubviews(views: [backgroundImageView, containerView])

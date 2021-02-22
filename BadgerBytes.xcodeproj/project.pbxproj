@@ -26,6 +26,9 @@
 		43291DF125DE477400BD2764 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291DF025DE477400BD2764 /* TabBarVC.swift */; };
 		43291DF625DE489800BD2764 /* AuthInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291DF525DE489800BD2764 /* AuthInputView.swift */; };
 		43291E3725DE4FAE00BD2764 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43291E3625DE4FAE00BD2764 /* GoogleService-Info.plist */; };
+		4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342AF1825E3B13200E8A5BB /* OrdersCells.swift */; };
+		4342AF2525E3B66400E8A5BB /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342AF2425E3B66400E8A5BB /* Order.swift */; };
+		4342AF2A25E3B67300E8A5BB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342AF2925E3B67300E8A5BB /* User.swift */; };
 		8AFB6E413F78415EFCBD5434 /* Pods_BadgerBytesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D359A898EEBE6998BBE6C554 /* Pods_BadgerBytesTests.framework */; };
 		9B6DFD1B0714BB216934F9A0 /* Pods_BadgerBytes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76F9D56DE9A008C662162C3 /* Pods_BadgerBytes.framework */; };
 		AD30CA3525E3054500E2BAE9 /* AccountTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30CA3425E3054500E2BAE9 /* AccountTypeVC.swift */; };
@@ -76,6 +79,9 @@
 		43291DF025DE477400BD2764 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		43291DF525DE489800BD2764 /* AuthInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInputView.swift; sourceTree = "<group>"; };
 		43291E3625DE4FAE00BD2764 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4342AF1825E3B13200E8A5BB /* OrdersCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCells.swift; sourceTree = "<group>"; };
+		4342AF2425E3B66400E8A5BB /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		4342AF2925E3B67300E8A5BB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		44696487485174DC42046148 /* Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes-BadgerBytesUITests/Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5DE8F70C3D6EF67F01DC6C2E /* Pods-BadgerBytes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.release.xcconfig"; sourceTree = "<group>"; };
 		AAD36B7A5E5D4245A8A3214F /* Pods-BadgerBytes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.debug.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.debug.xcconfig"; sourceTree = "<group>"; };
@@ -177,8 +183,8 @@
 			isa = PBXGroup;
 			children = (
 				43291DE625DE476100BD2764 /* LoginVC.swift */,
-				43291DEB25DE476800BD2764 /* SignUpVC.swift */,
 				AD30CA3425E3054500E2BAE9 /* AccountTypeVC.swift */,
+				43291DEB25DE476800BD2764 /* SignUpVC.swift */,
 				43291DF525DE489800BD2764 /* AuthInputView.swift */,
 			);
 			path = Auth;
@@ -187,10 +193,11 @@
 		43291DC125DE470000BD2764 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				43291DD225DE474000BD2764 /* MenuVC.swift */,
-				43291DD725DE474900BD2764 /* OrdersVC.swift */,
-				43291DDC25DE475200BD2764 /* ManageVC.swift */,
-				43291DE125DE475900BD2764 /* AccountVC.swift */,
+				4342AF1425E3B0E900E8A5BB /* Menu */,
+				4342AF1525E3B0F600E8A5BB /* Orders */,
+				4342AF1625E3B10D00E8A5BB /* Manage */,
+				4342AF1725E3B11800E8A5BB /* Account */,
+				4342AF2325E3B64800E8A5BB /* Models */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -203,6 +210,48 @@
 				43291DCD25DE473800BD2764 /* ParentClasses.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4342AF1425E3B0E900E8A5BB /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				43291DD225DE474000BD2764 /* MenuVC.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		4342AF1525E3B0F600E8A5BB /* Orders */ = {
+			isa = PBXGroup;
+			children = (
+				43291DD725DE474900BD2764 /* OrdersVC.swift */,
+				4342AF1825E3B13200E8A5BB /* OrdersCells.swift */,
+			);
+			path = Orders;
+			sourceTree = "<group>";
+		};
+		4342AF1625E3B10D00E8A5BB /* Manage */ = {
+			isa = PBXGroup;
+			children = (
+				43291DDC25DE475200BD2764 /* ManageVC.swift */,
+			);
+			path = Manage;
+			sourceTree = "<group>";
+		};
+		4342AF1725E3B11800E8A5BB /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				43291DE125DE475900BD2764 /* AccountVC.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		4342AF2325E3B64800E8A5BB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4342AF2925E3B67300E8A5BB /* User.swift */,
+				4342AF2425E3B66400E8A5BB /* Order.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		7F44C0279DB0AFDF096378DD /* Pods */ = {
@@ -472,12 +521,15 @@
 				43291DD825DE474900BD2764 /* OrdersVC.swift in Sources */,
 				43291D3F25DE358000BD2764 /* BadgerBytes.xcdatamodeld in Sources */,
 				43291DEC25DE476800BD2764 /* SignUpVC.swift in Sources */,
+				4342AF2525E3B66400E8A5BB /* Order.swift in Sources */,
 				43291DC925DE472F00BD2764 /* Colors.swift in Sources */,
 				43291DD325DE474000BD2764 /* MenuVC.swift in Sources */,
 				43291D3525DE358000BD2764 /* AppDelegate.swift in Sources */,
 				43291DF125DE477400BD2764 /* TabBarVC.swift in Sources */,
+				4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */,
 				43291DE225DE475900BD2764 /* AccountVC.swift in Sources */,
 				43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */,
+				4342AF2A25E3B67300E8A5BB /* User.swift in Sources */,
 				43291DDD25DE475200BD2764 /* ManageVC.swift in Sources */,
 				43291DC425DE472A00BD2764 /* Extensions.swift in Sources */,
 				43291DF625DE489800BD2764 /* AuthInputView.swift in Sources */,
