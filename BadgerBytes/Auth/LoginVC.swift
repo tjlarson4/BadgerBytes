@@ -46,6 +46,14 @@ class LoginVC: UIViewController {
 
             print("Successfully signed in user with id: " + (Auth.auth().currentUser?.uid)!)
 
+            Auth.auth().currentUser?.getIDTokenResult(completion:  {(result, error) in guard let claims = result else{
+                return
+            }
+            if (((claims.claims["worker"] as? NSNumber)?.boolValue) == true){
+                print("here")
+            }
+            })
+            
             let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
 
             tabBarVC.setUpViewControllers()
