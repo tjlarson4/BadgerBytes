@@ -8,18 +8,22 @@
 import UIKit
 import Firebase
 
-class SignUpVC: UIViewController {
-    
-    var accoutType: String?
+class ModifyAccount: UIViewController {
     
     override func viewDidLoad() {
         setUpViews()
-        firstNameInputView.input.becomeFirstResponder()
+        fillInfo()
     }
     
     @objc func handleDismiss() {
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func fillInfo(){
+        emailInputView.input.text = globalCurrentUser?.email
+        phoneNumInputView.input.text = globalCurrentUser?.phoneNum
+        addressInputView.input.text = globalCurrentUser?.address
     }
     
     func resetUI() {
@@ -29,56 +33,49 @@ class SignUpVC: UIViewController {
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
-    @objc func handleSignUp() {
+    @objc func saveChanges() {
         
         guard let email = emailInputView.input.text else {return}
         guard let password = passwordInputView.input.text else {return}
-        guard let firstName = firstNameInputView.input.text else {return}
-        guard let lastName = lastNameInputView.input.text else {return}
         guard let phoneNum = phoneNumInputView.input.text else {return}
         guard let address = addressInputView.input.text else {return}
-        
-        
-        Auth.auth().createUser(withEmail: email, password: password) { (data, err) in
-            if let err = err {
-                print("Registration error: " + err.localizedDescription)
-            }
-
-            print("Successfully created user with id: " + (Auth.auth().currentUser?.uid)!)
-            
             
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-            let values = ["firstName": firstName, "lastName": lastName, "email": email, "phoneNum":phoneNum, "address":address,"accountType":self.accoutType]
+            let values = ["firstName": globalCurrentUser?.firstName, "lastName": globalCurrentUser?.lastName, "email": email, "phoneNum":phoneNum, "address":address,"accountType":"admin"]
             
-            Database.database().reference().child("Users").child(currentUserID).setValue(values, withCompletionBlock: { (err, ref) in
+            Database.database().reference().child("Users").child(currentUserID).updateChildValues(values)
+
+                print("Successfully stored user info")
+        Auth.auth().currentUser?.updateEmail(to: email, completion: { (err) in
+            if let err = err {
+                print("Database info error: " + err.localizedDescription)
+            }
+
+            print("Successfully updated email")
+        })
+        
+        let hasPassword = passwordInputView.input.text?.isEmpty
+        if !hasPassword! {
+            Auth.auth().currentUser?.updatePassword(to: passwordInputView.input.text!, completion: { (err) in
                 if let err = err {
                     print("Database info error: " + err.localizedDescription)
                 }
 
-                print("Successfully stored user info")
+                print("Successfully updated password")
             })
-            
-            Auth.auth().signIn(withEmail: email, password: password) { (data, err) in
-                if let err = err {
-                    // TODO: error handling
-                    print("Sign in error: " + err.localizedDescription)
-                }
-
-                print("Successfully signed in user with id: " + (Auth.auth().currentUser?.uid)!)
-
-                
+        }
                 
                 let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
 
                 tabBarVC.setUpViewControllers()
                 self.view.endEditing(true)
                 self.dismiss(animated: true, completion: nil)
-            }
+            
             
             
             
             self.resetUI()
-        }
+        
         
     }
     
@@ -107,26 +104,24 @@ class SignUpVC: UIViewController {
         return vw
     }()
     
-    let firstNameInputView = AuthInputView(placeholder: "First name", keyboardType: .namePhonePad, isPassword: false)
-    let lastNameInputView = AuthInputView(placeholder: "Last name", keyboardType: .namePhonePad, isPassword: false)
     let phoneNumInputView = AuthInputView(placeholder: "Phone Number", keyboardType: .numberPad, isPassword: false)
     let addressInputView = AuthInputView(placeholder: "Address", keyboardType: .namePhonePad, isPassword: false)
     let emailInputView = AuthInputView(placeholder: "Email", keyboardType: .emailAddress, isPassword: false)
-    let passwordInputView = AuthInputView(placeholder: "Password", keyboardType: .default, isPassword: true)
+    let passwordInputView = AuthInputView(placeholder: "Leave Blank for same Password", keyboardType: .default, isPassword: true)
     
     lazy var inputStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [firstNameInputView, lastNameInputView,phoneNumInputView,addressInputView, emailInputView, passwordInputView])
+        let sv = UIStackView(arrangedSubviews: [phoneNumInputView,addressInputView, emailInputView, passwordInputView])
         sv.axis = .vertical
         sv.distribution = .equalSpacing
         return sv
     }()
     
-    let signUpButton: UIButton = {
+    let modifyButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
-        btn.add(text: "Sign up", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
-        btn.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+        btn.add(text: "Save Changes", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         return btn
     }()
     
@@ -134,7 +129,7 @@ class SignUpVC: UIViewController {
         
         self.view.backgroundColor = .black
         
-        self.containerView.addSubviews(views: [dismissButton, inputBackgroundView, inputStackView, signUpButton])
+        self.containerView.addSubviews(views: [dismissButton, inputBackgroundView, inputStackView, modifyButton])
         self.view.addSubviews(views: [backgroundImageView, containerView])
         
         backgroundImageView.fillSuperview()
@@ -147,8 +142,9 @@ class SignUpVC: UIViewController {
         
         inputStackView.anchor(inputBackgroundView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, topConstant: 25, leftConstant: 25, bottomConstant: 0, rightConstant: 25, widthConstant: 0, heightConstant: 170)
         
-        signUpButton.anchor(inputStackView.bottomAnchor, left: inputStackView.leftAnchor, bottom: nil, right: inputStackView.rightAnchor, topConstant: 30, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 40)
+        modifyButton.anchor(inputStackView.bottomAnchor, left: inputStackView.leftAnchor, bottom: nil, right: inputStackView.rightAnchor, topConstant: 30, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 40)
     
     }
 }
+
 

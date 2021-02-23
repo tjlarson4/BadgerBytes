@@ -35,14 +35,12 @@ class MenuVC: UIViewController {
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         
         // Retrieves user info from Firebase
-        Database.database().reference().child("user_info").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("Users").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
             
             // Creates dictionary of user information, instatiates new User object
             guard let userDict = snapshot.value as? [String: Any] else {return}
-            let currentUser = User(uid: currentUserID, dictionary: userDict)
-        
-            // Sets text to attributes of the current user
-            self.userLabel.text = "Current User: " + currentUser.firstName + " " + currentUser.lastName
+            globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
+            print(globalCurrentUser)
         }
     }
 

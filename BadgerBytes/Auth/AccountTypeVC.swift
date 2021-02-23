@@ -31,8 +31,19 @@ class AccountTypeVC: UIViewController{
         
         // TODO: set global user account type, probably can store in Firebase
         print("Button tag: ", sender.tag) // 0 = Admin, 1 = Staff, 2 = Customer
-    
+        
+        var accountType:String
+        switch sender.tag {
+        case 0:
+            accountType = "admin"
+        case 1:
+            accountType = "staff"
+        default:
+            accountType = "customer"
+        }
+        
         let signUpVC = SignUpVC()
+        signUpVC.accoutType = accountType
         signUpVC.modalPresentationStyle = .overFullScreen
         self.present(signUpVC, animated: true, completion: nil)
     }

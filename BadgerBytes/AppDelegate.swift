@@ -9,6 +9,8 @@ import UIKit
 import CoreData
 import Firebase
 
+var globalCurrentUser: User?
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
