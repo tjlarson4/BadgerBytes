@@ -33,6 +33,7 @@
 		9B6DFD1B0714BB216934F9A0 /* Pods_BadgerBytes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76F9D56DE9A008C662162C3 /* Pods_BadgerBytes.framework */; };
 		AD30CA3525E3054500E2BAE9 /* AccountTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30CA3425E3054500E2BAE9 /* AccountTypeVC.swift */; };
 		E098C9B9768A4317C95E1BC4 /* Pods_BadgerBytes_BadgerBytesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2509617C8092165248AB820 /* Pods_BadgerBytes_BadgerBytesUITests.framework */; };
+		FAF5916C25E58E1000A260D1 /* ModifyAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF5916B25E58E1000A260D1 /* ModifyAccount.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		CC14D05326627A7649767C68 /* Pods-BadgerBytes-BadgerBytesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes-BadgerBytesUITests.debug.xcconfig"; path = "Target Support Files/Pods-BadgerBytes-BadgerBytesUITests/Pods-BadgerBytes-BadgerBytesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D359A898EEBE6998BBE6C554 /* Pods_BadgerBytesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BadgerBytesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2509617C8092165248AB820 /* Pods_BadgerBytes_BadgerBytesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BadgerBytes_BadgerBytesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAF5916B25E58E1000A260D1 /* ModifyAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAccount.swift; sourceTree = "<group>"; };
 		FBCAEEAB9754C3CBCE4347D4 /* Pods-BadgerBytesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytesTests.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytesTests/Pods-BadgerBytesTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,6 +242,7 @@
 		4342AF1725E3B11800E8A5BB /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				FAF5916B25E58E1000A260D1 /* ModifyAccount.swift */,
 				43291DE125DE475900BD2764 /* AccountVC.swift */,
 			);
 			path = Account;
@@ -515,6 +518,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAF5916C25E58E1000A260D1 /* ModifyAccount.swift in Sources */,
 				43291DE725DE476100BD2764 /* LoginVC.swift in Sources */,
 				43291DCE25DE473800BD2764 /* ParentClasses.swift in Sources */,
 				AD30CA3525E3054500E2BAE9 /* AccountTypeVC.swift in Sources */,
