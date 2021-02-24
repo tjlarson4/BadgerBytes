@@ -8,7 +8,7 @@
 import UIKit
 
 class MenuItemCell: UICollectionViewCell {
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
@@ -18,45 +18,48 @@ class MenuItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(text: String, imageName: String) {
-        myLabel.text = text
-        myImageView.image = UIImage(named: imageName)
+    func configure(item: MenuItem) {
+        itemLabel.text = item.name
+        priceLabel.text = item.price
+        itemImageView.image = UIImage(named: item.imageURL)
     }
     
-    private let startButton: UIButton = {
-        let startButton = UIButton(type: .system)
-        startButton.setTitle(">", for: .normal)
-        return startButton
+    private let itemImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        return iv
     }()
     
-    private let myImageView: UIImageView = {
-        let imageView = UIImageView()
-        //imageView.image = UIImage(named: "Chicken tacos")
-        imageView.contentMode = .scaleAspectFill
-        
-        //make sure image does not exceed bounds of cell
-        imageView.clipsToBounds = true
-        
-        return imageView
+    private let itemLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Double Cheeseburger", font: UIFont(regularWithSize: 23), textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
     }()
     
-    private let myLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        //label.text = "Custom Menu Label"
-        return label
+    private lazy var priceLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "$7", font: UIFont(regularWithSize: 27), textColor: .white)
+        lbl.textAlignment = .center
+        lbl.backgroundColor = .red
+        lbl.clipsToBounds = true
+        lbl.layer.cornerRadius = 45/2
+        return lbl
     }()
     
     func setUpViews() {
         
-        self.addSubviews(views: [startButton, myImageView, myLabel])
+        self.backgroundColor = .menu_white
         
-        myImageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: nil, topConstant: 15, leftConstant: 15, bottomConstant: 15, rightConstant: 0, widthConstant: 70, heightConstant: 0)
         
-        startButton.anchor(self.topAnchor, left: nil, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 15, rightConstant: 15, widthConstant: 50, heightConstant: 0)
+        self.addSubviews(views: [itemImageView, itemLabel, priceLabel])
         
-        myLabel.anchor(self.topAnchor, left: myImageView.rightAnchor, bottom: nil, right: startButton.leftAnchor, topConstant: 15, leftConstant: 15, bottomConstant: 15, rightConstant: 0, widthConstant: 200, heightConstant: 20)
+        itemImageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 200)
+                
+        itemLabel.anchor(itemImageView.bottomAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 0, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 30)
+        
+        priceLabel.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: nil, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 0, widthConstant: 45, heightConstant: 45)
 
     }
 }

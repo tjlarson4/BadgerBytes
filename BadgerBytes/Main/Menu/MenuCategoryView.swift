@@ -33,16 +33,26 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     //
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! MenuCategoryCell
-        return cell
+        let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! MenuCategoryCell
+        
+        switch indexPath.row {
+        case 0:
+            categoryCell.categoryLabel.text = "Burgers"
+        case 1:
+            categoryCell.categoryLabel.text = "Chicken"
+        default:
+            categoryCell.categoryLabel.text = "Seafood"
+        }
+
+        return categoryCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (self.frame.width - 3) / 3, height: self.frame.height)
+        return CGSize(width: (self.frame.width - 2) / 3, height: self.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -56,7 +66,7 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         // TODO: Populate purple collection view with menu items, make into array of menu items so it is searchable
         
         let itemNum = CGFloat(indexPath.item)
-        let x = itemNum * ((UIScreen.main.bounds.width - 3) / 3) + itemNum
+        let x = itemNum * ((UIScreen.main.bounds.width - 2) / 3) + itemNum
         movingViewLeftAnchorContraint?.constant = x
 
         UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -85,22 +95,25 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     
     let movingView: UIView = {
         let vw = UIView()
-        vw.backgroundColor = .spotify
+        vw.backgroundColor = .red
         return vw
     }()
-
     
+    let lineView = LineView(color: .vc_background)
+
     func setUpViews() {
         
         collectionView.register(MenuCategoryCell.self, forCellWithReuseIdentifier: "categoryCell")
         collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
         
-        self.addSubviews(views: [collectionView, movingView])
+        self.addSubviews(views: [collectionView, lineView, movingView])
         collectionView.anchor(topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        movingView.anchor(nil, left: nil, bottom: bottomAnchor, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: (UIScreen.main.bounds.width - 3) / 3, heightConstant: 2.5)
+        movingView.anchor(nil, left: nil, bottom: bottomAnchor, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: (UIScreen.main.bounds.width - 3) / 3, heightConstant: 3)
         movingViewLeftAnchorContraint = movingView.leftAnchor.constraint(equalTo: leftAnchor)
         movingViewLeftAnchorContraint?.isActive = true
+        
+        lineView.anchor(nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 3)
         
     }
 
@@ -108,16 +121,20 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
 
 class MenuCategoryCell: UICollectionViewCell {
 
-    let categoryView = UIView()
-    
-    // label
+    let categoryLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Burgers", font: UIFont(boldWithSize: 23), textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .red
-        self.addSubviews(views: [categoryView])
-        categoryView.anchorCenterSuperview()
+        self.backgroundColor = .menu_white
+        self.addSubviews(views: [categoryLabel])
+        categoryLabel.anchorCenterSuperview()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

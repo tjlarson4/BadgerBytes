@@ -25,5 +25,7 @@ extension UIColor {
     class var user_cell: UIColor { return UIColor(hex: "505050") }
     class var info_btn: UIColor { return UIColor(hex: "A6A6A6") }
     class var login_input: UIColor { return UIColor(hex: "B9B9B9") }
+    class var menu_white: UIColor { return UIColor(hex: "f7f7f7") }
+
     
 }
