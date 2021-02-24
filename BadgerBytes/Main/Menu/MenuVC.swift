@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class MenuVC: UIViewController {
+class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //
     // MARK: View Lifecycle
@@ -21,14 +21,7 @@ class MenuVC: UIViewController {
     //
     // MARK: Functions
     //
-    var orderNum = 1
-    
-    @objc func handleStartOrder() {
-        // Move to menu screen
-        print("Order \(orderNum) started")
-        orderNum += 1
-    }
-    
+
     func fetchCurrentUser() {
         
         // Checks that there is a current user with an ID
@@ -40,17 +33,98 @@ class MenuVC: UIViewController {
             // Creates dictionary of user information, instatiates new User object
             guard let userDict = snapshot.value as? [String: Any] else {return}
             globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
-            print(globalCurrentUser)
+            print(globalCurrentUser!)
         }
+    }
+    
+    //
+    // MARK: CollectionView
+    //
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if section == 0 {
+            return 0
+        } else {
+            return 13
+        }
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath)
+        menuItemCell.backgroundColor = .purple
+        
+        return menuItemCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionView.elementKindSectionHeader) {
+            
+            let welcomeHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "welcomeHeader", for: indexPath)
+            let menuHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "menuHeader", for: indexPath)
+
+            if indexPath.section == 0 {
+                                
+                let menuWelcomeView = MenuWelcomeView()
+                welcomeHeader.addSubview(menuWelcomeView)
+                menuWelcomeView.fillSuperview()
+                return welcomeHeader
+                
+            } else {
+                
+                let menuCategoryView = MenuCategoryView()
+                menuHeader.addSubview(menuCategoryView)
+                menuCategoryView.fillSuperview()
+                
+                return menuHeader
+            }
+            
+        } else {
+            return UICollectionReusableView()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        if section == 0 {
+            let height =  self.view.frame.height - self.view.safeAreaInsets.bottom
+            print(height)
+            return CGSize(width: self.view.frame.width, height: height)
+        } else {
+            return CGSize(width: self.view.frame.width, height: 60)
+        }
+        
+    }
+    
+    func registerCells() {
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "menuItemCell")
+        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "welcomeHeader")
+        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "menuHeader")
     }
 
     //
     // MARK: UI Setup
     //
     
-    let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        return sv
+    lazy var collectionView: UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        cv.delegate = self
+        cv.dataSource = self
+        cv.backgroundColor = .clear
+        return cv
     }()
     
     let backgroundImageView: UIImageView = {
@@ -59,59 +133,14 @@ class MenuVC: UIViewController {
         iv.contentMode = .scaleAspectFill
         return iv
     }()
-
-    let welcomeLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.add(text: "Welcome to...", font: UIFont(regularWithSize: 23), textColor: .main_label)
-        lbl.textAlignment = .left
-        return lbl
-    }()
-    
-    let titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.add(text: "BadgerBytes", font: UIFont(name: "PingFangHK-Regular", size: 45)!, textColor: .subtitle_label)
-        lbl.textAlignment = .center
-        return lbl
-    }()
-    
-    let userLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.add(text: "", font: UIFont(name: "PingFangHK-Regular", size: 23)!, textColor: .subtitle_label)
-        lbl.textAlignment = .center
-        return lbl
-    }()
-    
-    let startOrderButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.layer.cornerRadius = 9
-        btn.add(text: "Start your order", font: UIFont(boldWithSize: 18), textColor: .subtitle_label)
-        btn.layer.borderColor = UIColor.subtitle_label.cgColor
-        btn.layer.borderWidth = 1
-        btn.addTarget(self, action: #selector(handleStartOrder), for: .touchUpInside)
-        return btn
-    }()
     
     func setUpViews() {
         
         fetchCurrentUser()
+        registerCells()
         
-//        self.view.addSubviews(views: [welcomeLabel, titleLabel, userLabel, startOrderButton])
-        self.view.addSubviews(views: [scrollView])
-        self.scrollView.addSubviews(views: [welcomeLabel, titleLabel, userLabel, startOrderButton])
-        
-        scrollView.fillSuperview()
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 2000)
-
-        welcomeLabel.anchor(scrollView.topAnchor, left: scrollView.leftAnchor, bottom: nil, right: scrollView.rightAnchor, topConstant: 40, leftConstant: 20, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 35)
-        
-        titleLabel.anchor(welcomeLabel.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
-        
-        startOrderButton.anchor(nil, left: view.leftAnchor, bottom: scrollView.safeAreaLayoutGuide.bottomAnchor, right: scrollView.rightAnchor, topConstant: 200, leftConstant: 30, bottomConstant: 40, rightConstant: 30, widthConstant: 0, heightConstant: 50)
-        startOrderButton.anchorCenterXToSuperview()
-        
-        userLabel.anchor(startOrderButton.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 200, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
-
-
+        self.view.addSubviews(views: [collectionView])
+        collectionView.fillSuperview()
     }
 
 }
