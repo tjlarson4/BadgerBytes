@@ -21,11 +21,11 @@ class MenuItemCell: UICollectionViewCell {
     func configure(item: MenuItem) {
         itemLabel.text = item.name
         priceLabel.text = item.price
-        itemImageView.image = UIImage(named: item.imageURL)
+        itemImageView.loadImage(urlString: item.imageURL)
     }
     
-    private let itemImageView: UIImageView = {
-        let iv = UIImageView()
+    private let itemImageView: CUImageView = {
+        let iv = CUImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         return iv

@@ -35,6 +35,7 @@
 		43E959BB25E5E81800A89563 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E959BA25E5E81800A89563 /* MenuItemCell.swift */; };
 		43EC921C25E6328A00D968EA /* ManageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC921B25E6328A00D968EA /* ManageVC.swift */; };
 		43EC922725E632DC00D968EA /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC922625E632DC00D968EA /* MenuItem.swift */; };
+		43EC922F25E6348400D968EA /* AddMenuItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC922E25E6348400D968EA /* AddMenuItemVC.swift */; };
 		83A2010625E61BE60099FDF8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 83A2010525E61BE60099FDF8 /* .gitignore */; };
 		8AFB6E413F78415EFCBD5434 /* Pods_BadgerBytesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D359A898EEBE6998BBE6C554 /* Pods_BadgerBytesTests.framework */; };
 		9B6DFD1B0714BB216934F9A0 /* Pods_BadgerBytes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76F9D56DE9A008C662162C3 /* Pods_BadgerBytes.framework */; };
@@ -96,6 +97,7 @@
 		43E959BA25E5E81800A89563 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		43EC921B25E6328A00D968EA /* ManageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageVC.swift; sourceTree = "<group>"; };
 		43EC922625E632DC00D968EA /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		43EC922E25E6348400D968EA /* AddMenuItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuItemVC.swift; sourceTree = "<group>"; };
 		44696487485174DC42046148 /* Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes-BadgerBytesUITests/Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5DE8F70C3D6EF67F01DC6C2E /* Pods-BadgerBytes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.release.xcconfig"; sourceTree = "<group>"; };
 		83A2010525E61BE60099FDF8 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				43E959BA25E5E81800A89563 /* MenuItemCell.swift */,
 				3B4F45ED25E58EB4005E99DC /* MenuItemsVC.swift */,
 				3B4F45F225E58F1F005E99DC /* CustomTableViewCell.swift */,
+				43EC922E25E6348400D968EA /* AddMenuItemVC.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				3B4F45EE25E58EB4005E99DC /* MenuItemsVC.swift in Sources */,
 				43EC921C25E6328A00D968EA /* ManageVC.swift in Sources */,
 				43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */,
+				43EC922F25E6348400D968EA /* AddMenuItemVC.swift in Sources */,
 				4342AF2A25E3B67300E8A5BB /* User.swift in Sources */,
 				43291DC425DE472A00BD2764 /* Extensions.swift in Sources */,
 				43291DF625DE489800BD2764 /* AuthInputView.swift in Sources */,

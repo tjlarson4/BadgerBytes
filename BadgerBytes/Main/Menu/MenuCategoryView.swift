@@ -10,6 +10,7 @@ import UIKit
 class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var movingViewLeftAnchorContraint: NSLayoutConstraint?
+    var menuVC: MenuVC?
     
     //
     // MARK: View Lifecycle
@@ -60,10 +61,17 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        // TODO: Record index pressed, filter OR scroll to spot on menu based on category selected
-        
-        // TODO: Populate purple collection view with menu items, make into array of menu items so it is searchable
+                
+        var category = ""
+        switch indexPath.row {
+            case 0: category = "burgers"
+            case 1: category = "chicken"
+            default: category = "seafood"
+        }
+                            
+        menuVC?.filteredMenuItems = menuVC?.menuItems.filter { (menuItem) -> Bool in
+            return menuItem.category.lowercased().contains(category)
+        } ?? []
         
         let itemNum = CGFloat(indexPath.item)
         let x = itemNum * ((UIScreen.main.bounds.width - 2) / 3) + itemNum
@@ -72,6 +80,8 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.layoutIfNeeded()
         }, completion: nil)
+        
+        menuVC?.collectionView.reloadSections(IndexSet(integer: 2))
 
     }
     
@@ -123,7 +133,7 @@ class MenuCategoryCell: UICollectionViewCell {
 
     let categoryLabel: UILabel = {
         let lbl = UILabel()
-        lbl.add(text: "Burgers", font: UIFont(boldWithSize: 23), textColor: .black)
+        lbl.add(text: "Burgers", font: UIFont(boldWithSize: 21), textColor: .black)
         lbl.textAlignment = .center
         return lbl
     }()
@@ -141,3 +151,6 @@ class MenuCategoryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
+

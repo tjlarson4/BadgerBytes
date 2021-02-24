@@ -13,14 +13,12 @@ struct MenuItem {
     let name: String
     let price: String
     let category: String
-    let id: String
     
     init(name: String, price: String, category: String, imageURL: String) {
         self.name = name
         self.price = price
         self.category = category
         self.imageURL = imageURL
-        self.id = ""
     }
     
     init(dictionary: [String: Any]) {
@@ -28,7 +26,6 @@ struct MenuItem {
         self.name = dictionary["name"] as? String ?? ""
         self.price = dictionary["price"] as? String ?? ""
         self.category = dictionary["category"] as? String ?? ""
-        self.id = dictionary["id"] as? String ?? ""
     }
 
 }

@@ -10,6 +10,9 @@ import Firebase
 
 class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    var menuItems = [MenuItem]()
+    var filteredMenuItems = [MenuItem]()
+
     //
     // MARK: View Lifecycle
     //
@@ -21,6 +24,36 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     //
     // MARK: Functions
     //
+    
+    func fetchMenu() {
+        
+        menuItems = []
+        
+        let ref = Database.database().reference().child("menuItems")
+        
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionaries = snapshot.value as? [String: Any] else { return }
+                        
+            dictionaries.forEach({ (key, value) in
+                guard let dictionary = value as? [String: Any] else { return }
+                
+                let menuItem = MenuItem(dictionary: dictionary)
+                
+                self.menuItems.append(menuItem)
+                                
+                self.filteredMenuItems = self.menuItems.filter { (menuItem) -> Bool in
+                    return menuItem.category.lowercased().contains("burgers")
+                }
+                
+            })
+            
+            self.collectionView.reloadData()
+            
+        }) { (err) in
+            print("Failed to fetch posts:", err)
+        }
+        
+    }
 
     func fetchCurrentUser() {
         
@@ -37,6 +70,13 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
+    @objc func handleAddMenuItem() {
+        let addMenuItemVC = AddMenuItemVC()
+        addMenuItemVC.menuVC = self
+        addMenuItemVC.modalPresentationStyle = .overFullScreen
+        self.present(addMenuItemVC, animated: true, completion: nil)
+    }
+    
     //
     // MARK: CollectionView
     //
@@ -45,20 +85,21 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         
         if section == 0 {
             return 0
+        } else if section == 1 {
+            return 0
         } else {
-            return 13
+            return filteredMenuItems.count
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
-        let item = MenuItem(name: "Chicken Tenders", price: "$6", category: "Chicken", imageURL: "chicken_tenders")
-        menuItemCell.configure(item: item)
+        menuItemCell.configure(item: filteredMenuItems[indexPath.row])
         return menuItemCell
     }
     
@@ -67,7 +108,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 3
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -81,6 +122,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 let menuWelcomeView = MenuWelcomeView()
                 welcomeHeader.addSubview(menuWelcomeView)
                 menuWelcomeView.fillSuperview()
+                menuWelcomeView.addMenuItemButton.addTarget(self, action: #selector(handleAddMenuItem), for: .touchUpInside)
                 return welcomeHeader
                 
             } else {
@@ -88,6 +130,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 let menuCategoryView = MenuCategoryView()
                 menuHeader.addSubview(menuCategoryView)
                 menuCategoryView.fillSuperview()
+                menuCategoryView.menuVC = self
                 return menuHeader
             }
             
@@ -100,10 +143,11 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         
         if section == 0 {
             let height =  self.view.frame.height - self.view.safeAreaInsets.bottom
-            print(height)
             return CGSize(width: self.view.frame.width, height: height)
-        } else {
+        } else if section == 1 {
             return CGSize(width: self.view.frame.width, height: 60)
+        } else {
+            return CGSize(width: self.view.frame.width, height: 0)
         }
         
     }
@@ -128,18 +172,24 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     let backgroundImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "auth_background")
+        iv.image = UIImage(named: "welcome_background2")
         iv.contentMode = .scaleAspectFill
         return iv
     }()
     
+    
     func setUpViews() {
+        
         
         fetchCurrentUser()
         registerCells()
-        
-        self.view.addSubviews(views: [collectionView])
+        fetchMenu()
+    
+        self.view.addSubviews(views: [backgroundImageView, collectionView])
+        backgroundImageView.fillSuperview()
+
         collectionView.fillSuperview()
+        
     }
 
 }
