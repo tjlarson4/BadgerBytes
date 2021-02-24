@@ -36,14 +36,13 @@
 		43EC922725E632DC00D968EA /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC922625E632DC00D968EA /* MenuItem.swift */; };
 		43EC922F25E6348400D968EA /* AddMenuItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC922E25E6348400D968EA /* AddMenuItemVC.swift */; };
 		83A2010625E61BE60099FDF8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 83A2010525E61BE60099FDF8 /* .gitignore */; };
-		83A2012B25E680EA0099FDF8 /* UpdatePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012325E680EA0099FDF8 /* UpdatePaymentVC.swift */; };
-		83A2012C25E680EA0099FDF8 /* SimpleTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012425E680EA0099FDF8 /* SimpleTextInputCell.swift */; };
-		83A2012D25E680EA0099FDF8 /* SimpleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012525E680EA0099FDF8 /* SimpleTextCell.swift */; };
-		83A2012E25E680EA0099FDF8 /* UpdateAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012625E680EA0099FDF8 /* UpdateAddressVC.swift */; };
-		83A2012F25E680EA0099FDF8 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012725E680EA0099FDF8 /* PaymentCell.swift */; };
-		83A2013025E680EA0099FDF8 /* UpdatePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012825E680EA0099FDF8 /* UpdatePasswordVC.swift */; };
-		83A2013125E680EA0099FDF8 /* ManageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012925E680EA0099FDF8 /* ManageVC.swift */; };
-		83A2013225E680EA0099FDF8 /* UpdateAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2012A25E680EA0099FDF8 /* UpdateAddress.swift */; };
+		83A2015825E683C10099FDF8 /* ManageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2015725E683C10099FDF8 /* ManageVC.swift */; };
+		83A2015D25E683DA0099FDF8 /* UpdatePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2015C25E683DA0099FDF8 /* UpdatePaymentVC.swift */; };
+		83A2016225E683F40099FDF8 /* UpdatePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2016125E683F40099FDF8 /* UpdatePasswordVC.swift */; };
+		83A2016725E684090099FDF8 /* UpdateAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2016625E684090099FDF8 /* UpdateAddressVC.swift */; };
+		83A2016C25E6842B0099FDF8 /* SimpleTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2016B25E6842B0099FDF8 /* SimpleTextInputCell.swift */; };
+		83A2017125E6845A0099FDF8 /* SimpleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2017025E6845A0099FDF8 /* SimpleTextCell.swift */; };
+		83A2017625E6846D0099FDF8 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2017525E6846D0099FDF8 /* PaymentCell.swift */; };
 		8AFB6E413F78415EFCBD5434 /* Pods_BadgerBytesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D359A898EEBE6998BBE6C554 /* Pods_BadgerBytesTests.framework */; };
 		9B6DFD1B0714BB216934F9A0 /* Pods_BadgerBytes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76F9D56DE9A008C662162C3 /* Pods_BadgerBytes.framework */; };
 		AD30CA3525E3054500E2BAE9 /* AccountTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30CA3425E3054500E2BAE9 /* AccountTypeVC.swift */; };
@@ -107,14 +106,13 @@
 		44696487485174DC42046148 /* Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes-BadgerBytesUITests/Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5DE8F70C3D6EF67F01DC6C2E /* Pods-BadgerBytes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.release.xcconfig"; sourceTree = "<group>"; };
 		83A2010525E61BE60099FDF8 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		83A2012325E680EA0099FDF8 /* UpdatePaymentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdatePaymentVC.swift; path = ../../../../../../HolyShit/UpdatePaymentVC.swift; sourceTree = "<group>"; };
-		83A2012425E680EA0099FDF8 /* SimpleTextInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleTextInputCell.swift; path = ../../../../../../HolyShit/SimpleTextInputCell.swift; sourceTree = "<group>"; };
-		83A2012525E680EA0099FDF8 /* SimpleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleTextCell.swift; path = ../../../../../../HolyShit/SimpleTextCell.swift; sourceTree = "<group>"; };
-		83A2012625E680EA0099FDF8 /* UpdateAddressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateAddressVC.swift; path = ../../../../../../HolyShit/UpdateAddressVC.swift; sourceTree = "<group>"; };
-		83A2012725E680EA0099FDF8 /* PaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentCell.swift; path = ../../../../../../HolyShit/PaymentCell.swift; sourceTree = "<group>"; };
-		83A2012825E680EA0099FDF8 /* UpdatePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdatePasswordVC.swift; path = ../../../../../../HolyShit/UpdatePasswordVC.swift; sourceTree = "<group>"; };
-		83A2012925E680EA0099FDF8 /* ManageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageVC.swift; path = ../../../../../../HolyShit/ManageVC.swift; sourceTree = "<group>"; };
-		83A2012A25E680EA0099FDF8 /* UpdateAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateAddress.swift; path = ../../../../../../HolyShit/UpdateAddress.swift; sourceTree = "<group>"; };
+		83A2015725E683C10099FDF8 /* ManageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageVC.swift; sourceTree = "<group>"; };
+		83A2015C25E683DA0099FDF8 /* UpdatePaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePaymentVC.swift; sourceTree = "<group>"; };
+		83A2016125E683F40099FDF8 /* UpdatePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordVC.swift; sourceTree = "<group>"; };
+		83A2016625E684090099FDF8 /* UpdateAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAddressVC.swift; sourceTree = "<group>"; };
+		83A2016B25E6842B0099FDF8 /* SimpleTextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTextInputCell.swift; sourceTree = "<group>"; };
+		83A2017025E6845A0099FDF8 /* SimpleTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTextCell.swift; sourceTree = "<group>"; };
+		83A2017525E6846D0099FDF8 /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		AAD36B7A5E5D4245A8A3214F /* Pods-BadgerBytes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.debug.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.debug.xcconfig"; sourceTree = "<group>"; };
 		AD30CA3425E3054500E2BAE9 /* AccountTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTypeVC.swift; sourceTree = "<group>"; };
 		C76F9D56DE9A008C662162C3 /* Pods_BadgerBytes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BadgerBytes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,9 +224,9 @@
 		43291DC125DE470000BD2764 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				83A2015625E683A50099FDF8 /* Manage */,
 				4342AF1425E3B0E900E8A5BB /* Menu */,
 				4342AF1525E3B0F600E8A5BB /* Orders */,
-				43EC921A25E6327000D968EA /* Manage */,
 				4342AF1725E3B11800E8A5BB /* Account */,
 				4342AF2325E3B64800E8A5BB /* Models */,
 			);
@@ -287,21 +285,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		43EC921A25E6327000D968EA /* Manage */ = {
-			isa = PBXGroup;
-			children = (
-				83A2012925E680EA0099FDF8 /* ManageVC.swift */,
-				83A2012725E680EA0099FDF8 /* PaymentCell.swift */,
-				83A2012525E680EA0099FDF8 /* SimpleTextCell.swift */,
-				83A2012425E680EA0099FDF8 /* SimpleTextInputCell.swift */,
-				83A2012A25E680EA0099FDF8 /* UpdateAddress.swift */,
-				83A2012625E680EA0099FDF8 /* UpdateAddressVC.swift */,
-				83A2012825E680EA0099FDF8 /* UpdatePasswordVC.swift */,
-				83A2012325E680EA0099FDF8 /* UpdatePaymentVC.swift */,
-			);
-			path = Manage;
-			sourceTree = "<group>";
-		};
 		7F44C0279DB0AFDF096378DD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +296,20 @@
 				FBCAEEAB9754C3CBCE4347D4 /* Pods-BadgerBytesTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		83A2015625E683A50099FDF8 /* Manage */ = {
+			isa = PBXGroup;
+			children = (
+				83A2015725E683C10099FDF8 /* ManageVC.swift */,
+				83A2015C25E683DA0099FDF8 /* UpdatePaymentVC.swift */,
+				83A2016125E683F40099FDF8 /* UpdatePasswordVC.swift */,
+				83A2016625E684090099FDF8 /* UpdateAddressVC.swift */,
+				83A2016B25E6842B0099FDF8 /* SimpleTextInputCell.swift */,
+				83A2017025E6845A0099FDF8 /* SimpleTextCell.swift */,
+				83A2017525E6846D0099FDF8 /* PaymentCell.swift */,
+			);
+			path = Manage;
 			sourceTree = "<group>";
 		};
 		D0050420B0B4E0DFB1A23929 /* Frameworks */ = {
@@ -564,38 +561,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83A2012F25E680EA0099FDF8 /* PaymentCell.swift in Sources */,
 				FAF5916C25E58E1000A260D1 /* ModifyAccount.swift in Sources */,
 				43291DE725DE476100BD2764 /* LoginVC.swift in Sources */,
-				83A2012D25E680EA0099FDF8 /* SimpleTextCell.swift in Sources */,
 				43291DCE25DE473800BD2764 /* ParentClasses.swift in Sources */,
 				AD30CA3525E3054500E2BAE9 /* AccountTypeVC.swift in Sources */,
-				83A2013225E680EA0099FDF8 /* UpdateAddress.swift in Sources */,
 				43291DD825DE474900BD2764 /* OrdersVC.swift in Sources */,
+				83A2017125E6845A0099FDF8 /* SimpleTextCell.swift in Sources */,
 				43291D3F25DE358000BD2764 /* BadgerBytes.xcdatamodeld in Sources */,
 				43291DEC25DE476800BD2764 /* SignUpVC.swift in Sources */,
 				3B4F45F325E58F1F005E99DC /* CustomTableViewCell.swift in Sources */,
 				4342AF2525E3B66400E8A5BB /* Order.swift in Sources */,
-				83A2013125E680EA0099FDF8 /* ManageVC.swift in Sources */,
+				83A2017625E6846D0099FDF8 /* PaymentCell.swift in Sources */,
 				43E959BB25E5E81800A89563 /* MenuItemCell.swift in Sources */,
 				43291DC925DE472F00BD2764 /* Colors.swift in Sources */,
+				83A2015D25E683DA0099FDF8 /* UpdatePaymentVC.swift in Sources */,
 				43291DD325DE474000BD2764 /* MenuVC.swift in Sources */,
-				83A2012B25E680EA0099FDF8 /* UpdatePaymentVC.swift in Sources */,
 				43291D3525DE358000BD2764 /* AppDelegate.swift in Sources */,
 				43E959B025E5B59E00A89563 /* MenuCategoryView.swift in Sources */,
 				43EC922725E632DC00D968EA /* MenuItem.swift in Sources */,
 				43E959AB25E5B24100A89563 /* MenuWelcomeView.swift in Sources */,
 				43291DF125DE477400BD2764 /* TabBarVC.swift in Sources */,
 				4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */,
+				83A2016C25E6842B0099FDF8 /* SimpleTextInputCell.swift in Sources */,
 				43291DE225DE475900BD2764 /* AccountVC.swift in Sources */,
+				83A2015825E683C10099FDF8 /* ManageVC.swift in Sources */,
 				3B4F45EE25E58EB4005E99DC /* MenuItemsVC.swift in Sources */,
 				43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */,
-				83A2013025E680EA0099FDF8 /* UpdatePasswordVC.swift in Sources */,
 				43EC922F25E6348400D968EA /* AddMenuItemVC.swift in Sources */,
+				83A2016225E683F40099FDF8 /* UpdatePasswordVC.swift in Sources */,
+				83A2016725E684090099FDF8 /* UpdateAddressVC.swift in Sources */,
 				4342AF2A25E3B67300E8A5BB /* User.swift in Sources */,
-				83A2012E25E680EA0099FDF8 /* UpdateAddressVC.swift in Sources */,
 				43291DC425DE472A00BD2764 /* Extensions.swift in Sources */,
-				83A2012C25E680EA0099FDF8 /* SimpleTextInputCell.swift in Sources */,
 				43291DF625DE489800BD2764 /* AuthInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
