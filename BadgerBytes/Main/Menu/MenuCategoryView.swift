@@ -88,6 +88,7 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         vw.backgroundColor = .spotify
         return vw
     }()
+
     
     func setUpViews() {
         
@@ -108,13 +109,16 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
 class MenuCategoryCell: UICollectionViewCell {
 
     let categoryView = UIView()
+    
+    // label
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .blue
+        self.backgroundColor = .red
         self.addSubviews(views: [categoryView])
-        categoryView.anchorCenterSuperview()    }
+        categoryView.anchorCenterSuperview()
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

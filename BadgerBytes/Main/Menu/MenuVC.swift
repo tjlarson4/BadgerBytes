@@ -56,14 +56,14 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath)
-        menuItemCell.backgroundColor = .purple
-        
+        let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
+        menuItemCell.configure(text: "MenuItem", imageName: "Chicken fajitas")
+        menuItemCell.backgroundColor = .white
         return menuItemCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width, height: 30)
+        return CGSize(width: self.view.frame.width, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -88,7 +88,6 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 let menuCategoryView = MenuCategoryView()
                 menuHeader.addSubview(menuCategoryView)
                 menuCategoryView.fillSuperview()
-                
                 return menuHeader
             }
             
@@ -110,7 +109,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func registerCells() {
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "menuItemCell")
+        collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: "menuItemCell")
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "welcomeHeader")
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "menuHeader")
     }

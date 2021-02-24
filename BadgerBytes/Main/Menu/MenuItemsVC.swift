@@ -28,20 +28,36 @@ class TableHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(headerLabel)
+//        contentView.addSubview(headerLabel)
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
+    @objc func handleBtn() {
+        print("Btn clicked")
+    }
+    
+    let btn: UIButton = {
+        let btn = UIButton(frame: .zero)
+        btn.backgroundColor = .red
+        btn.addTarget(self, action: #selector(handleBtn), for: .touchUpInside)
+        return btn
+    }()
+    
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         headerLabel.sizeToFit()
         headerLabel.frame = CGRect(x: 0,
                                    y: contentView.frame.size.height-15-headerLabel.frame.size.height,
                                    width: contentView.frame.size.width,
                                    height: headerLabel.frame.size.height)
+        
+        self.addSubviews(views: [btn, headerLabel])
+        headerLabel.fillSuperview()
+        btn.fillSuperview()
 
     }
 
@@ -100,6 +116,7 @@ class MenuItemsVC: UIViewController {
 }
 
 extension MenuItemsVC: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Menu.count
     }
