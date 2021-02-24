@@ -19,6 +19,8 @@ class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
+        
+        print("reloading")
     }
     
     required init?(coder aDecoder: NSCoder) {

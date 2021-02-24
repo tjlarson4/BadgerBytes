@@ -131,6 +131,8 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 menuHeader.addSubview(menuCategoryView)
                 menuCategoryView.fillSuperview()
                 menuCategoryView.menuVC = self
+                
+                // TODO: Problem with this reloading after scrolling past, therefore reseting the slider
                 return menuHeader
             }
             
