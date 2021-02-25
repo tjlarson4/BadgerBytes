@@ -45,6 +45,8 @@
 		43EC921C25E6328A00D968EA /* ManageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC921B25E6328A00D968EA /* ManageVC.swift */; };
 		43EC922725E632DC00D968EA /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC922625E632DC00D968EA /* MenuItem.swift */; };
 		43EC922F25E6348400D968EA /* AddMenuItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EC922E25E6348400D968EA /* AddMenuItemVC.swift */; };
+		4FA65B6925E81972002BB8DB /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA65B6825E81972002BB8DB /* PDFCreator.swift */; };
+		4FA65B6E25E8197F002BB8DB /* ReceiptBuilderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA65B6D25E8197F002BB8DB /* ReceiptBuilderVC.swift */; };
 		83A2010625E61BE60099FDF8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 83A2010525E61BE60099FDF8 /* .gitignore */; };
 		8AFB6E413F78415EFCBD5434 /* Pods_BadgerBytesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D359A898EEBE6998BBE6C554 /* Pods_BadgerBytesTests.framework */; };
 		9B6DFD1B0714BB216934F9A0 /* Pods_BadgerBytes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76F9D56DE9A008C662162C3 /* Pods_BadgerBytes.framework */; };
@@ -117,6 +119,8 @@
 		43EC922625E632DC00D968EA /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		43EC922E25E6348400D968EA /* AddMenuItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuItemVC.swift; sourceTree = "<group>"; };
 		44696487485174DC42046148 /* Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes-BadgerBytesUITests/Pods-BadgerBytes-BadgerBytesUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4FA65B6825E81972002BB8DB /* PDFCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
+		4FA65B6D25E8197F002BB8DB /* ReceiptBuilderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptBuilderVC.swift; sourceTree = "<group>"; };
 		5DE8F70C3D6EF67F01DC6C2E /* Pods-BadgerBytes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.release.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.release.xcconfig"; sourceTree = "<group>"; };
 		83A2010525E61BE60099FDF8 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AAD36B7A5E5D4245A8A3214F /* Pods-BadgerBytes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytes.debug.xcconfig"; path = "Target Support Files/Pods-BadgerBytes/Pods-BadgerBytes.debug.xcconfig"; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 				43DD7E2625E7D67400C8B5CC /* EditMenuItemVC.swift */,
 				43DD7DE825E772C400C8B5CC /* AddToCartVC.swift */,
 				43DD7DDD25E76D3300C8B5CC /* CartOrderVC.swift */,
+				4FA65B6825E81972002BB8DB /* PDFCreator.swift */,
+				4FA65B6D25E8197F002BB8DB /* ReceiptBuilderVC.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -595,6 +601,7 @@
 				43DD7DD425E745ED00C8B5CC /* UpdateAddressVC.swift in Sources */,
 				43EC922725E632DC00D968EA /* MenuItem.swift in Sources */,
 				43E959AB25E5B24100A89563 /* MenuWelcomeView.swift in Sources */,
+				4FA65B6925E81972002BB8DB /* PDFCreator.swift in Sources */,
 				43DD7DD225E745ED00C8B5CC /* PaymentCell.swift in Sources */,
 				43291DF125DE477400BD2764 /* TabBarVC.swift in Sources */,
 				4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */,
@@ -613,6 +620,7 @@
 				4342AF2A25E3B67300E8A5BB /* User.swift in Sources */,
 				43291DC425DE472A00BD2764 /* Extensions.swift in Sources */,
 				43291DF625DE489800BD2764 /* AuthInputView.swift in Sources */,
+				4FA65B6E25E8197F002BB8DB /* ReceiptBuilderVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

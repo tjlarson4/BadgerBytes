@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         
-        window?.rootViewController = TabBarVC()
+        window?.rootViewController = OrdersVC()
 //        window?.rootViewController = MenuItemsVC()
         
         window?.makeKeyAndVisible()
