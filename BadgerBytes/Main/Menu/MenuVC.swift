@@ -21,6 +21,11 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         setUpViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     //
     // MARK: Functions
     //
@@ -77,6 +82,18 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.present(addMenuItemVC, animated: true, completion: nil)
     }
     
+    var orderNum = 1
+    
+    @objc func handleStartOrder() {
+        // Move to menu screen
+        print("Order \(orderNum) started")
+        orderNum += 1
+
+        // Can just make the category view a slide in menu from the top that hides/shows depending on where they are on the page
+        self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
+    }
+    
+    
     //
     // MARK: CollectionView
     //
@@ -84,9 +101,9 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 0
+            return 1
         } else if section == 1 {
-            return 0
+            return 1
         } else {
             return filteredMenuItems.count
         }
@@ -98,66 +115,55 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
-        menuItemCell.configure(item: filteredMenuItems[indexPath.row])
-        return menuItemCell
+        switch indexPath.section {
+        case 0:
+            let welcomeViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "welcomeViewCell", for: indexPath) as! MenuWelcomeView
+            welcomeViewCell.addMenuItemButton.addTarget(self, action: #selector(handleAddMenuItem), for: .touchUpInside)
+            welcomeViewCell.startOrderButton.addTarget(self, action: #selector(handleStartOrder), for: .touchUpInside)
+
+            return welcomeViewCell
+
+        case 1:
+            let categoryViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryViewCell", for: indexPath) as! MenuCategoryView
+            categoryViewCell.menuVC = self
+            return categoryViewCell
+
+        default:
+            let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
+            menuItemCell.configure(item: filteredMenuItems[indexPath.row])
+            
+            menuItemCell.addCallback = {
+                print("add pressed: ", indexPath.row)
+            }
+            
+            return menuItemCell
+        }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width, height: 250)
+        
+        switch indexPath.section {
+        case 0:
+            
+            let height =  UIScreen.main.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom
+            return CGSize(width: self.view.frame.width, height: height)
+        case 1:
+            return CGSize(width: self.view.frame.width, height: 60)
+        default:
+            return CGSize(width: self.view.frame.width, height: 250)
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if (kind == UICollectionView.elementKindSectionHeader) {
-            
-            let welcomeHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "welcomeHeader", for: indexPath)
-            let menuHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "menuHeader", for: indexPath)
-
-            if indexPath.section == 0 {
-                                
-                let menuWelcomeView = MenuWelcomeView()
-                welcomeHeader.addSubview(menuWelcomeView)
-                menuWelcomeView.fillSuperview()
-                menuWelcomeView.addMenuItemButton.addTarget(self, action: #selector(handleAddMenuItem), for: .touchUpInside)
-                return welcomeHeader
-                
-            } else {
-                
-                let menuCategoryView = MenuCategoryView()
-                menuHeader.addSubview(menuCategoryView)
-                menuCategoryView.fillSuperview()
-                menuCategoryView.menuVC = self
-                
-                // TODO: Problem with this reloading after scrolling past, therefore reseting the slider
-                return menuHeader
-            }
-            
-        } else {
-            return UICollectionReusableView()
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        if section == 0 {
-            let height =  self.view.frame.height - self.view.safeAreaInsets.bottom
-            return CGSize(width: self.view.frame.width, height: height)
-        } else if section == 1 {
-            return CGSize(width: self.view.frame.width, height: 60)
-        } else {
-            return CGSize(width: self.view.frame.width, height: 0)
-        }
-        
-    }
-    
     func registerCells() {
         collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: "menuItemCell")
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "welcomeHeader")
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "menuHeader")
+        collectionView.register(MenuWelcomeView.self, forCellWithReuseIdentifier: "welcomeViewCell")
+        collectionView.register(MenuCategoryView.self, forCellWithReuseIdentifier: "categoryViewCell")
     }
 
     //

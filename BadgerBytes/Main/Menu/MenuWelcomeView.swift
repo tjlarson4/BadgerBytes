@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MenuWelcomeView: UIView {
-        
+class MenuWelcomeView: UICollectionViewCell {
+            
     //
     // MARK: View Lifecycle
     //
@@ -26,13 +26,7 @@ class MenuWelcomeView: UIView {
     // MARK: Functions
     //
     
-    var orderNum = 1
-    
-    @objc func handleStartOrder() {
-        // Move to menu screen
-        print("Order \(orderNum) started")
-        orderNum += 1
-    }
+
     
     //
     // MARK: UI Setup
@@ -67,7 +61,6 @@ class MenuWelcomeView: UIView {
         btn.layer.borderWidth = 4
         btn.alpha = 0.8
         btn.backgroundColor = .white
-        btn.addTarget(self, action: #selector(handleStartOrder), for: .touchUpInside)
         return btn
     }()
     
