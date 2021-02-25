@@ -89,11 +89,16 @@ class ModifyAccount:  UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func saveItems() {
-        let firstName = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
-        let lastName = (self.cv.cellForItem(at: [0,1]) as! SimpleTextInputCell).textInput.text
-        let address = (self.cv.cellForItem(at: [0,2]) as! SimpleTextInputCell).textInput.text
-        let email = (self.cv.cellForItem(at: [0,3]) as! SimpleTextInputCell).textInput.text
-        let phone = (self.cv.cellForItem(at: [0,4]) as! SimpleTextInputCell).textInput.text
+        var firstName = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
+        if (firstName == ""){firstName = globalCurrentUser?.firstName}
+        var lastName = (self.cv.cellForItem(at: [0,1]) as! SimpleTextInputCell).textInput.text
+        if (lastName == ""){lastName = globalCurrentUser?.lastName}
+        var address = (self.cv.cellForItem(at: [0,2]) as! SimpleTextInputCell).textInput.text
+        if (address == ""){address = globalCurrentUser?.address}
+        var email = (self.cv.cellForItem(at: [0,3]) as! SimpleTextInputCell).textInput.text
+        if (email == ""){email = globalCurrentUser?.email}
+        var phone = (self.cv.cellForItem(at: [0,4]) as! SimpleTextInputCell).textInput.text
+        if (phone == ""){phone = globalCurrentUser?.phoneNum}
         
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         let values = ["firstName": firstName!, "lastName": lastName!, "email": email!, "phoneNum":phone!, "address": address!, "accountType": globalCurrentUser?.accountType]
@@ -105,7 +110,7 @@ class ModifyAccount:  UIViewController, UICollectionViewDataSource, UICollection
             if let err = err {
                 print("Database info error: " + err.localizedDescription)
             }
-
+            
             print("Successfully updated email")
         })
     }

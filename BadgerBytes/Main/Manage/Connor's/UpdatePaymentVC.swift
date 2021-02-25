@@ -77,7 +77,7 @@ class UpdatePaymentVC:  UIViewController, UICollectionViewDataSource, UICollecti
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if (indexPath.row == 5) {
+        if (indexPath.row == 3) {
             saveItems()
             
             // reset UI
