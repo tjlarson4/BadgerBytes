@@ -8,21 +8,15 @@
 import UIKit
 import Firebase
 
-class ManageVC: UIViewController {
-        
-    //
-    // MARK: View Lifecycle
-    //
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setUpViews()
+class ManageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
     }
-
-    //
-    // MARK: Functions
-    //
-        
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return UICollectionViewCell()
+    }
+    
     
     func setUpViews() {
         
