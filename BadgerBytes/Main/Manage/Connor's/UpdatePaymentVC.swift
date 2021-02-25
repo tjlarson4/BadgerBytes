@@ -89,17 +89,18 @@ class UpdatePaymentVC:  UIViewController, UICollectionViewDataSource, UICollecti
     }
     
     func saveItems() {
-        let cardNum = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
-        let cvc = (self.cv.cellForItem(at: [0,1]) as! SimpleTextInputCell).textInput.text
-        let expDate = (self.cv.cellForItem(at: [0,2]) as! SimpleTextInputCell).textInput.text
+        var cardNum = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
+        if(cardNum == ""){cardNum = globalCurrentUser?.payment["cardNum"]}
+        var cvc = (self.cv.cellForItem(at: [0,1]) as! SimpleTextInputCell).textInput.text
+        if(cvc == ""){cvc = globalCurrentUser?.payment["CVC"]}
+        var expDate = (self.cv.cellForItem(at: [0,2]) as! SimpleTextInputCell).textInput.text
+        if(expDate == ""){expDate = globalCurrentUser?.payment["expDate"]}
         
         
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         let values = ["cardNum": cardNum!, "CVC": cvc!, "expDate": expDate!]
         
-
         Database.database().reference().child("Users").child(currentUserID).child("payment").updateChildValues(values)
-        
     }
 
 
