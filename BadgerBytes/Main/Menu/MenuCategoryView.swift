@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MenuCategoryView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var movingViewLeftAnchorContraint: NSLayoutConstraint?
     var menuVC: MenuVC?
