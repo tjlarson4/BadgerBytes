@@ -11,7 +11,12 @@ import Firebase
 class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var menuItems = [MenuItem]()
+    var cartItems = [MenuItem]()
     var filteredMenuItems = [MenuItem]()
+    
+    var orderActive = false
+    
+    var totalCartPrice = 0
 
     //
     // MARK: View Lifecycle
@@ -23,13 +28,24 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.setNavigationBarHidden(!orderActive, animated: true)
     }
     
     //
     // MARK: Functions
     //
     
+    func getAccountType() -> String {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return "" }
+
+        var accountType = ""
+        Database.fetchUserWithUID(uid: userID) { (user) in
+            accountType = user.accountType
+        }
+        return accountType
+    }
+        
     func fetchMenu() {
         
         menuItems = []
@@ -42,13 +58,15 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             dictionaries.forEach({ (key, value) in
                 guard let dictionary = value as? [String: Any] else { return }
                 
-                let menuItem = MenuItem(dictionary: dictionary)
+                let menuItem = MenuItem(id: key, dictionary: dictionary)
                 
                 self.menuItems.append(menuItem)
-                                
+                                            
                 self.filteredMenuItems = self.menuItems.filter { (menuItem) -> Bool in
                     return menuItem.category.lowercased().contains("burgers")
                 }
+                
+                self.filteredMenuItems = self.filteredMenuItems.sorted { $0.name < $1.name }
                 
             })
             
@@ -82,22 +100,60 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.present(addMenuItemVC, animated: true, completion: nil)
     }
     
-    var orderNum = 1
-    
+    @objc func handleCheckCart() {
+        let cartOrderVC = CartOrderVC()
+        cartOrderVC.cartItems = self.cartItems
+        cartOrderVC.totalOrderPrice = self.totalCartPrice
+
+        cartOrderVC.modalPresentationStyle = .overFullScreen
+        
+        cartOrderVC.emptyCartCallback = {
+            self.cartItems = []
+            self.totalCartPrice = 0
+            self.viewCartButton.setTitle("View cart: $\(self.totalCartPrice).00", for: .normal)
+        }
+        
+        cartOrderVC.placeOrderCallback = {
+            self.cartItems = []
+            self.totalCartPrice = 0
+            self.viewCartButton.setTitle("View cart: $\(self.totalCartPrice).00", for: .normal)
+            self.orderActive = false
+            self.navigationController?.setNavigationBarHidden(!self.orderActive, animated: true)
+            
+            self.collectionView.reloadData()
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            
+            let alert = UIAlertController(title: "Order successfully placed!", message: "View your active orders in the Orders tab.", preferredStyle: .alert)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            let when = DispatchTime.now() + 4
+            DispatchQueue.main.asyncAfter(deadline: when){
+                alert.dismiss(animated: true, completion: nil)
+            }
+
+        }
+        
+        self.present(cartOrderVC, animated: true, completion: nil)
+    }
+        
     @objc func handleStartOrder() {
-        // Move to menu screen
-        print("Order \(orderNum) started")
-        orderNum += 1
+        
+        orderActive = true
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
 
         // Can just make the category view a slide in menu from the top that hides/shows depending on where they are on the page
         self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
+        
     }
     
     
     //
     // MARK: CollectionView
     //
-    
+        
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if section == 0 {
@@ -118,7 +174,6 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         switch indexPath.section {
         case 0:
             let welcomeViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "welcomeViewCell", for: indexPath) as! MenuWelcomeView
-            welcomeViewCell.addMenuItemButton.addTarget(self, action: #selector(handleAddMenuItem), for: .touchUpInside)
             welcomeViewCell.startOrderButton.addTarget(self, action: #selector(handleStartOrder), for: .touchUpInside)
 
             return welcomeViewCell
@@ -130,10 +185,54 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
 
         default:
             let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
-            menuItemCell.configure(item: filteredMenuItems[indexPath.row])
+            let menuItem = filteredMenuItems[indexPath.row]
+            menuItemCell.configure(item: menuItem)
             
-            menuItemCell.addCallback = {
-                print("add pressed: ", indexPath.row)
+            
+            // COMMENTED OUT FOR TESTING - DO NOT REMOVE
+            // Handles security permission for account types showing edit/add to cart buttons
+            
+//            if getAccountType() == "customer" {
+//                menuItemCell.editItemButton.isHidden = true
+//                menuItemCell.openCartButton.isHidden = false
+//            } else {
+//                menuItemCell.editItemButton.isHidden = false
+//                menuItemCell.openCartButton.isHidden = true
+//
+//            }
+            
+            menuItemCell.openCartCallback = {
+                                                
+                let addToCartVC = AddToCartVC()
+                addToCartVC.itemToAdd = menuItem
+                addToCartVC.modalPresentationStyle = .overFullScreen
+                
+                addToCartVC.addToCartCallback = {
+                                                            
+                    addToCartVC.quantity.times {
+                        self.cartItems.append(menuItem)
+                    }
+                                        
+                    self.totalCartPrice = self.totalCartPrice + addToCartVC.totalPrice
+                    self.viewCartButton.setTitle("View cart: $\(self.totalCartPrice).00", for: .normal)
+                    
+                }
+                
+                self.present(addToCartVC, animated: true, completion: nil)
+            }
+            
+            menuItemCell.editItemCallback = {
+                
+                let editMenuItemVC = EditMenuItemVC()
+                editMenuItemVC.itemToEdit = menuItem
+                editMenuItemVC.modalPresentationStyle = .overFullScreen
+                
+                editMenuItemVC.updateItemCallback = {
+                    collectionView.reloadItems(at: [IndexPath(item: indexPath.row, section: 1)])
+                    menuItemCell.itemLabel.textColor = .cred
+                }
+                
+                self.present(editMenuItemVC, animated: true, completion: nil)
             }
             
             return menuItemCell
@@ -145,9 +244,8 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         
         switch indexPath.section {
         case 0:
-            
-            let height =  UIScreen.main.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom
-            return CGSize(width: self.view.frame.width, height: height)
+            let welcomeHeight =  self.view.frame.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom
+            return CGSize(width: self.view.frame.width, height: welcomeHeight)
         case 1:
             return CGSize(width: self.view.frame.width, height: 60)
         default:
@@ -185,10 +283,48 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         return iv
     }()
     
+    lazy var viewCartButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.add(text: "View cart: $0.00", font: UIFont(boldWithSize: 15), textColor: .white)
+        btn.addTarget(self, action: #selector(handleCheckCart), for: .touchUpInside)
+        btn.frame = CGRect(x: 0, y: 0, width: 200, height: 20)
+        btn.layer.cornerRadius = 10
+        btn.backgroundColor = .cred
+
+        return btn
+    }()
+    
+    lazy var addMenuItemButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.add(text: " + Add new menu item", font: UIFont(boldWithSize: 15), textColor: .white)
+        btn.addTarget(self, action: #selector(handleAddMenuItem), for: .touchUpInside)
+        btn.frame = CGRect(x: 0, y: 0, width: 200, height: 20)
+        btn.layer.cornerRadius = 10
+        btn.backgroundColor = .cred
+        return btn
+    }()
     
     func setUpViews() {
         
+        // COMMENTED OUT FOR TESTING - DO NOT REMOVE
+        // BELOW CODE CHANGES BUTTON VISIBILITY FOR ACCOUNT TYPE PERMISSIONS
         
+//        if getAccountType() == "customer" {
+//            self.navigationItem.titleView = viewCartButton
+//        } else {
+//            self.navigationItem.titleView = addMenuItemButton
+//        }
+//
+//        if getAccountType() == "staff" {
+//            addMenuItemButton.isEnabled = false
+//            addMenuItemButton.backgroundColor = .gray
+//        }
+        
+        // TEST CODE - DO NOT REMOVE
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: addMenuItemButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: viewCartButton)
+
+
         fetchCurrentUser()
         registerCells()
         fetchMenu()

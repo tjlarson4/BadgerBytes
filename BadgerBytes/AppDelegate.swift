@@ -25,14 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setAppearances() {
                 
         // Changes system nav bar attributes
-        UINavigationBar.appearance().barTintColor = .nav_bar
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.main_label]
+        UINavigationBar.appearance().barTintColor = UIColor(hex: "f7f7f7")
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
         UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().tintColor = .main_label
+        UINavigationBar.appearance().tintColor = .black
         
         // Changes system tab bar background text color
-        UITabBar.appearance().barTintColor = .tab_bar
-        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().barTintColor = UIColor(hex: "f7f7f7")
+        UITabBar.appearance().tintColor = .cred
         
     }
 

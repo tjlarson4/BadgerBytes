@@ -79,7 +79,7 @@ class UpdatePasswordVC: UIViewController, UICollectionViewDataSource, UICollecti
             cell.textLabel.text = "Confirm"
             cell.textLabel.textColor = .white
             cell.textLabel.textAlignment = .center
-            cell.contentView.backgroundColor = .red
+            cell.contentView.backgroundColor = .cred
             return cell
         }
     }

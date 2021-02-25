@@ -7,6 +7,17 @@
 
 import UIKit
 
+extension Int {
+    func times(_ f: () -> ()) {
+        if self > 0 {
+            for _ in 0..<self {
+                f()
+            }
+        }
+    }
+}
+
+
 extension String {
     func isUrl() -> Bool {
         guard let url = URL(string: self) else { return false }

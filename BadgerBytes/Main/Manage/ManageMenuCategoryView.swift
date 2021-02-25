@@ -1,16 +1,16 @@
 //
-//  MenuCategoryView.swift
+//  ManageMenuCategoryView.swift
 //  BadgerBytes
 //
-//  Created by Thor Larson on 2/23/21.
+//  Created by Thor Larson on 2/25/21.
 //
 
 import UIKit
 
-class MenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ManageMenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var movingViewLeftAnchorContraint: NSLayoutConstraint?
-    var menuVC: MenuVC?
+    var manageVC: ManageVC?
     
     //
     // MARK: View Lifecycle
@@ -71,11 +71,11 @@ class MenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollec
             default: category = "seafood"
         }
                             
-        menuVC?.filteredMenuItems = menuVC?.menuItems.filter { (menuItem) -> Bool in
+        manageVC?.filteredMenuItems = manageVC?.menuItems.filter { (menuItem) -> Bool in
             return menuItem.category.lowercased().contains(category)
         } ?? []
         
-        menuVC?.filteredMenuItems = menuVC?.filteredMenuItems.sorted { $0.name < $1.name } ?? []
+        manageVC?.filteredMenuItems = manageVC?.filteredMenuItems.sorted { $0.name < $1.name } ?? []
 
         let itemNum = CGFloat(indexPath.item)
         let x = itemNum * ((UIScreen.main.bounds.width - 2) / 3) + itemNum
@@ -85,13 +85,8 @@ class MenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollec
             self.layoutIfNeeded()
         }, completion: nil)
         
-        menuVC?.collectionView.reloadSections(IndexSet(integer: 2))
+        manageVC?.collectionView.reloadSections(IndexSet(integer: 2))
 
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        let cell = collectionView.cellForItem(at: indexPath) as! MenuCategoryCell
-//        cell.categoryView.backgroundColor = .blue
     }
     
     
@@ -109,7 +104,7 @@ class MenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollec
     
     let movingView: UIView = {
         let vw = UIView()
-        vw.backgroundColor = .cred
+        vw.backgroundColor = .red
         return vw
     }()
     
@@ -133,7 +128,7 @@ class MenuCategoryView: UICollectionViewCell, UICollectionViewDelegate, UICollec
 
 }
 
-class MenuCategoryCell: UICollectionViewCell {
+class ManageMenuCategoryCell: UICollectionViewCell {
 
     let categoryLabel: UILabel = {
         let lbl = UILabel()

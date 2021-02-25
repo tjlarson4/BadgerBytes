@@ -6,8 +6,18 @@
 //
 
 import UIKit
+import Firebase
 
 class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    var orders = [Order]()
+    var userOrders = [Order]()
+    //    var activeOrders = [Order]()
+    //    var pastOrders = [Order]()
+    
+    var orderItems = [MenuItem]()
+    
+    var filteredMenuItems = [MenuItem]()
     
     //
     // MARK: View Lifecycle
@@ -21,6 +31,65 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     // MARK: Functions
     //
     
+
+    func fetchOrderItemsFor(order: Order) {
+        
+        
+        
+        self.orderItems = []
+        
+        print(order.menuItems.keys)
+        
+                
+        for key in order.menuItems.keys {
+            Database.database().reference().child("menuItems").child(key).observeSingleEvent(of: .value) { (snapshot) in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let menuItem = MenuItem(id: snapshot.key, dictionary: dictionary)
+                    self.orderItems.append(menuItem)
+                }
+            }
+            
+        }
+        
+                
+    }
+    
+    func fetchOrders() {
+        
+        orders = []
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        let orderRef = Database.database().reference().child("orders")
+
+        orderRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionaries = snapshot.value as? [String: Any] else { return }
+                        
+            dictionaries.forEach({ (key, value) in
+                guard let dictionary = value as? [String: Any] else { return }
+                
+                let order = Order(id: key, dictionary: dictionary)
+                
+                self.orders.append(order)
+                                            
+                self.userOrders = self.orders.filter { (order) -> Bool in
+                    return order.ownerID.contains(currentUserID)
+                }
+                
+//                self.activeOrders = self.userOrders.filter({ (order) -> Bool in
+//                    return order.status.contains("active")
+//                })
+                
+            })
+            
+            self.collectionView.reloadData()
+            
+        }) { (err) in
+            print("Failed to fetch posts:", err)
+        }
+        
+    }
+    
     
     //
     // MARK: CollectionView
@@ -31,7 +100,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         if section == 0 {
             return 3
         } else {
-            return 10
+            return userOrders.count
         }
     }
     
@@ -47,8 +116,8 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             orderCell.separator.isHidden = true
         }
         
-        orderCell.titleLabel.text = "Order Title"
-        orderCell.subtitleLabel.text = "Order Subitle"
+        orderCell.titleLabel.text = userOrders[indexPath.row].id
+        orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
 
         return orderCell
     }
@@ -81,6 +150,14 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.view.frame.width, height: 40)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            
+        let orderDetailsVC = OrderDetailsVC()
+        orderDetailsVC.modalPresentationStyle = .overFullScreen
+        self.present(orderDetailsVC, animated: true, completion: nil)
+        
+    }
 
     //
     // MARK: UI Setup
@@ -95,6 +172,8 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }()
     
     func setUpViews() {
+        
+        fetchOrders()
         
         collectionView.register(OrderCell.self, forCellWithReuseIdentifier: "orderCell")
         collectionView.register(OrderHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")

@@ -57,38 +57,24 @@ class MenuWelcomeView: UICollectionViewCell {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.add(text: "Start your order", font: UIFont(boldWithSize: 18), textColor: .black)
-        btn.layer.borderColor = UIColor.subtitle_label.cgColor
-        btn.layer.borderWidth = 4
-        btn.alpha = 0.8
         btn.backgroundColor = .white
-        return btn
-    }()
-    
-    let addMenuItemButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.layer.cornerRadius = 9
-        btn.add(text: "Add menu item", font: UIFont(boldWithSize: 18), textColor: .black)
-        btn.layer.borderColor = UIColor.subtitle_label.cgColor
-        btn.layer.borderWidth = 3
         btn.alpha = 0.8
-        btn.backgroundColor = .white
+
         return btn
     }()
     
     func setUpViews() {
         
-        self.addSubviews(views: [welcomeLabel, titleLabel, userLabel, startOrderButton, addMenuItemButton])
+        self.addSubviews(views: [welcomeLabel, titleLabel, userLabel, startOrderButton])
         
         welcomeLabel.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 40, leftConstant: 20, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 35)
         
         titleLabel.anchor(welcomeLabel.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
         
-        addMenuItemButton.anchor(nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 200, leftConstant: 30, bottomConstant: 40, rightConstant: 30, widthConstant: 0, heightConstant: 50)
-        addMenuItemButton.anchorCenterXToSuperview()
-        
-        startOrderButton.anchor(nil, left: addMenuItemButton.leftAnchor, bottom: addMenuItemButton.topAnchor, right: addMenuItemButton.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 20, rightConstant: 0, widthConstant: 0, heightConstant: 50)
-        
-        userLabel.anchor(addMenuItemButton.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 200, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
+        startOrderButton.anchor(nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 200, leftConstant: 30, bottomConstant: 40, rightConstant: 30, widthConstant: 0, heightConstant: 50)
+        startOrderButton.anchorCenterXToSuperview()
+                
+        userLabel.anchor(startOrderButton.bottomAnchor, left: welcomeLabel.leftAnchor, bottom: nil, right: welcomeLabel.rightAnchor, topConstant: 200, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 60)
         
     }
     

@@ -8,6 +8,10 @@
 import UIKit
 
 class MenuItemCell: UICollectionViewCell {
+    
+    //
+    // MARK: View Lifecycle
+    //
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,50 +22,74 @@ class MenuItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var addCallback: (()->Void)?
+    //
+    // MARK: Functions
+    //
 
     func configure(item: MenuItem) {
         itemLabel.text = item.name
-        priceLabel.text = item.price
+        priceLabel.text = "$\(item.price)"
         itemImageView.loadImage(urlString: item.imageURL)
     }
     
-    @objc func handleAddItem(sender: UIButton) {
-        addCallback?()
+    var openCartCallback: (()->Void)?
+    @objc func handleOpenCart() {
+        openCartCallback?()
     }
     
-    private let itemImageView: CUImageView = {
+    var editItemCallback: (()->Void)?
+    @objc func handleEditItem() {
+        editItemCallback?()
+    }
+    
+    //
+    // MARK: UI Setup
+    //
+    
+     let itemImageView: CUImageView = {
         let iv = CUImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         return iv
     }()
     
-    private let itemLabel: UILabel = {
+     let itemLabel: UILabel = {
         let lbl = UILabel()
         lbl.add(text: "Double Cheeseburger", font: UIFont(regularWithSize: 23), textColor: .black)
         lbl.textAlignment = .center
         return lbl
     }()
     
-    private lazy var priceLabel: UILabel = {
+     lazy var priceLabel: UILabel = {
         let lbl = UILabel()
-        lbl.add(text: "$7", font: UIFont(regularWithSize: 27), textColor: .white)
+        lbl.add(text: "$7", font: UIFont(regularWithSize: 24), textColor: .white)
         lbl.textAlignment = .center
-        lbl.backgroundColor = .red
+        lbl.backgroundColor = .cred
         lbl.clipsToBounds = true
         lbl.layer.cornerRadius = 45/2
         return lbl
     }()
     
-    lazy var addButton: UIButton = {
+    lazy var openCartButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 45/2
-        btn.add(text: "+", font: UIFont(boldWithSize: 27), textColor: .black)
+        btn.add(text: "+", font: UIFont(boldWithSize: 24), textColor: .black)
         btn.layer.borderColor = UIColor.black.cgColor
-        btn.layer.borderWidth = 3
+        btn.layer.borderWidth = 2
         btn.backgroundColor = .white
-        btn.addTarget(self, action: #selector(handleAddItem), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(handleOpenCart), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var editItemButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(named: "edit_icon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.layer.cornerRadius = 45/2
+        btn.layer.borderColor = UIColor.black.cgColor
+        btn.layer.borderWidth = 2
+        btn.backgroundColor = .white
+        btn.tintColor = .black
+        btn.addTarget(self, action: #selector(handleEditItem), for: .touchUpInside)
         return btn
     }()
     
@@ -69,16 +97,25 @@ class MenuItemCell: UICollectionViewCell {
         
         self.backgroundColor = .menu_white
         
-        self.addSubviews(views: [itemImageView, itemLabel, priceLabel, addButton])
+        self.addSubviews(views: [itemImageView, itemLabel, priceLabel, openCartButton, editItemButton])
         
-        itemImageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 200)
+        itemImageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: itemLabel.topAnchor, right: self.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 0)
                 
-        itemLabel.anchor(itemImageView.bottomAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 0, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 30)
+        itemLabel.anchor(nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 0, leftConstant: 5, bottomConstant: 15, rightConstant: 5, widthConstant: 0, heightConstant: 30)
         
         priceLabel.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: nil, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 0, widthConstant: 45, heightConstant: 45)
         
-        addButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
+        // TEST CONSTRAINTS - REMOVE LATER
+        
+        openCartButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
 
+        editItemButton.anchor(openCartButton.bottomAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
+        
+        // COMMENTED OUT FOR TESTING - DO NOT REMOVE
+        
+//        openCartButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
+//
+//        editItemButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 70, heightConstant: 45)
 
     }
 }
