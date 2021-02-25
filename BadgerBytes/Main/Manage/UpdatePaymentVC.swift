@@ -1,18 +1,21 @@
 //
-//  UpdateCardInfo.swift
+//  SignUpVC.swift
 //  BadgerBytes
 //
-//  Created by Connor Hanson on 2/22/21.
+//  Created by Thor Larson on 2/18/21.
 //
-
+import UIKit
 import Firebase
 
-class UpdatePaymentVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class UpdatePaymentVC:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     weak var cv: UICollectionView! // this pages collection view
+    var cellExpanded: Bool!
     
     override func loadView() {
         super.loadView()
+        
+        cellExpanded = false
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(cv)
@@ -27,14 +30,15 @@ class UpdatePaymentVC: UIViewController, UICollectionViewDataSource, UICollectio
     }
     
     override func viewDidLoad() {
-           super.viewDidLoad()
+        super.viewDidLoad()
 
-           self.cv.backgroundColor = .white
-           self.cv.dataSource = self
-           self.cv.delegate = self
+        self.cv.backgroundColor = .gray
+        self.cv.dataSource = self
+        self.cv.delegate = self
 
-           self.cv.register(PaymentCell.self, forCellWithReuseIdentifier: "MyCell")
-       }
+        self.cv.register(SimpleTextInputCell.self, forCellWithReuseIdentifier: "InputCell")
+        self.cv.register(SimpleTextCell.self, forCellWithReuseIdentifier: "TextCell")
+    }
 
 
 
@@ -44,18 +48,58 @@ class UpdatePaymentVC: UIViewController, UICollectionViewDataSource, UICollectio
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 4
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as! PaymentCell
+        
+        let placeHolders = ["Card Number", "CVC", "Exp Date"]
+        
+        if (indexPath.row == 3) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! SimpleTextCell
+            cell.textLabel.text = "Submit"
+            cell.textLabel.textColor = .white
+            cell.textLabel.textAlignment = .center
+            cell.textLabel.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: -10).isActive = true
+            cell.contentView.backgroundColor = .red
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InputCell", for: indexPath) as! SimpleTextInputCell
+            
+            cell.textInput.attributedPlaceholder = NSAttributedString(string: placeHolders[indexPath.row], attributes: [.foregroundColor: UIColor.subtitle_label])
+            
+            return cell
+        }
+        
         //cell.textLabel.text = String(indexPath.row + 1)
-        return cell
     }
 
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            print(indexPath.row + 1)
+        
+        if (indexPath.row == 5) {
+            saveItems()
+            
+            // reset UI
+            let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
+            tabBarVC.setUpViewControllers()
+            self.view.endEditing(true)
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func saveItems() {
+        let cardNum = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
+        let cvc = (self.cv.cellForItem(at: [0,1]) as! SimpleTextInputCell).textInput.text
+        let expDate = (self.cv.cellForItem(at: [0,2]) as! SimpleTextInputCell).textInput.text
+        
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        let values = ["cardNum": cardNum!, "CVC": cvc!, "expDate": expDate!]
+        
+
+        Database.database().reference().child("Users").child(currentUserID).child("payment").updateChildValues(values)
+        
     }
 
 
@@ -63,7 +107,7 @@ class UpdatePaymentVC: UIViewController, UICollectionViewDataSource, UICollectio
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: collectionView.bounds.size.width - 16, height: 120)
+        return CGSize(width: collectionView.bounds.size.width - 16, height: 50)
     }
     public func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
