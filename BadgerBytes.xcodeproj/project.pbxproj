@@ -30,6 +30,12 @@
 		4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342AF1825E3B13200E8A5BB /* OrdersCells.swift */; };
 		4342AF2525E3B66400E8A5BB /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342AF2425E3B66400E8A5BB /* Order.swift */; };
 		4342AF2A25E3B67300E8A5BB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342AF2925E3B67300E8A5BB /* User.swift */; };
+		43DD7DD025E745ED00C8B5CC /* SimpleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DD7DCB25E745ED00C8B5CC /* SimpleTextCell.swift */; };
+		43DD7DD125E745ED00C8B5CC /* UpdatePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DD7DCC25E745ED00C8B5CC /* UpdatePasswordVC.swift */; };
+		43DD7DD225E745ED00C8B5CC /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DD7DCD25E745ED00C8B5CC /* PaymentCell.swift */; };
+		43DD7DD325E745ED00C8B5CC /* SimpleTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DD7DCE25E745ED00C8B5CC /* SimpleTextInputCell.swift */; };
+		43DD7DD425E745ED00C8B5CC /* UpdateAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DD7DCF25E745ED00C8B5CC /* UpdateAddressVC.swift */; };
+		43DD7DD925E745F100C8B5CC /* UpdatePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DD7DD825E745F100C8B5CC /* UpdatePaymentVC.swift */; };
 		43E959AB25E5B24100A89563 /* MenuWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E959AA25E5B24100A89563 /* MenuWelcomeView.swift */; };
 		43E959B025E5B59E00A89563 /* MenuCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E959AF25E5B59E00A89563 /* MenuCategoryView.swift */; };
 		43E959BB25E5E81800A89563 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E959BA25E5E81800A89563 /* MenuItemCell.swift */; };
@@ -92,6 +98,12 @@
 		4342AF1825E3B13200E8A5BB /* OrdersCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCells.swift; sourceTree = "<group>"; };
 		4342AF2425E3B66400E8A5BB /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4342AF2925E3B67300E8A5BB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		43DD7DCB25E745ED00C8B5CC /* SimpleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTextCell.swift; sourceTree = "<group>"; };
+		43DD7DCC25E745ED00C8B5CC /* UpdatePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePasswordVC.swift; sourceTree = "<group>"; };
+		43DD7DCD25E745ED00C8B5CC /* PaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
+		43DD7DCE25E745ED00C8B5CC /* SimpleTextInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTextInputCell.swift; sourceTree = "<group>"; };
+		43DD7DCF25E745ED00C8B5CC /* UpdateAddressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateAddressVC.swift; sourceTree = "<group>"; };
+		43DD7DD825E745F100C8B5CC /* UpdatePaymentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePaymentVC.swift; sourceTree = "<group>"; };
 		43E959AA25E5B24100A89563 /* MenuWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuWelcomeView.swift; sourceTree = "<group>"; };
 		43E959AF25E5B59E00A89563 /* MenuCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCategoryView.swift; sourceTree = "<group>"; };
 		43E959BA25E5E81800A89563 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
@@ -277,6 +289,12 @@
 			isa = PBXGroup;
 			children = (
 				43EC921B25E6328A00D968EA /* ManageVC.swift */,
+				43DD7DCD25E745ED00C8B5CC /* PaymentCell.swift */,
+				43DD7DCB25E745ED00C8B5CC /* SimpleTextCell.swift */,
+				43DD7DCE25E745ED00C8B5CC /* SimpleTextInputCell.swift */,
+				43DD7DCF25E745ED00C8B5CC /* UpdateAddressVC.swift */,
+				43DD7DCC25E745ED00C8B5CC /* UpdatePasswordVC.swift */,
+				43DD7DD825E745F100C8B5CC /* UpdatePaymentVC.swift */,
 			);
 			path = Manage;
 			sourceTree = "<group>";
@@ -553,19 +571,25 @@
 				3B4F45F325E58F1F005E99DC /* CustomTableViewCell.swift in Sources */,
 				4342AF2525E3B66400E8A5BB /* Order.swift in Sources */,
 				43E959BB25E5E81800A89563 /* MenuItemCell.swift in Sources */,
+				43DD7DD925E745F100C8B5CC /* UpdatePaymentVC.swift in Sources */,
 				43291DC925DE472F00BD2764 /* Colors.swift in Sources */,
 				43291DD325DE474000BD2764 /* MenuVC.swift in Sources */,
 				43291D3525DE358000BD2764 /* AppDelegate.swift in Sources */,
 				43E959B025E5B59E00A89563 /* MenuCategoryView.swift in Sources */,
+				43DD7DD425E745ED00C8B5CC /* UpdateAddressVC.swift in Sources */,
 				43EC922725E632DC00D968EA /* MenuItem.swift in Sources */,
 				43E959AB25E5B24100A89563 /* MenuWelcomeView.swift in Sources */,
+				43DD7DD225E745ED00C8B5CC /* PaymentCell.swift in Sources */,
 				43291DF125DE477400BD2764 /* TabBarVC.swift in Sources */,
 				4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */,
+				43DD7DD325E745ED00C8B5CC /* SimpleTextInputCell.swift in Sources */,
 				43291DE225DE475900BD2764 /* AccountVC.swift in Sources */,
+				43DD7DD025E745ED00C8B5CC /* SimpleTextCell.swift in Sources */,
 				3B4F45EE25E58EB4005E99DC /* MenuItemsVC.swift in Sources */,
 				43EC921C25E6328A00D968EA /* ManageVC.swift in Sources */,
 				43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */,
 				43EC922F25E6348400D968EA /* AddMenuItemVC.swift in Sources */,
+				43DD7DD125E745ED00C8B5CC /* UpdatePasswordVC.swift in Sources */,
 				4342AF2A25E3B67300E8A5BB /* User.swift in Sources */,
 				43291DC425DE472A00BD2764 /* Extensions.swift in Sources */,
 				43291DF625DE489800BD2764 /* AuthInputView.swift in Sources */,
