@@ -62,6 +62,6 @@ class InformationViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        self.textLabel.text = nil
+        //self.textLabel.text = nil
     }
 }

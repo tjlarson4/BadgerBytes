@@ -34,6 +34,7 @@ class MenuItemCell: UICollectionViewCell {
     
     var openCartCallback: (()->Void)?
     @objc func handleOpenCart() {
+        print("Callback")
         openCartCallback?()
     }
     
