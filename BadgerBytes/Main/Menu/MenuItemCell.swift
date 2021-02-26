@@ -31,6 +31,9 @@ class MenuItemCell: UICollectionViewCell {
         if(!item.inStock){
             inStockLabel.isHidden = false
             openCartButton.isHidden = true
+        }else{
+            inStockLabel.isHidden = true
+            openCartButton.isHidden = false
         }
         itemLabel.text = item.name
         priceLabel.text = "$\(item.price)"

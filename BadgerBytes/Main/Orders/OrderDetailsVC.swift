@@ -58,7 +58,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     //
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return orderItems.count + 1
+        return orderItems.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -67,33 +67,17 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if (indexPath.row == (orderItems.count)) {
-
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomerInfo", for: indexPath) as! InformationViewCell
-            cell.setTextColor(color: .black)
-            cell.addLabelInOrder(label: globalCurrentUser!.firstName + " " + globalCurrentUser!.lastName, isBold: true, size: 20)
-            cell.addLabelInOrder(label: "Phone: " + globalCurrentUser!.phoneNum, isBold: false, size: 15)
-            cell.addLabelInOrder(label: "Driving: " + globalCurrentSelectedOrder!.carDesc, isBold: false, size: 15)
-            cell.addLabelInOrder(label: "Pick-up: " + globalCurrentSelectedOrder!.creationDate.toStringWith(format: "h:mm a"), isBold: false, size: 15)
-            cell.contentView.backgroundColor = .systemRed
-
-            return cell
-        }
-        
         let detailItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailItemCell", for: indexPath) as! OrderDetailItemCell
         let menuItem = orderItems[indexPath.row]
         detailItemCell.configure(item: menuItem)
-
+        
         return detailItemCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if (indexPath.row == orderItems.count) {
-            return CGSize(width: collectionView.bounds.size.width - 16, height: 85)
-        }
+        return CGSize(width: self.view.frame.width, height: 80)
         
-        return CGSize(width: self.view.frame.width, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -102,15 +86,26 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func registerCells() {
         collectionView.register(OrderDetailItemCell.self, forCellWithReuseIdentifier: "detailItemCell")
-        collectionView.register(InformationViewCell.self, forCellWithReuseIdentifier: "CustomerInfo")
-        // time left for delivery
-        // car description
-        // items in order
     }
     
     //
     // MARK: UI Setup
     //
+    
+    let infoLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Order Info:", font: UIFont(boldWithSize: 22), textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    
+    let infoContainerView: UIView = {
+        let vw = UIView()
+        vw.layer.borderColor = UIColor.black.cgColor
+        vw.layer.borderWidth = 2
+        vw.layer.cornerRadius = 10
+        return vw
+    }()
     
     let dismissButton: UIButton = {
         let btn = UIButton(type: .system)
@@ -120,6 +115,34 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         return btn
     }()
     
+    let dateLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Ordered: Friday, Feb 26, 4:09 AM", font: UIFont(regularWithSize: 18), textColor: .black)
+        lbl.textAlignment = .left
+        return lbl
+    }()
+    
+    let pickupLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Pickup: Friday, Feb 26, 4:09 AM", font: UIFont(regularWithSize: 18), textColor: .black)
+        lbl.textAlignment = .left
+        return lbl
+    }()
+    
+    let carDescLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Car Description: Blue Honda", font: UIFont(regularWithSize: 18), textColor: .black)
+        lbl.textAlignment = .left
+        return lbl
+    }()
+    
+    let itemsLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Ordered Items:", font: UIFont(boldWithSize: 22), textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
     lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.delegate = self
@@ -143,13 +166,29 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         //self.view.addSubview(collectionView)
         
-        self.view.addSubviews(views: [dismissButton, collectionView, getReceiptButton])
+        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton])
+        self.infoContainerView.addSubviews(views: [dateLabel, pickupLabel, carDescLabel])
+
         self.view.backgroundColor = .menu_white
         
         dismissButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, topConstant: 30, leftConstant: 30, bottomConstant: 0, rightConstant: 0, widthConstant: 18, heightConstant: 18)
         
-        collectionView.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        infoLabel.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 10, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
         
+        infoContainerView.anchor(infoLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 130)
+
+//        customerLabel.anchor(infoContainerView.topAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        
+        dateLabel.anchor(infoContainerView.topAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        
+        pickupLabel.anchor(dateLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        
+        carDescLabel.anchor(pickupLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        
+        itemsLabel.anchor(infoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
+
+        collectionView.anchor(itemsLabel.bottomAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+
         getReceiptButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
 
         

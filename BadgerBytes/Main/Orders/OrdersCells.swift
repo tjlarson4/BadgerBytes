@@ -24,6 +24,14 @@ class OrderCell: UICollectionViewCell {
         orderImageView.loadImage(urlString: item.imageURL)
         infoButton.isHidden = true
     }
+    
+    func setHidden(isHidden: Bool) {
+        orderImageView.isHidden = isHidden
+        titleLabel.isHidden = isHidden
+        subtitleLabel.isHidden = isHidden
+        infoButton.isHidden = isHidden
+        emptyLabel.isHidden = !isHidden
+    }
         
     let orderImageView: CUImageView = {
         let iv = CUImageView()
@@ -44,12 +52,6 @@ class OrderCell: UICollectionViewCell {
         return lbl
     }()
     
-    let prioritytitleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.add(text: "Priority: X", font: UIFont(regularWithSize: 16), textColor: .black)
-        return lbl
-    }()
-    
     let infoButton: UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setImage(UIImage(named: "right_arrow")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -66,11 +68,21 @@ class OrderCell: UICollectionViewCell {
         return vw
     }()
     
+    let emptyLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "No orders availble here", font: UIFont(regularWithSize: 17), textColor: .black)
+        lbl.textAlignment = .center
+        lbl.isHidden = true
+        return lbl
+    }()
+    
     func setUpViews() {
         
         self.backgroundColor = .menu_white
         
-        self.addSubviews(views: [borderView, orderImageView, titleLabel, subtitleLabel, infoButton, ])
+        self.addSubviews(views: [borderView, orderImageView, titleLabel, subtitleLabel, infoButton, emptyLabel])
+        
+        emptyLabel.fillSuperview()
         
         borderView.fillSuperview()
         
@@ -180,17 +192,19 @@ class OrderHeaderCell: UICollectionViewCell {
     }()
     
     let prioritizeButton: UIButton = {
-        let btn = UIButton(type: .system)
+        let btn = UIButton(frame: .zero)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
         btn.add(text: "Prioritize", font: UIFont(boldWithSize: 17), textColor: UIColor(hex: "565656"))
         return btn
     }()
     
+
     
     func setUpViews() {
         
         self.backgroundColor = .clear
+        
         
         self.addSubviews(views: [titleLabel, prioritizeButton])
         
@@ -200,7 +214,7 @@ class OrderHeaderCell: UICollectionViewCell {
         prioritizeButton.anchor(topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, topConstant: 7, leftConstant: 0, bottomConstant: 7, rightConstant: 15, widthConstant: 120, heightConstant: 0)
         prioritizeButton.anchorCenterYToSuperview()
 
-
     }
 }
+
 

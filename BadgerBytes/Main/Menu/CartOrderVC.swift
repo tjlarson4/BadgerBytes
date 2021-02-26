@@ -46,11 +46,12 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 menuItems.updateValue(1, forKey: item.id)
             }
         
-            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active", "priority": "high"] as [String : Any]
+            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active", "priority": 0] as [String : Any]
             
             ref = Database.database().reference().child("orders").childByAutoId()
         
             ref.setValue(values, withCompletionBlock: { (err, ref) in
+               
                 if let err = err {
                     print("Database info error: " + err.localizedDescription)
                 }
@@ -68,6 +69,8 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                                   
                     print("Successfully stored user order within userinfo")
                     
+                    Database.uploadUsageAction(usageItem: UsageItem(type: .orderCreated, desc: "Order Placed of \"\(menuItems.count)\" items, totalling $\(self.totalOrderPrice).00", actingUserID: Auth.auth().currentUser?.uid ?? ""))
+                    
                     })
                                                 
                 }) { (err) in
@@ -79,8 +82,10 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             
         } else {
             
-            let alert = UIAlertController(title: "Error!", message: "No payment information saved.", preferredStyle: .alert)
+            let alert = UIAlertController(title: "No payment info saved!", message: "Add payment in the Account tab", preferredStyle: .alert)
             
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+
             self.present(alert, animated: true, completion: nil)
             let when = DispatchTime.now() + 4
             DispatchQueue.main.asyncAfter(deadline: when){

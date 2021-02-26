@@ -12,6 +12,8 @@ class TabBarVC: UITabBarController {
     
     override func viewDidLoad() {
         
+        fetchCurrentUser()
+        
         if Auth.auth().currentUser == nil {
             // Waits unitil the tab bar is loaded then runs this code to present the login view controller
             DispatchQueue.main.async {
@@ -19,9 +21,23 @@ class TabBarVC: UITabBarController {
                 loginVC.modalPresentationStyle = .fullScreen
                 self.present(loginVC, animated: false, completion: nil)
             }
-        } 
+        }
         
         setUpViewControllers()
+    }
+    
+    func fetchCurrentUser() {
+        
+        // Checks that there is a current user with an ID
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        // Retrieves user info from Firebase
+        Database.database().reference().child("Users").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
+            
+            // Creates dictionary of user information, instatiates new User object
+            guard let userDict = snapshot.value as? [String: Any] else {return}
+            globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
+        }
     }
     
     func setUpViewControllers() {

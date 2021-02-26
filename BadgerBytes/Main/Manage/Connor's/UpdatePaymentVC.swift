@@ -100,9 +100,14 @@ class UpdatePaymentVC:  UIViewController, UICollectionViewDataSource, UICollecti
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         let values = ["cardNum": cardNum!, "CVC": cvc!, "expDate": expDate!]
         
-        Database.database().reference().child("Users").child(currentUserID).child("payment").updateChildValues(values)
+        Database.database().reference().child("Users").child(currentUserID).child("payment").updateChildValues(values) { (err, ref) in
+            if let err = err {
+                print(err.localizedDescription)
+            }
+            
+            print("Uploaded payment info")
+        }
     }
-
 
     public func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,

@@ -34,6 +34,12 @@ extension Database {
         }
     }
     
+    static func uploadUsageAction(usageItem: UsageItem) {
+        let values = usageItem.toDict()
+        Database.database().reference().child("usage").childByAutoId().updateChildValues(values)
+    
+    }
+    
     
     
 }

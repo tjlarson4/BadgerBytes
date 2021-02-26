@@ -60,12 +60,17 @@ class ManageOrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollec
 
         let values = ["status": newStatus]
         
-        Database.database().reference().child("orders").child(order!.id).updateChildValues(values) { (err, ref) in
-            self.dismiss(animated: true) {
-                self.manageOrdersView?.fetchOrders()
-            }
+        Database.database().reference().child("orders").child(order!.id).updateChildValues(values)
+        
+        if newStatus == "complete" {
+            Database.uploadUsageAction(usageItem: UsageItem(type: .orderCompleted, desc: "Order completed of \"\(order?.menuItems.count ?? 0)\" items, totalling $\(order?.totalPrice ?? "").00", actingUserID: Auth.auth().currentUser?.uid ?? ""))
+        } else {
+            Database.uploadUsageAction(usageItem: UsageItem(type: .orderReactivated, desc: "Order reactivated of \"\(order?.menuItems.count ?? 0)\" items, totalling $\(order?.totalPrice ?? "").00", actingUserID: Auth.auth().currentUser?.uid ?? ""))
         }
         
+        self.manageOrdersView?.fetchOrders()
+        self.manageOrdersView?.collectionView.reloadData()
+        self.dismiss(animated: true)
     }
 
         

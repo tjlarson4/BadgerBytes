@@ -26,7 +26,7 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         super.init(frame: frame)
         setUpViews()
     }
-    
+        
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -88,7 +88,7 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
             return order.status.contains("complete")
         })
         
-        self.activeOrders = self.activeOrders.sorted { $0.creationDate > $1.creationDate }
+        self.activeOrders = self.activeOrders.sorted { $0.priority < $1.priority }
         self.pastOrders = self.pastOrders.sorted { $0.creationDate > $1.creationDate }
     }
     
@@ -139,10 +139,11 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             
         if section == 0 {
-            return activeOrders.count
+            return activeOrders.count > 0 ? activeOrders.count : 1
         } else {
-            return pastOrders.count
+            return pastOrders.count > 0 ? pastOrders.count : 1
         }
+        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -154,19 +155,31 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         let orderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "orderCell", for: indexPath) as! OrderCell
         
         let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
-        let orderItem = orderArr[indexPath.row]
         
-        Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
-            orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
-        }
+        if orderArr.count == 0 {
+            orderCell.setHidden(isHidden: true)
+            orderCell.emptyLabel.text = "No orders available"
+        } else {
             
-        orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
-        let plural = orderItem.menuItems.count == 1 ? "" : "s"
-        orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Priority: \(orderItem.priority.capitalized)"
-        
-        if indexPath.section == 0 {
-            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
-            self.collectionView.addGestureRecognizer(longPressGesture)
+            orderCell.setHidden(isHidden: false)
+            
+            let orderItem = orderArr[indexPath.row]
+            
+            Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
+                orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
+            }
+                
+            orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
+            let plural = orderItem.menuItems.count == 1 ? "" : "s"
+            
+            var priority = ""
+            switch orderItem.priority {
+                case 0: priority = "High"
+                case 1: priority = "Medium"
+                default: priority = "Low"
+            }
+            
+            orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Priority: \(priority)"
         }
 
         return orderCell
@@ -187,6 +200,7 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
             if indexPath.section == 0 {
                 header.titleLabel.text = "Active"
                 header.prioritizeButton.addTarget(self, action: #selector(handlePrioritize), for: .touchUpInside)
+                header.prioritizeButton.isHidden = false
             } else {
                 header.titleLabel.text = "Past"
                 header.prioritizeButton.isHidden = true
@@ -211,6 +225,7 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
 
         let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
         manageOrderDetailsVC.order = orderArr[indexPath.row]
+        manageOrderDetailsVC.manageOrdersView = self
         
 
         for key in orderArr[indexPath.row].menuItems.keys {
