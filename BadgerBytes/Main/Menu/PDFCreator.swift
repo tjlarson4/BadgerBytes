@@ -12,8 +12,8 @@ class PDFCreator: NSObject {
     
     func createOrder() -> Data {
       let pdfMetaData = [
-        kCGPDFContextCreator: "Flyer Builder",
-        kCGPDFContextAuthor: "raywenderlich.com",
+        kCGPDFContextCreator: "BadgerBytes",
+        kCGPDFContextAuthor: "",
       ]
       let format = UIGraphicsPDFRendererFormat()
       format.documentInfo = pdfMetaData as [String: Any]

@@ -93,11 +93,31 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let documentData = pdfCreator.createOrder()
         
         let pdfView = PDFView(frame: view.bounds)
+        
+        pdfView.autoScales = true
+        pdfView.restorationIdentifier = "getReceiptButton"
+        
         view.addSubview(pdfView)
+        
+        pdfView.anchor(collectionView.topAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 10, rightConstant: 30, widthConstant: 0, heightConstant: 45)
         
         let pdfDocument = PDFDocument(data: documentData)
         pdfView.document = pdfDocument
+
+        getReceiptButton.isHidden = true
+        closeReceiptButton.isHidden = false
+    }
+    
+    @objc func handleCloseReceipt() {
+        for subview in self.view.subviews {
+            if (subview.restorationIdentifier == "getReceiptButton") {
+                subview.removeFromSuperview()
+            }
+        }
         
+
+        getReceiptButton.isHidden = false
+        closeReceiptButton.isHidden = true
     }
     
     var emptyCartCallback: (()->Void)?
@@ -174,8 +194,18 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
-        btn.add(text: "Get receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.add(text: "Show receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
         btn.addTarget(self, action: #selector(handleGetReceipt), for: .touchUpInside)
+        return btn
+    }()
+    
+    let closeReceiptButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = .subtitle_label
+        btn.add(text: "Close receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.addTarget(self, action: #selector(handleCloseReceipt), for: .touchUpInside)
+        btn.isHidden = true
         return btn
     }()
     
@@ -187,12 +217,13 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         btn.addTarget(self, action: #selector(handleEmptyCart), for: .touchUpInside)
         return btn
     }()
+    
 
     func setUpViews() {
         
         registerCells()
         
-        self.view.addSubviews(views: [dismissButton, collectionView, getReceiptButton, placeOrderButton, emptyCartButton])
+        self.view.addSubviews(views: [dismissButton, collectionView, getReceiptButton, closeReceiptButton, placeOrderButton, emptyCartButton])
         self.view.backgroundColor = .menu_white
         
         dismissButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, topConstant: 30, leftConstant: 30, bottomConstant: 0, rightConstant: 0, widthConstant: 18, heightConstant: 18)
@@ -200,6 +231,8 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         collectionView.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
         getReceiptButton.anchor(collectionView.bottomAnchor, left: view.leftAnchor, bottom: placeOrderButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 10, rightConstant: 30, widthConstant: 0, heightConstant: 45)
+        
+        closeReceiptButton.anchor(collectionView.bottomAnchor, left: view.leftAnchor, bottom: placeOrderButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 10, rightConstant: 30, widthConstant: 0, heightConstant: 45)
         
         placeOrderButton.anchor(getReceiptButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
 
