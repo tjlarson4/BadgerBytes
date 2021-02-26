@@ -52,9 +52,7 @@ class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func fetchOrders() {
         
         orders = []
-        
-        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-        
+                
         let orderRef = Database.database().reference().child("orders")
 
         orderRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -107,8 +105,8 @@ class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             orderCell.separator.isHidden = true
         }
                 
-        orderCell.titleLabel.text = userOrders[indexPath.row].id
-        orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
+        orderCell.titleLabel.text = orders[indexPath.row].id
+        orderCell.subtitleLabel.text = orders[indexPath.row].totalPrice
 
         return orderCell
     }
