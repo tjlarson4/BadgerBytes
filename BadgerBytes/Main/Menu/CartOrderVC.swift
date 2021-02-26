@@ -13,6 +13,7 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     var cartItems = [MenuItem]()
     var totalOrderPrice = 0
+    var ref: DatabaseReference!
     
     //
     // MARK: View Lifecycle
@@ -45,8 +46,10 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
         
             let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active"] as [String : Any]
+            
+            ref = Database.database().reference().child("orders").childByAutoId()
         
-            Database.database().reference().child("orders").childByAutoId().setValue(values, withCompletionBlock: { (err, ref) in
+            ref.setValue(values, withCompletionBlock: { (err, ref) in
                 if let err = err {
                     print("Database info error: " + err.localizedDescription)
                 }

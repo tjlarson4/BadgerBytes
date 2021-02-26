@@ -16,6 +16,8 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
     @objc func handleDismiss() {
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
+        
+        
         // reset UI
         let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
         tabBarVC.setUpViewControllers()
@@ -58,6 +60,7 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         if (indexPath.row == 2) {
             
+            handleSubmit()
             handleDismiss()
             
         }
@@ -87,6 +90,22 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets.init(top: 8, left: 8, bottom: 8, right: 8)
+    }
+    
+    private func handleSubmit() {
+
+        let parentVC = self.presentingViewController as! CartOrderVC
+        
+        var car = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
+        if (car == ""){car = "bruh you gotta put your car in next time. how will are we supposed to find you?"}
+        
+        let time = (self.cv.cellForItem(at: [0,1]) as! PickupTimeCell).datePicker.date.description
+        
+        let values = ["car": car!, "date": time]
+        
+        parentVC.ref.updateChildValues(values)
+        
+        print("set")
     }
 
     func setUpViews() {
