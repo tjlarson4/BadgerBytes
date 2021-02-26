@@ -70,7 +70,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 
             })
             
-            self.collectionView.reloadData()
+            self.collectionView.reloadSections(IndexSet(integer: 2))
             
         }) { (err) in
             print("Failed to fetch posts:", err)
@@ -130,12 +130,13 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             let when = DispatchTime.now() + 4
             DispatchQueue.main.asyncAfter(deadline: when){
                 alert.dismiss(animated: true, completion: nil)
+                let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
+                tabBarVC.setUpViewControllers()
+                self.view.endEditing(true)
+                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
             }
             
-            let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
-            tabBarVC.setUpViewControllers()
-            self.view.endEditing(true)
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+
         }
         
         self.present(cartOrderVC, animated: true, completion: nil)
@@ -232,10 +233,13 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 editMenuItemVC.modalPresentationStyle = .overFullScreen
                 
                 editMenuItemVC.updateItemCallback = {
-                    collectionView.reloadItems(at: [IndexPath(item: indexPath.row, section: 1)])
-                    menuItemCell.itemLabel.textColor = .cred
+                    self.fetchMenu()
                 }
                 
+                editMenuItemVC.deleteItemCallback = {
+                    self.fetchMenu()
+                }
+
                 self.present(editMenuItemVC, animated: true, completion: nil)
             }
             

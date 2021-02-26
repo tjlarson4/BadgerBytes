@@ -43,7 +43,7 @@ class AccountTypeVC: UIViewController{
         }
         
         let signUpVC = SignUpVC()
-        signUpVC.accoutType = accountType
+        signUpVC.accountType = accountType
         signUpVC.modalPresentationStyle = .overFullScreen
         self.present(signUpVC, animated: true, completion: nil)
     }

@@ -64,18 +64,17 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                     self.dismiss(animated: true, completion: nil)
                     self.placeOrderCallback?()
                     
-
-                })
+                    })
                                                 
-            }) { (err) in
-                print("Failed to fetch order:", err)
-            }
+                }) { (err) in
+                    print("Failed to fetch order:", err)
+                }
             
-            print("Successfully stored uploaded order")
+                print("Successfully stored uploaded order")
+            })
             
-        })
-        }
-        else{
+        } else {
+            
             let alert = UIAlertController(title: "Error!", message: "No payment information saved.", preferredStyle: .alert)
             
             self.present(alert, animated: true, completion: nil)

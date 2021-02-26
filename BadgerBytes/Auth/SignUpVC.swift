@@ -10,7 +10,7 @@ import Firebase
 
 class SignUpVC: UIViewController {
     
-    var accoutType: String?
+    var accountType: String?
     
     override func viewDidLoad() {
         setUpViews()
@@ -48,7 +48,7 @@ class SignUpVC: UIViewController {
             
             
             guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-            let values = ["firstName": firstName, "lastName": lastName, "email": email, "phoneNum":phoneNum, "address":address,"accountType":self.accoutType]
+            let values = ["firstName": firstName, "lastName": lastName, "email": email, "phoneNum":phoneNum, "address":address,"accountType":self.accountType]
             
             Database.database().reference().child("Users").child(currentUserID).setValue(values, withCompletionBlock: { (err, ref) in
                 if let err = err {
