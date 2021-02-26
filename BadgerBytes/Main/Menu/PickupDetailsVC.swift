@@ -17,7 +17,6 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
         
-        
         // reset UI
         let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
         tabBarVC.setUpViewControllers()
@@ -61,7 +60,7 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         if (indexPath.row == 2) {
             
             handleSubmit()
-            handleDismiss()
+//            handleDismiss()
             
         }
             
@@ -105,7 +104,10 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         parentVC.ref.updateChildValues(values)
         
-        print("set")
+        parentVC.ref.updateChildValues(values) { (err, ref) in
+            parentVC.placeOrderCallback?()
+        }
+        
     }
 
     func setUpViews() {

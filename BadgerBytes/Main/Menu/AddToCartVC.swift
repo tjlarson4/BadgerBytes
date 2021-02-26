@@ -74,7 +74,6 @@ class AddToCartVC: UIViewController {
     
     func updateValues() {
         quantityLabel.text = "\(quantity)"
-        
     }
     
     //

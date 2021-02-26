@@ -12,8 +12,8 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     var orders = [Order]()
     var userOrders = [Order]()
-    //    var activeOrders = [Order]()
-    //    var pastOrders = [Order]()
+    var activeOrders = [Order]()
+    var pastOrders = [Order]()
     
     var orderItems = [MenuItem]()
     
@@ -70,9 +70,13 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                     return order.ownerID.contains(currentUserID)
                 }
                 
-//                self.activeOrders = self.userOrders.filter({ (order) -> Bool in
-//                    return order.status.contains("active")
-//                })
+                self.activeOrders = self.userOrders.filter({ (order) -> Bool in
+                    return order.status.contains("active")
+                })
+                
+                self.pastOrders = self.userOrders.filter({ (order) -> Bool in
+                    return order.status.contains("complete")
+                })
                 
             })
             
@@ -81,9 +85,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         }) { (err) in
             print("Failed to fetch posts:", err)
         }
-        
     }
-    
     
     //
     // MARK: CollectionView
@@ -91,10 +93,12 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        print(userOrders.count)
+        
         if section == 0 {
-            return userOrders.count
+            return activeOrders.count
         } else {
-            return userOrders.count
+            return pastOrders.count
         }
     }
     
@@ -109,10 +113,14 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         if indexPath.item == 0 {
             orderCell.separator.isHidden = true
         }
-                
-        orderCell.titleLabel.text = userOrders[indexPath.row].id
-        orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
+        
+        let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
+        let orderItem = orderArr[indexPath.row]
+        
+        print(orderItem)
 
+        orderCell.titleLabel.text = orderArr[indexPath.row].totalPrice
+//        orderCell.subtitleLabel.text = orderArr[indexPath.row].totalPrice
 
         return orderCell
     }
@@ -153,7 +161,9 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         var orderItems = [MenuItem]()
         
-        for key in userOrders[indexPath.row].menuItems.keys {
+        let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
+        
+        for key in orderArr[indexPath.row].menuItems.keys {
             Database.fetchMenuItemWithID(id: key) { (menuItem) in
                 orderItems.append(menuItem)
                 orderDetailsVC.orderItems = orderItems
@@ -162,7 +172,6 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         }
         
         self.present(orderDetailsVC, animated: true, completion: nil)
-        
     }
 
     //

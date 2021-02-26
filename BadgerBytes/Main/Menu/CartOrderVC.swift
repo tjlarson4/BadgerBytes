@@ -66,8 +66,6 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                     self.present(PickupDetailsVC(), animated: true, completion: nil)
                                   
                     print("Successfully stored user order within userinfo")
-//                    self.dismiss(animated: true, completion: nil)
-                    self.placeOrderCallback?()
                     
                     })
                                                 

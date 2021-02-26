@@ -114,29 +114,30 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         cartOrderVC.placeOrderCallback = {
-            self.cartItems = []
-            self.totalCartPrice = 0
-            self.viewCartButton.setTitle("View cart: $\(self.totalCartPrice).00", for: .normal)
-            self.orderActive = false
-            self.navigationController?.setNavigationBarHidden(!self.orderActive, animated: true)
             
-            self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-            
-            let alert = UIAlertController(title: "Order successfully placed!", message: "View your active orders in the Orders tab.", preferredStyle: .alert)
-            
-            self.present(alert, animated: true, completion: nil)
-            
-            let when = DispatchTime.now() + 4
-            DispatchQueue.main.asyncAfter(deadline: when){
-                alert.dismiss(animated: true, completion: nil)
-                let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
-                tabBarVC.setUpViewControllers()
-                self.view.endEditing(true)
-                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-            }
-            
+            self.dismiss(animated: true) {
+                self.cartItems = []
+                self.totalCartPrice = 0
+                self.viewCartButton.setTitle("View cart: $\(self.totalCartPrice).00", for: .normal)
+                self.orderActive = false
+                self.navigationController?.setNavigationBarHidden(!self.orderActive, animated: true)
 
+                self.collectionView.reloadData()
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+
+                let alert = UIAlertController(title: "Order successfully placed!", message: "View your active orders in the Orders tab.", preferredStyle: .alert)
+
+                self.present(alert, animated: true, completion: nil)
+
+                let when = DispatchTime.now() + 3
+                DispatchQueue.main.asyncAfter(deadline: when){
+                    alert.dismiss(animated: true, completion: nil)
+                    let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
+                    tabBarVC.setUpViewControllers()
+                    self.view.endEditing(true)
+                    self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+                }
+            }
         }
         
         self.present(cartOrderVC, animated: true, completion: nil)

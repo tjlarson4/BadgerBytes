@@ -53,7 +53,6 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
         let menuItem = orderItems[indexPath.row]
         menuItemCell.configure(item: menuItem)
-        print("Previewing ordre")
                         
         return menuItemCell
     }
