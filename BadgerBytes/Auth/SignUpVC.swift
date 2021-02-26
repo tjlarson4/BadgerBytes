@@ -44,7 +44,7 @@ class SignUpVC: UIViewController {
                 print("Registration error: " + err.localizedDescription)
             }
 
-            if (Auth.auth().currentUser?.uid != nil){
+            if (Auth.auth().currentUser?.uid != nil && globalCurrentUser?.address != ""){
                 print("Successfully created user with id: " + (Auth.auth().currentUser?.uid)!)
             } else {
                 let alert = UIAlertController(title: "Error!", message: "Fill out all of the boxes before creating an account.", preferredStyle: .alert)
