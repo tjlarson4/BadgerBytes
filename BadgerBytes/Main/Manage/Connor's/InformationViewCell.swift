@@ -11,12 +11,14 @@ class InformationViewCell: UICollectionViewCell {
     var textLabel: UILabel!
     
     var stack: UIStackView!
+    var color: UIColor!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.stack = UIStackView()
         stack.axis = .vertical
+        self.color = .white
         self.stack.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(self.stack)
         NSLayoutConstraint.activate([
@@ -33,9 +35,9 @@ class InformationViewCell: UICollectionViewCell {
         
         let newLabel = UILabel()
         if (isBold) {
-            newLabel.add(text: label, font: .init(boldWithSize: 20), textColor: .white)
+            newLabel.add(text: label, font: .init(boldWithSize: 20), textColor: self.color)
         } else {
-            newLabel.add(text: label, font: .init(regularWithSize: 15), textColor: .white)
+            newLabel.add(text: label, font: .init(regularWithSize: 15), textColor: self.color)
         }
         
         newLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +48,10 @@ class InformationViewCell: UICollectionViewCell {
 //        ])
         
         
+    }
+    
+    func setTextColor(color: UIColor) {
+        self.color = color
     }
 
     required init?(coder aDecoder: NSCoder) {

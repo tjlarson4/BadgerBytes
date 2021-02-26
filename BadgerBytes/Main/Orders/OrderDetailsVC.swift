@@ -41,7 +41,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     //
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return orderItems.count
+        return orderItems.count + 1
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -49,6 +49,20 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if (indexPath.row == (orderItems.count)) {
+            //let parentVC = self.presentingViewController as! OrdersVC
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomerInfo", for: indexPath) as! InformationViewCell
+            cell.setTextColor(color: .black)
+            cell.addLabelInOrder(label: globalCurrentUser!.firstName + " " + globalCurrentUser!.lastName, isBold: true, size: 20)
+            cell.addLabelInOrder(label: "Phone: " + globalCurrentUser!.phoneNum, isBold: false, size: 15)
+            cell.addLabelInOrder(label: "Driving: " + globalCurrentSelectedOrder!.car, isBold: false, size: 15)
+            cell.addLabelInOrder(label: "Pick-up: " + globalCurrentSelectedOrder!.time, isBold: false, size: 15)
+            cell.contentView.backgroundColor = .systemRed
+
+            return cell
+        }
         
         let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
         let menuItem = orderItems[indexPath.row]
@@ -59,6 +73,10 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        if (indexPath.row == orderItems.count) {
+            return CGSize(width: collectionView.bounds.size.width - 16, height: 85)
+        }
+        
         return CGSize(width: self.view.frame.width, height: 200)
     }
     
@@ -68,6 +86,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func registerCells() {
         collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: "menuItemCell")
+        collectionView.register(InformationViewCell.self, forCellWithReuseIdentifier: "CustomerInfo")
         // time left for delivery
         // car description
         // items in order
