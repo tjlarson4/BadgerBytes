@@ -88,15 +88,15 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "73D32727-D906-461F-838A-D71A76A6FC40"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BadgerBytes/Main/Menu/EditMenuItemVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "handleDeleteItem()"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "handleUpdateItem()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -104,14 +104,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "636B95E7-918B-44E6-864F-3233B901C88E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BadgerBytes/Main/Menu/EditMenuItemVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "handleUpdateItem()"
             landmarkType = "7">
          </BreakpointContent>
