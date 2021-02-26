@@ -59,9 +59,11 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                     if let err = err {
                         print("Database info error: " + err.localizedDescription)
                     }
+                    
+                    self.present(PickupDetailsVC(), animated: true, completion: nil)
                                   
                     print("Successfully stored user order within userinfo")
-                    self.dismiss(animated: true, completion: nil)
+//                    self.dismiss(animated: true, completion: nil)
                     self.placeOrderCallback?()
                     
                     })

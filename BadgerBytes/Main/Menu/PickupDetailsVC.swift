@@ -96,7 +96,7 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         self.view.addSubview(cv)
         
         NSLayoutConstraint.activate([
-                   cv.topAnchor.constraint(equalTo: self.view.topAnchor),
+                   cv.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150),
                    cv.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
                    cv.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
                    cv.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -105,7 +105,9 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         self.cv.dataSource = self
         self.cv.delegate = self
-
+        self.cv.backgroundColor = .gray
+        self.cv.layer.cornerRadius = 5
+        
         self.cv.register(SimpleTextInputCell.self, forCellWithReuseIdentifier: "PickupCar")
         self.cv.register(PickupTimeCell.self, forCellWithReuseIdentifier: "PickupTime")
         self.cv.register(SimpleTextCell.self, forCellWithReuseIdentifier: "Submit")
