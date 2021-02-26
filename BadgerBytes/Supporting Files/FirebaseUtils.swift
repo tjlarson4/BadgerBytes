@@ -21,4 +21,19 @@ extension Database {
             print("Failed to fetch user for posts:", err)
         }
     }
+    
+    static func fetchMenuItemWithID(id: String, completion: @escaping (MenuItem) -> ()) {
+        Database.database().reference().child("menuItems").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let menuItemDictionary = snapshot.value as? [String: Any] else { return }
+            let menuItem = MenuItem(id: id, dictionary: menuItemDictionary)
+            completion(menuItem)
+            
+        }) { (err) in
+            print("Failed to fetch user for posts:", err)
+        }
+    }
+    
+    
+    
 }

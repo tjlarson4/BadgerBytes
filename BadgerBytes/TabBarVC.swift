@@ -31,7 +31,7 @@ class TabBarVC: UITabBarController {
                            add(vc: OrdersVC(), name: "Orders", icon: UIImage(named: "orders_icon")!),
                            add(vc: ManageVC(), name: "Manage", icon: UIImage(named: "manage_icon")!),
                            add(vc: AccountVC(), name: "Account", icon: UIImage(named: "account_icon")!)]
-        
+                
         // Add all view controllers
         self.viewControllers = controllers
         self.selectedIndex = 0

@@ -27,6 +27,11 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         setUpViews()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fetchOrders()
+    }
+    
     //
     // MARK: Functions
     //
@@ -34,23 +39,17 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
 
     func fetchOrderItemsFor(order: Order) {
         
-        
-        
         self.orderItems = []
         
         print(order.menuItems.keys)
-        
-                
+
         for key in order.menuItems.keys {
-            Database.database().reference().child("menuItems").child(key).observeSingleEvent(of: .value) { (snapshot) in
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    let menuItem = MenuItem(id: snapshot.key, dictionary: dictionary)
-                    self.orderItems.append(menuItem)
-                }
+            Database.fetchMenuItemWithID(id: key) { (menuItem) in
+                self.orderItems.append(menuItem)
             }
-            
         }
         
+        print(orderItems)
                 
     }
     
@@ -98,7 +97,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 3
+            return userOrders.count
         } else {
             return userOrders.count
         }
@@ -115,7 +114,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         if indexPath.item == 0 {
             orderCell.separator.isHidden = true
         }
-        
+                
         orderCell.titleLabel.text = userOrders[indexPath.row].id
         orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
 
@@ -155,6 +154,9 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             
         let orderDetailsVC = OrderDetailsVC()
         orderDetailsVC.modalPresentationStyle = .overFullScreen
+        
+        fetchOrderItemsFor(order: userOrders[indexPath.row])
+        
         self.present(orderDetailsVC, animated: true, completion: nil)
         
     }

@@ -131,7 +131,11 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             DispatchQueue.main.asyncAfter(deadline: when){
                 alert.dismiss(animated: true, completion: nil)
             }
-
+            
+            let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
+            tabBarVC.setUpViewControllers()
+            self.view.endEditing(true)
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         }
         
         self.present(cartOrderVC, animated: true, completion: nil)
