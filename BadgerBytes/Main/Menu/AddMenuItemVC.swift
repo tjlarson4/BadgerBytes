@@ -82,6 +82,8 @@ class AddMenuItemVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
             
             print("Successfully saved item to DB")
             
+            Database.uploadUsageAction(usageItem: UsageItem(type: .menuItemCreated, desc: "Menu Item: \"\(name)\" created", actingUserID: Auth.auth().currentUser?.uid ?? ""))
+            
             self.menuVC?.fetchMenu()
             self.dismiss(animated: true, completion: nil)
         }

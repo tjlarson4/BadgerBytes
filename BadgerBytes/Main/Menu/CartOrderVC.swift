@@ -46,11 +46,12 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 menuItems.updateValue(1, forKey: item.id)
             }
         
-            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active", "priority": "high"] as [String : Any]
+            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active", "priority": 0] as [String : Any]
             
             ref = Database.database().reference().child("orders").childByAutoId()
         
             ref.setValue(values, withCompletionBlock: { (err, ref) in
+               
                 if let err = err {
                     print("Database info error: " + err.localizedDescription)
                 }
@@ -67,6 +68,8 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                     self.present(PickupDetailsVC(), animated: true, completion: nil)
                                   
                     print("Successfully stored user order within userinfo")
+                    
+                    Database.uploadUsageAction(usageItem: UsageItem(type: .orderCreated, desc: "Order Placed of \"\(menuItems.count)\" items, totalling $\(self.totalOrderPrice).00", actingUserID: Auth.auth().currentUser?.uid ?? ""))
                     
                     })
                                                 

@@ -112,17 +112,15 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
 
                 let alert = UIAlertController(title: "Order successfully placed!", message: "View your active orders in the Orders tab.", preferredStyle: .alert)
-
-                self.present(alert, animated: true, completion: nil)
-
-                let when = DispatchTime.now() + 3
-                DispatchQueue.main.asyncAfter(deadline: when){
-                    alert.dismiss(animated: true, completion: nil)
+                
+                alert.addAction(UIAlertAction(title: "Dimiss", style: .cancel, handler: { (alert) in
                     let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
                     tabBarVC.setUpViewControllers()
                     self.view.endEditing(true)
                     self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-                }
+                }))
+
+                self.present(alert, animated: true, completion: nil)
             }
         }
         

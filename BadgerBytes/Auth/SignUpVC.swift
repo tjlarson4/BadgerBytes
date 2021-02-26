@@ -49,6 +49,8 @@ class SignUpVC: UIViewController {
             } else {
                 let alert = UIAlertController(title: "Error!", message: "Fill out all of the boxes before creating an account.", preferredStyle: .alert)
                 
+                alert.addAction(UIAlertAction(title: "Dimiss", style: .cancel, handler: nil))
+                
                 self.present(alert, animated: true, completion: nil)
                 let when = DispatchTime.now() + 4
                 DispatchQueue.main.asyncAfter(deadline: when){
@@ -65,6 +67,9 @@ class SignUpVC: UIViewController {
                 }
 
                 print("Successfully stored user info")
+                
+                Database.uploadUsageAction(usageItem: UsageItem(type: .userSignUP, desc: "User: \"\(firstName) \(lastName)\" signed up for BadgerBytes", actingUserID: currentUserID))
+                
             })
             
             Auth.auth().signIn(withEmail: email, password: password) { (data, err) in

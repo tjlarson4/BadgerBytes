@@ -12,6 +12,7 @@
 		4314BC4425E8E96400D8FC07 /* UsageReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC4325E8E96400D8FC07 /* UsageReportView.swift */; };
 		4314BC4925E8FA6C00D8FC07 /* ManageOrderDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC4825E8FA6C00D8FC07 /* ManageOrderDetailsVC.swift */; };
 		4314BC4E25E91DE800D8FC07 /* PrioritizeOrdersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC4D25E91DE800D8FC07 /* PrioritizeOrdersVC.swift */; };
+		4314BC5325E9AFDA00D8FC07 /* UsageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC5225E9AFDA00D8FC07 /* UsageItem.swift */; };
 		43291D3525DE358000BD2764 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3425DE358000BD2764 /* AppDelegate.swift */; };
 		43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3625DE358000BD2764 /* SceneDelegate.swift */; };
 		43291D3F25DE358000BD2764 /* BadgerBytes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3D25DE358000BD2764 /* BadgerBytes.xcdatamodeld */; };
@@ -85,6 +86,7 @@
 		4314BC4325E8E96400D8FC07 /* UsageReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportView.swift; sourceTree = "<group>"; };
 		4314BC4825E8FA6C00D8FC07 /* ManageOrderDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageOrderDetailsVC.swift; sourceTree = "<group>"; };
 		4314BC4D25E91DE800D8FC07 /* PrioritizeOrdersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritizeOrdersVC.swift; sourceTree = "<group>"; };
+		4314BC5225E9AFDA00D8FC07 /* UsageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageItem.swift; sourceTree = "<group>"; };
 		43291D3125DE358000BD2764 /* BadgerBytes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BadgerBytes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43291D3425DE358000BD2764 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		43291D3625DE358000BD2764 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				4342AF2925E3B67300E8A5BB /* User.swift */,
+				4314BC5225E9AFDA00D8FC07 /* UsageItem.swift */,
 				4342AF2425E3B66400E8A5BB /* Order.swift */,
 				43EC922625E632DC00D968EA /* MenuItem.swift */,
 			);
@@ -628,6 +631,7 @@
 				4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */,
 				4314BC4425E8E96400D8FC07 /* UsageReportView.swift in Sources */,
 				43DD7DD325E745ED00C8B5CC /* SimpleTextInputCell.swift in Sources */,
+				4314BC5325E9AFDA00D8FC07 /* UsageItem.swift in Sources */,
 				43DD7E2725E7D67400C8B5CC /* EditMenuItemVC.swift in Sources */,
 				43DD7DDE25E76D3300C8B5CC /* CartOrderVC.swift in Sources */,
 				43DD7E0B25E7C8E900C8B5CC /* FirebaseUtils.swift in Sources */,

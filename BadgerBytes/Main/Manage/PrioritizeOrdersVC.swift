@@ -44,7 +44,7 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
     
     @objc func handleApplyPriority() {
         
-        let orderSet = ["high": highPriorityOrders, "medium": mediumPriorityOrders, "low": lowPriorityOrders]
+        let orderSet = [0: highPriorityOrders, 1: mediumPriorityOrders, 2: lowPriorityOrders]
         
         for set in orderSet {
             for order in set.value {
@@ -66,12 +66,13 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-
         
         switch(gesture.state) {
 
         case UIGestureRecognizerState.began:
+            
             guard let selectedIndexPath = self.collectionView.indexPathForItem(at: gesture.location(in: self.collectionView)) else { break }
+            
             lastMovedOrderCell = collectionView.cellForItem(at: selectedIndexPath) as? OrderCell
             
             lastMovedOrderCell?.borderView.isHidden = false
@@ -88,7 +89,9 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
                 default: movedFromOrderArr = lowPriorityOrders
             }
             
-            orderMoved = movedFromOrderArr[selectedIndexPath.row]
+            if movedFromOrderArr.count > 0 {
+                orderMoved = movedFromOrderArr[selectedIndexPath.row]
+            }
             
         case UIGestureRecognizerState.changed:
             collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
@@ -96,9 +99,6 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
             
             let selectedIndexPath = self.collectionView.indexPathForItem(at: gesture.location(in: self.collectionView))
             
-            print(indexPathRowRemovedFrom)
-            print(selectedIndexPath?.row)
-
             if selectedIndexPath?.row != indexPathRowRemovedFrom {
                 let sectionMovedTo = selectedIndexPath?.section
                 var movedToOrderArr: [Order]
@@ -133,11 +133,11 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
 
             }
             
-            let orderCells = collectionView.visibleCells as! [OrderCell]
-            
-            for cell in orderCells {
-                cell.borderView.isHidden = true
-            }
+//            let orderCells = collectionView.visibleCells as! [OrderCell]
+//            
+//            for cell in orderCells {
+//                cell.borderView.isHidden = true
+//            }
             
             collectionView.reloadData()
             
@@ -151,15 +151,15 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
     func filterOrdersByPriority() {
 
         self.highPriorityOrders = self.activeOrders.filter { (order) -> Bool in
-            return order.priority.contains("high")
+            return order.priority == 0
         }
         
         self.mediumPriorityOrders = self.activeOrders.filter { (order) -> Bool in
-            return order.priority.contains("medium")
+            return order.priority == 1
         }
         
         self.lowPriorityOrders = self.activeOrders.filter { (order) -> Bool in
-            return order.priority.contains("low")
+            return order.priority == 2
         }
         
     }
@@ -173,12 +173,15 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            
+        
+        var num = 1
         switch section {
-            case 0: return highPriorityOrders.count
-            case 1: return mediumPriorityOrders.count
-            default: return lowPriorityOrders.count
+            case 0: num = highPriorityOrders.count
+            case 1: num = mediumPriorityOrders.count
+            default: num = lowPriorityOrders.count
         }
+        
+        return num > 0 ? num : 1
     
     }
     
@@ -197,24 +200,31 @@ class PrioritizeOrdersVC: UIViewController, UICollectionViewDelegate, UICollecti
             default: orderArr = lowPriorityOrders
         }
         
-        let orderItem = orderArr[indexPath.row]
-        
-        Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
-            orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
-        }
+        if orderArr.count == 0 {
+            orderCell.setHidden(isHidden: true)
+            orderCell.emptyLabel.text = "No items available"
+        } else {
             
-        orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
-        let plural = orderItem.menuItems.count == 1 ? "" : "s"
-        orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
-        
-        orderCell.infoButton.isHidden = true
-        
-        if indexPath.section == 0 {
+            orderCell.setHidden(isHidden: false)
+
+            let orderItem = orderArr[indexPath.row]
+            
+            Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
+                orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
+            }
+                
+            orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
+            let plural = orderItem.menuItems.count == 1 ? "" : "s"
+            orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
+            
+            orderCell.infoButton.isHidden = true
+            
             let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
             self.collectionView.addGestureRecognizer(longPressGesture)
         }
-
+        
         return orderCell
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

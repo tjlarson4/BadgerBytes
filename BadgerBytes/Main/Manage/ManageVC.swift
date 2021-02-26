@@ -20,6 +20,8 @@ class ManageVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        manageOrdersView.fetchOrders()
+        updateView(isOrdersHidden: false)
     }
     
     //
@@ -28,12 +30,38 @@ class ManageVC: UIViewController {
     
     @objc func handleOrders() {
         // remove usage report from container, display order collectionView
-        
+        updateView(isOrdersHidden: false)
     }
     
     @objc func handleUsage() {
         
+        // ONLY ALLOW ADMIN ACCESS - UNCOMMENT IN FINAL VERSION
+//        let accountType = globalCurrentUser?.accountType
+//
+//        if accountType != "admin" {
+//            let alert = UIAlertController(title: "Need Admin access!", message: "Logout and create a new Admin account", preferredStyle: .alert)
+//
+//            self.present(alert, animated: true, completion: nil)
+//
+//            alert.addAction(UIAlertAction(title: "Dimiss", style: .cancel, handler: nil))
+//        } else {
+//            updateView(isOrdersHidden: true)
+//        }
         
+        updateView(isOrdersHidden: true)
+    }
+    
+    func updateView(isOrdersHidden: Bool) {
+        manageOrdersView.isHidden = isOrdersHidden
+        usageReportView.isHidden = !isOrdersHidden
+        
+        ordersButton.backgroundColor = !isOrdersHidden ? .cred : .subtitle_label
+        ordersButton.titleLabel?.textColor = !isOrdersHidden ? .white : UIColor(hex: "565656")
+
+        usageButton.backgroundColor = isOrdersHidden ? .cred : .subtitle_label
+        usageButton.titleLabel?.textColor = isOrdersHidden ? .white : UIColor(hex: "565656")
+
+        self.view.layoutSubviews()
     }
     
     //
@@ -52,7 +80,7 @@ class ManageVC: UIViewController {
     lazy var usageButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
-        btn.backgroundColor = UIColor(hex: "B80000")
+        btn.backgroundColor = .subtitle_label
         btn.add(text: "Usage", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
         btn.addTarget(self, action: #selector(handleUsage), for: .touchUpInside)
         return btn
@@ -76,7 +104,7 @@ class ManageVC: UIViewController {
     let containerView = UIView()
     
     let manageOrdersView = ManageOrdersView()
-
+    let usageReportView = UsageReportView()
     
     func setUpViews() {
         
@@ -90,8 +118,11 @@ class ManageVC: UIViewController {
         
         containerView.anchor(btnStackView.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        self.containerView.addSubviews(views: [manageOrdersView])
+        self.containerView.addSubviews(views: [manageOrdersView, usageReportView])
         manageOrdersView.fillSuperview()
+        usageReportView.fillSuperview()
+        
+        
     
     }
 

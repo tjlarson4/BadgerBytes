@@ -105,9 +105,9 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             
         if section == 0 {
-            return activeOrders.count
+            return activeOrders.count > 0 ? activeOrders.count : 1
         } else {
-            return pastOrders.count
+            return pastOrders.count > 0 ? pastOrders.count : 1
         }
     }
     
@@ -120,15 +120,24 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         let orderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "orderCell", for: indexPath) as! OrderCell
         
         let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
-        let orderItem = orderArr[indexPath.row]
         
-        Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
-            orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
-        }
+        if orderArr.count == 0 {
+            orderCell.setHidden(isHidden: true)
+            orderCell.emptyLabel.text = "No orders available"
+        } else {
             
-        orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
-        let plural = orderItem.menuItems.count == 1 ? "" : "s"
-        orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
+            orderCell.setHidden(isHidden: false)
+
+            let orderItem = orderArr[indexPath.row]
+            
+            Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
+                orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
+            }
+                
+            orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
+            let plural = orderItem.menuItems.count == 1 ? "" : "s"
+            orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
+        }
         
         return orderCell
     }
