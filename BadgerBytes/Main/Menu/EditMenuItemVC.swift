@@ -143,7 +143,7 @@ class EditMenuItemVC: UIViewController {
         
         configure(item: itemToEdit!)
         
-        if (globalCurrentUser!.accountType == "staff"){
+        if (globalCurrentUser?.accountType == "staff"){
         self.view.addSubviews(views: [dismissButton, itemImageView, nameInputView,priceInputView,inStockLabel,inStockSwitch,deleteItemButton,updateItemButton])
             inStockSwitch.anchor(priceInputView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 75, bottomConstant: 0, rightConstant: 75, widthConstant: 0, heightConstant: 50)
             inStockLabel.anchor(priceInputView.bottomAnchor, left: inStockSwitch.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 75, bottomConstant: 0, rightConstant: 75, widthConstant: 0, heightConstant: 50)

@@ -120,6 +120,7 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
     @objc func handleLogout() {
         do {
             try Auth.auth().signOut()
+            globalCurrentUser = nil
             let loginVC = LoginVC()
             loginVC.modalPresentationStyle = .fullScreen
             present(loginVC, animated: true, completion: nil)
