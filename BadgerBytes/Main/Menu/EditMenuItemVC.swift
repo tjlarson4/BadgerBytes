@@ -143,7 +143,15 @@ class EditMenuItemVC: UIViewController {
         
         configure(item: itemToEdit!)
         
+        if (globalCurrentUser!.accountType == "staff"){
         self.view.addSubviews(views: [dismissButton, itemImageView, nameInputView,priceInputView,inStockLabel,inStockSwitch,deleteItemButton,updateItemButton])
+            inStockSwitch.anchor(priceInputView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 75, bottomConstant: 0, rightConstant: 75, widthConstant: 0, heightConstant: 50)
+            inStockLabel.anchor(priceInputView.bottomAnchor, left: inStockSwitch.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 75, bottomConstant: 0, rightConstant: 75, widthConstant: 0, heightConstant: 50)
+        } else {
+            self.view.addSubviews(views: [dismissButton, itemImageView, nameInputView,priceInputView,deleteItemButton,updateItemButton])
+
+        }
+        
         self.view.backgroundColor = .menu_white
         nameInputView.input.textColor = .black
         priceInputView.input.textColor = .black
@@ -156,9 +164,9 @@ class EditMenuItemVC: UIViewController {
         
         priceInputView.anchor(nameInputView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 25, leftConstant: 50, bottomConstant: 0, rightConstant: 50, widthConstant: 0, heightConstant: 50)
         
-        inStockSwitch.anchor(priceInputView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 75, bottomConstant: 0, rightConstant: 75, widthConstant: 0, heightConstant: 50)
         
-        inStockLabel.anchor(priceInputView.bottomAnchor, left: inStockSwitch.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 75, bottomConstant: 0, rightConstant: 75, widthConstant: 0, heightConstant: 50)
+        
+        
     
         updateItemButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
         

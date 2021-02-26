@@ -44,8 +44,18 @@ class LoginVC: UIViewController {
                 print("Sign in error: " + err.localizedDescription)
             }
 
+            if(Auth.auth().currentUser?.uid != nil) {
             print("Successfully signed in user with id: " + (Auth.auth().currentUser?.uid)!)
-
+            } else{
+                let alert = UIAlertController(title: "Error!", message: "Fill out all of the boxes before signing in.", preferredStyle: .alert)
+                
+                self.present(alert, animated: true, completion: nil)
+                let when = DispatchTime.now() + 4
+                DispatchQueue.main.asyncAfter(deadline: when){
+                    alert.dismiss(animated: true, completion: nil)
+                }
+            }
+            
             Auth.auth().currentUser?.getIDTokenResult(completion:  {(result, error) in guard let claims = result else{
                 return
             }
