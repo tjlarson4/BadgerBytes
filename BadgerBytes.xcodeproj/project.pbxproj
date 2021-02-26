@@ -111,7 +111,7 @@
 		43DD7DED25E7A93B00C8B5CC /* OrderDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsVC.swift; sourceTree = "<group>"; };
 		43DD7E0A25E7C8E900C8B5CC /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		43DD7E2625E7D67400C8B5CC /* EditMenuItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMenuItemVC.swift; sourceTree = "<group>"; };
-		43DD7E2B25E81D0F00C8B5CC /* InformationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InformationViewCell.swift; path = BadgerBytes/Main/Account/InformationViewCell.swift; sourceTree = "<group>"; };
+		43DD7E2B25E81D0F00C8B5CC /* InformationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewCell.swift; sourceTree = "<group>"; };
 		43E959AA25E5B24100A89563 /* MenuWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuWelcomeView.swift; sourceTree = "<group>"; };
 		43E959AF25E5B59E00A89563 /* MenuCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCategoryView.swift; sourceTree = "<group>"; };
 		43E959BA25E5E81800A89563 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
@@ -162,7 +162,6 @@
 		43291D2825DE358000BD2764 = {
 			isa = PBXGroup;
 			children = (
-				43DD7E2B25E81D0F00C8B5CC /* InformationViewCell.swift */,
 				83A2010525E61BE60099FDF8 /* .gitignore */,
 				43291D3325DE358000BD2764 /* BadgerBytes */,
 				43291D4D25DE358200BD2764 /* BadgerBytesTests */,
@@ -300,6 +299,7 @@
 		43DD7E1725E7CB5500C8B5CC /* Connor's */ = {
 			isa = PBXGroup;
 			children = (
+				43DD7E2B25E81D0F00C8B5CC /* InformationViewCell.swift */,
 				43DD7DCD25E745ED00C8B5CC /* PaymentCell.swift */,
 				43DD7DCB25E745ED00C8B5CC /* SimpleTextCell.swift */,
 				43DD7DCE25E745ED00C8B5CC /* SimpleTextInputCell.swift */,

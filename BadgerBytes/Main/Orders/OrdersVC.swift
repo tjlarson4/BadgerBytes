@@ -41,16 +41,11 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         self.orderItems = []
         
-        print(order.menuItems.keys)
-
         for key in order.menuItems.keys {
             Database.fetchMenuItemWithID(id: key) { (menuItem) in
                 self.orderItems.append(menuItem)
             }
         }
-        
-        print(orderItems)
-                
     }
     
     func fetchOrders() {
@@ -155,7 +150,15 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         let orderDetailsVC = OrderDetailsVC()
         orderDetailsVC.modalPresentationStyle = .overFullScreen
         
-        fetchOrderItemsFor(order: userOrders[indexPath.row])
+        var orderItems = [MenuItem]()
+        
+        for key in userOrders[indexPath.row].menuItems.keys {
+            Database.fetchMenuItemWithID(id: key) { (menuItem) in
+                orderItems.append(menuItem)
+                orderDetailsVC.orderItems = orderItems
+                orderDetailsVC.collectionView.reloadData()
+            }
+        }
         
         self.present(orderDetailsVC, animated: true, completion: nil)
         
