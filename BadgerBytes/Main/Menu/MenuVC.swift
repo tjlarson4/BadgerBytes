@@ -77,21 +77,6 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         }
         
     }
-
-    func fetchCurrentUser() {
-        
-        // Checks that there is a current user with an ID
-        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-        
-        // Retrieves user info from Firebase
-        Database.database().reference().child("Users").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
-            
-            // Creates dictionary of user information, instatiates new User object
-            guard let userDict = snapshot.value as? [String: Any] else {return}
-            globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
-            print(globalCurrentUser!)
-        }
-    }
     
     @objc func handleAddMenuItem() {
         let addMenuItemVC = AddMenuItemVC()
@@ -101,6 +86,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     @objc func handleCheckCart() {
+        
         let cartOrderVC = CartOrderVC()
         cartOrderVC.cartItems = self.cartItems
         cartOrderVC.totalOrderPrice = self.totalCartPrice
@@ -159,6 +145,11 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     //
     // MARK: CollectionView
     //
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
+    }
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -181,7 +172,6 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         case 0:
             let welcomeViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "welcomeViewCell", for: indexPath) as! MenuWelcomeView
             welcomeViewCell.startOrderButton.addTarget(self, action: #selector(handleStartOrder), for: .touchUpInside)
-
             return welcomeViewCell
 
         case 1:
@@ -333,8 +323,6 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: addMenuItemButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: viewCartButton)
 
-
-        fetchCurrentUser()
         registerCells()
         fetchMenu()
     

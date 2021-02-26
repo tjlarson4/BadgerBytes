@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4314BC3725E8C7DF00D8FC07 /* PickupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC3625E8C7DF00D8FC07 /* PickupDetailsVC.swift */; };
+		4314BC3F25E8E95600D8FC07 /* ManageOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC3E25E8E95600D8FC07 /* ManageOrdersView.swift */; };
+		4314BC4425E8E96400D8FC07 /* UsageReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC4325E8E96400D8FC07 /* UsageReportView.swift */; };
 		43291D3525DE358000BD2764 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3425DE358000BD2764 /* AppDelegate.swift */; };
 		43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3625DE358000BD2764 /* SceneDelegate.swift */; };
 		43291D3F25DE358000BD2764 /* BadgerBytes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3D25DE358000BD2764 /* BadgerBytes.xcdatamodeld */; };
@@ -77,6 +79,8 @@
 /* Begin PBXFileReference section */
 		348D06A2F0B3F23DFCF350E2 /* Pods-BadgerBytesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytesTests.debug.xcconfig"; path = "Target Support Files/Pods-BadgerBytesTests/Pods-BadgerBytesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4314BC3625E8C7DF00D8FC07 /* PickupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupDetailsVC.swift; sourceTree = "<group>"; };
+		4314BC3E25E8E95600D8FC07 /* ManageOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageOrdersView.swift; sourceTree = "<group>"; };
+		4314BC4325E8E96400D8FC07 /* UsageReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportView.swift; sourceTree = "<group>"; };
 		43291D3125DE358000BD2764 /* BadgerBytes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BadgerBytes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43291D3425DE358000BD2764 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		43291D3625DE358000BD2764 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -323,6 +327,8 @@
 			isa = PBXGroup;
 			children = (
 				43EC921B25E6328A00D968EA /* ManageVC.swift */,
+				4314BC3E25E8E95600D8FC07 /* ManageOrdersView.swift */,
+				4314BC4325E8E96400D8FC07 /* UsageReportView.swift */,
 				43DD7E1725E7CB5500C8B5CC /* Connor's */,
 			);
 			path = Manage;
@@ -610,9 +616,11 @@
 				43EC922725E632DC00D968EA /* MenuItem.swift in Sources */,
 				43E959AB25E5B24100A89563 /* MenuWelcomeView.swift in Sources */,
 				4FA65B6925E81972002BB8DB /* PDFCreator.swift in Sources */,
+				4314BC3F25E8E95600D8FC07 /* ManageOrdersView.swift in Sources */,
 				43DD7DD225E745ED00C8B5CC /* PaymentCell.swift in Sources */,
 				43291DF125DE477400BD2764 /* TabBarVC.swift in Sources */,
 				4342AF1925E3B13200E8A5BB /* OrdersCells.swift in Sources */,
+				4314BC4425E8E96400D8FC07 /* UsageReportView.swift in Sources */,
 				43DD7DD325E745ED00C8B5CC /* SimpleTextInputCell.swift in Sources */,
 				43DD7E2725E7D67400C8B5CC /* EditMenuItemVC.swift in Sources */,
 				43DD7DDE25E76D3300C8B5CC /* CartOrderVC.swift in Sources */,

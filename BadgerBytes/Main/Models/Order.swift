@@ -22,15 +22,13 @@ struct Order {
         self.id = id
         self.ownerID = dictionary["ownerID"] as? String ?? ""
         self.menuItems = dictionary["menuItems"] as? [String: Any] ?? ["":""]
-        self.totalPrice = dictionary["totalPrice"] as? String ?? ""
+        let intPrice = dictionary["totalPrice"] as? Int ?? 0
+        self.totalPrice = "\(intPrice)"
         self.status = dictionary["status"] as? String ?? ""
         let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
-        
         self.time = dictionary["date"] as? String ?? ""
         self.car = dictionary["car"] as? String ?? ""
-
     }
 
 }
-

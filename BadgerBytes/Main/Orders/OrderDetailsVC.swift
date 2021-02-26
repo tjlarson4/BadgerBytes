@@ -51,24 +51,23 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if (indexPath.row == (orderItems.count)) {
-            //let parentVC = self.presentingViewController as! OrdersVC
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomerInfo", for: indexPath) as! InformationViewCell
             cell.setTextColor(color: .black)
             cell.addLabelInOrder(label: globalCurrentUser!.firstName + " " + globalCurrentUser!.lastName, isBold: true, size: 20)
             cell.addLabelInOrder(label: "Phone: " + globalCurrentUser!.phoneNum, isBold: false, size: 15)
             cell.addLabelInOrder(label: "Driving: " + globalCurrentSelectedOrder!.car, isBold: false, size: 15)
-            cell.addLabelInOrder(label: "Pick-up: " + globalCurrentSelectedOrder!.time, isBold: false, size: 15)
+            cell.addLabelInOrder(label: "Pick-up: " + globalCurrentSelectedOrder!.creationDate.toStringWith(format: "h:mm a"), isBold: false, size: 15)
             cell.contentView.backgroundColor = .systemRed
 
             return cell
         }
         
-        let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
+        let detailItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailItemCell", for: indexPath) as! OrderDetailItemCell
         let menuItem = orderItems[indexPath.row]
-        menuItemCell.configure(item: menuItem)
-                        
-        return menuItemCell
+        detailItemCell.configure(item: menuItem)
+        
+        return detailItemCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -77,7 +76,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             return CGSize(width: collectionView.bounds.size.width - 16, height: 85)
         }
         
-        return CGSize(width: self.view.frame.width, height: 200)
+        return CGSize(width: self.view.frame.width, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -85,7 +84,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func registerCells() {
-        collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: "menuItemCell")
+        collectionView.register(OrderDetailItemCell.self, forCellWithReuseIdentifier: "detailItemCell")
         collectionView.register(InformationViewCell.self, forCellWithReuseIdentifier: "CustomerInfo")
         // time left for delivery
         // car description

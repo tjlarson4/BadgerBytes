@@ -7,6 +7,15 @@
 
 import UIKit
 
+extension Date {
+    func toStringWith(format: String) -> String {
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = format
+        
+        return dateFormatterPrint.string(from: self)
+    }
+}
+
 extension Int {
     func times(_ f: () -> ()) {
         if self > 0 {
@@ -16,7 +25,6 @@ extension Int {
         }
     }
 }
-
 
 extension String {
     func isUrl() -> Bool {

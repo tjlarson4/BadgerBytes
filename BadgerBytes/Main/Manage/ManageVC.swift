@@ -8,18 +8,8 @@
 import UIKit
 import Firebase
 
-class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    var orders = [Order]()
-    var userOrders = [Order]()
-    
-    //    var activeOrders = [Order]()
-    //    var pastOrders = [Order]()
-    
-    var orderItems = [MenuItem]()
-    
-    var filteredMenuItems = [MenuItem]()
-    
+class ManageVC: UIViewController {
+        
     //
     // MARK: View Lifecycle
     //
@@ -30,209 +20,76 @@ class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.fetchOrders()
     }
     
     //
     // MARK: Functions
     //
     
-
-    func fetchOrderItemsFor(order: Order) {
-        
-        self.orderItems = []
-        
-        for key in order.menuItems.keys {
-            Database.fetchMenuItemWithID(id: key) { (menuItem) in
-                self.orderItems.append(menuItem)
-            }
-        }
-    }
-    
-    func fetchOrders() {
-        
-        orders = []
-                
-        let orderRef = Database.database().reference().child("orders")
-
-        orderRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String: Any] else { return }
-                        
-            dictionaries.forEach({ (key, value) in
-                guard let dictionary = value as? [String: Any] else { return }
-                
-                let order = Order(id: key, dictionary: dictionary)
-                
-                self.orders.append(order)
-                
-//                self.activeOrders = self.userOrders.filter({ (order) -> Bool in
-//                    return order.status.contains("active")
-//                })
-                
-            })
-            
-            self.collectionView.reloadData()
-            
-        }) { (err) in
-            print("Failed to fetch posts:", err)
-        }
+    @objc func handleOrders() {
+        // remove usage report from container, display order collectionView
         
     }
     
-    @objc func handleActiveOrders() {
+    @objc func handleUsage() {
         
         
     }
     
-    @objc func handlePastOrders() {
-        
-        
-    }
-    
-    @objc func handleUsageReport() {
-        
-        
-    }
-    
-    
-    //
-    // MARK: CollectionView
-    //
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            return orders.count
-        } else {
-            return orders.count
-        }
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let orderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "orderCell", for: indexPath) as! OrderCell
-        
-        if indexPath.item == 0 {
-            orderCell.separator.isHidden = true
-        }
-                
-        orderCell.titleLabel.text = orders[indexPath.row].id
-        orderCell.subtitleLabel.text = orders[indexPath.row].totalPrice
-
-        return orderCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width, height: 100)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if (kind == UICollectionView.elementKindSectionHeader) {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! OrderHeaderCell
-            
-            if indexPath.section == 0 {
-                header.titleLabel.text = "Active"
-            } else {
-                header.titleLabel.text = "Past"
-            }
-            
-            return header
-            
-        } else {
-            return UICollectionReusableView()
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: self.view.frame.width, height: 40)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            
-//        let orderDetailsVC = OrderDetailsVC()
-//        orderDetailsVC.modalPresentationStyle = .overFullScreen
-//        
-//        var orderItems = [MenuItem]()
-//        
-//        for key in userOrders[indexPath.row].menuItems.keys {
-//            Database.fetchMenuItemWithID(id: key) { (menuItem) in
-//                orderItems.append(menuItem)
-//                orderDetailsVC.orderItems = orderItems
-//                orderDetailsVC.collectionView.reloadData()
-//            }
-//        }
-//        
-//        self.present(orderDetailsVC, animated: true, completion: nil)
-        
-    }
-
     //
     // MARK: UI Setup
     //
     
-    lazy var collectionView: UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        cv.delegate = self
-        cv.dataSource = self
-        cv.backgroundColor = .clear
-        return cv
-    }()
-    
-    lazy var activeOrdersButton: UIButton = {
+    lazy var ordersButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = UIColor(hex: "B80000")
-        btn.add(text: "Prioritize Active Orders", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
-        btn.addTarget(self, action: #selector(handleActiveOrders), for: .touchUpInside)
+        btn.add(text: "Orders", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
+        btn.addTarget(self, action: #selector(handleOrders), for: .touchUpInside)
         return btn
     }()
     
-    lazy var pastOrdersButton: UIButton = {
+    lazy var usageButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = UIColor(hex: "B80000")
-        btn.add(text: "Manage Past Orders", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
-        btn.addTarget(self, action: #selector(handleActiveOrders), for: .touchUpInside)
-        return btn
-    }()
-    
-    lazy var usageReportButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.layer.cornerRadius = 9
-        btn.backgroundColor = UIColor(hex: "B80000")
-        btn.add(text: "See usage report", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
-        btn.addTarget(self, action: #selector(handleActiveOrders), for: .touchUpInside)
+        btn.add(text: "Usage", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
+        btn.addTarget(self, action: #selector(handleUsage), for: .touchUpInside)
         return btn
     }()
     
     lazy var btnStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [activeOrdersButton, pastOrdersButton, usageReportButton])
-        sv.axis = .vertical
-        sv.distribution = .equalSpacing
+        let sv = UIStackView(arrangedSubviews: [ordersButton, usageButton])
+        sv.axis = .horizontal
+        sv.distribution = .fillProportionally
+        sv.spacing = 10
         return sv
     }()
     
+    let titleLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Manage", font: UIFont(name: "PingFangHK-Regular", size: 21)!, textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    
+    let containerView = UIView()
+    
+    let manageOrdersView = ManageOrdersView()
+    
     func setUpViews() {
         
-        fetchOrders()
+        self.navigationItem.titleView = titleLabel
+                
+        self.view.addSubviews(views: [btnStackView, containerView])
         
-        collectionView.register(OrderCell.self, forCellWithReuseIdentifier: "orderCell")
-        collectionView.register(OrderHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
+        btnStackView.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 40)
         
-        self.view.addSubviews(views: [collectionView, btnStackView])
+        containerView.anchor(btnStackView.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 10, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        btnStackView.anchor(nil, left: nil, bottom: nil, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 200, heightConstant: 200)
-        btnStackView.anchorCenterSuperview()
-//        collectionView.fillSuperview()
-
+        self.containerView.addSubviews(views: [manageOrdersView])
+        manageOrdersView.fillSuperview()
+    
     }
 
 }

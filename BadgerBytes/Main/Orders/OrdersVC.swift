@@ -27,10 +27,10 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         setUpViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.fetchOrders()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        self.fetchOrders()
+//    }
     
     //
     // MARK: Functions
@@ -52,7 +52,6 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         orders = []
         
-        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         
         let orderRef = Database.database().reference().child("orders")
 
@@ -66,19 +65,9 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 
                 self.orders.append(order)
                                             
-                self.userOrders = self.orders.filter { (order) -> Bool in
-                    return order.ownerID.contains(currentUserID)
-                }
-                
-                self.activeOrders = self.userOrders.filter({ (order) -> Bool in
-                    return order.status.contains("active")
-                })
-                
-                self.pastOrders = self.userOrders.filter({ (order) -> Bool in
-                    return order.status.contains("complete")
-                })
-                
             })
+            
+            self.filterSort(self.orders)
             
             self.collectionView.reloadData()
             
@@ -86,6 +75,28 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             print("Failed to fetch posts:", err)
         }
     }
+    
+    func filterSort(_: [Order]) {
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+
+        self.userOrders = self.orders.filter { (order) -> Bool in
+            return order.ownerID.contains(currentUserID)
+        }
+        
+        self.activeOrders = self.userOrders.filter({ (order) -> Bool in
+            return order.status.contains("active")
+        })
+        
+        self.pastOrders = self.userOrders.filter({ (order) -> Bool in
+            return order.status.contains("complete")
+        })
+        
+        self.activeOrders = self.activeOrders.sorted { $0.creationDate > $1.creationDate }
+        self.pastOrders = self.pastOrders.sorted { $0.creationDate > $1.creationDate }
+    }
+    
+    
     
     //
     // MARK: CollectionView
@@ -110,17 +121,16 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         let orderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "orderCell", for: indexPath) as! OrderCell
         
-        if indexPath.item == 0 {
-            orderCell.separator.isHidden = true
-        }
-        
         let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
         let orderItem = orderArr[indexPath.row]
         
-        print(orderItem)
-
-        orderCell.titleLabel.text = orderArr[indexPath.row].totalPrice
-//        orderCell.subtitleLabel.text = orderArr[indexPath.row].totalPrice
+        Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
+            orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
+        }
+            
+        orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
+        let plural = orderItem.menuItems.count == 1 ? "" : "s"
+        orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
 
         return orderCell
     }
@@ -171,6 +181,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 orderDetailsVC.collectionView.reloadData()
             }
         }
+        
         globalCurrentSelectedOrder? = userOrders[indexPath.row]
         self.present(orderDetailsVC, animated: true, completion: nil)
     }
@@ -187,8 +198,17 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         return cv
     }()
     
+    let titleLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Orders", font: UIFont(name: "PingFangHK-Regular", size: 21)!, textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    
     func setUpViews() {
         
+        self.navigationItem.titleView = titleLabel
+
         fetchOrders()
         
         collectionView.register(OrderCell.self, forCellWithReuseIdentifier: "orderCell")

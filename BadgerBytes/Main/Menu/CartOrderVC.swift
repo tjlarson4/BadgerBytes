@@ -21,6 +21,7 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         setUpViews()
+        print(totalOrderPrice)
     }
     
     //

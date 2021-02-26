@@ -18,9 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        fetchCurrentUser()
         setAppearances()
 
         return true
+    }
+    
+    func fetchCurrentUser() {
+        
+        // Checks that there is a current user with an ID
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        // Retrieves user info from Firebase
+        Database.database().reference().child("Users").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
+            
+            // Creates dictionary of user information, instatiates new User object
+            guard let userDict = snapshot.value as? [String: Any] else {return}
+            globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
+        }
     }
     
     func setAppearances() {

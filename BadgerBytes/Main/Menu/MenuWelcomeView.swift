@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MenuWelcomeView: UICollectionViewCell {
             
@@ -34,7 +35,7 @@ class MenuWelcomeView: UICollectionViewCell {
     
     let welcomeLabel: UILabel = {
         let lbl = UILabel()
-        lbl.add(text: "Welcome to...", font: UIFont(regularWithSize: 23), textColor: .black)
+        lbl.add(text: "Welcome to...", font: UIFont(regularWithSize: 27), textColor: .black)
         lbl.textAlignment = .left
         return lbl
     }()
