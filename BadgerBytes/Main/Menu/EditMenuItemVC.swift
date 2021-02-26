@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class EditMenuItemVC: UIViewController {
     
@@ -29,15 +30,38 @@ class EditMenuItemVC: UIViewController {
     }
     
     func configure(item: MenuItem) {
-        itemLabel.text = item.name
+        nameInputView.input.text = itemToEdit?.name
+        priceInputView.input.text = itemToEdit?.price
         itemImageView.loadImage(urlString: item.imageURL)
     }
     
     var updateItemCallback: (()->Void)?
     
     @objc func handleUpdateItem() {
-        updateItemCallback?()
+        //updateItemCallback?()
+        let values = ["price": priceInputView.input.text, "name": nameInputView.input.text]
         
+
+        Database.database().reference().child("menuItems").child(itemToEdit!.id).updateChildValues(values)
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    @objc func handleDeleteItem() {
+        let menuItemRef = Database.database().reference().child("menuItems").child(itemToEdit!.id)
+        menuItemRef.removeValue()
+        
+        
+        let storageRef = Storage.storage().reference().child("menuItems").child(itemToEdit!.imageURL)
+        
+        storageRef.delete(completion: { (err) in
+            if let err = err {
+                print("Storage error: " + err.localizedDescription)
+            }
+            
+            print("File deleted")
+        })
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -61,12 +85,8 @@ class EditMenuItemVC: UIViewController {
         return iv
     }()
     
-    let itemLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.add(text: "Double Cheeseburger", font: UIFont(regularWithSize: 23), textColor: .black)
-        lbl.textAlignment = .center
-        return lbl
-    }()
+    let nameInputView = AuthInputView(placeholder: "Menu Item Name", keyboardType: .default, isPassword: false)
+    let priceInputView = AuthInputView(placeholder: "Menu Item Price", keyboardType: .default, isPassword: false)
     
     let updateItemButton: UIButton = {
         let btn = UIButton(type: .system)
@@ -77,20 +97,35 @@ class EditMenuItemVC: UIViewController {
         return btn
     }()
     
+    let deleteItemButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = UIColor(hex: "B80000")
+        btn.add(text: "Delete menu item", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
+        btn.addTarget(self, action: #selector(handleDeleteItem), for: .touchUpInside)
+        return btn
+    }()
+    
     func setUpViews() {
         
         configure(item: itemToEdit!)
         
-        self.view.addSubviews(views: [dismissButton, itemImageView, itemLabel, updateItemButton])
+        self.view.addSubviews(views: [dismissButton, itemImageView, nameInputView,priceInputView,deleteItemButton,updateItemButton])
         self.view.backgroundColor = .menu_white
+        nameInputView.input.textColor = .black
+        priceInputView.input.textColor = .black
         
         dismissButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, topConstant: 30, leftConstant: 30, bottomConstant: 0, rightConstant: 0, widthConstant: 18, heightConstant: 18)
         
         itemImageView.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 5, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 200)
                 
-        itemLabel.anchor(itemImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
+        nameInputView.anchor(itemImageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 10, leftConstant: 50, bottomConstant: 0, rightConstant: 50, widthConstant: 0, heightConstant: 50)
         
+        priceInputView.anchor(nameInputView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 25, leftConstant: 50, bottomConstant: 0, rightConstant: 50, widthConstant: 0, heightConstant: 50)
+    
         updateItemButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
+        
+        deleteItemButton.anchor(nil, left: view.leftAnchor, bottom: updateItemButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
 
     }
     

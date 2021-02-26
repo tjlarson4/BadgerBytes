@@ -33,28 +33,24 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     var placeOrderCallback: (()->Void)?
 
     @objc func handlePlaceOrder() {
+        if (globalCurrentUser?.payment["cardNum"] != nil){
         
+            guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         
+            var menuItems = [String: Int]()
         
-        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
-        
-        // let currentUserID = "htZSa3yUQbbslc10WT8lWLUzT4k1"
-        
-        var menuItems = [String: Int]()
-        
-        for item in cartItems {
-            menuItems.updateValue(1, forKey: item.id)
-        }
-        
-        let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active"] as [String : Any]
-        
-        Database.database().reference().child("orders").childByAutoId().setValue(values, withCompletionBlock: { (err, ref) in
-            if let err = err {
-                print("Database info error: " + err.localizedDescription)
+            for item in cartItems {
+                menuItems.updateValue(1, forKey: item.id)
             }
+        
+            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active"] as [String : Any]
+        
+            Database.database().reference().child("orders").childByAutoId().setValue(values, withCompletionBlock: { (err, ref) in
+                if let err = err {
+                    print("Database info error: " + err.localizedDescription)
+                }
             
-            ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            
+                ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let order = [snapshot.key: 1]
                 
@@ -77,7 +73,16 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             print("Successfully stored uploaded order")
             
         })
-        
+        }
+        else{
+            let alert = UIAlertController(title: "Error!", message: "No payment information saved.", preferredStyle: .alert)
+            
+            self.present(alert, animated: true, completion: nil)
+            let when = DispatchTime.now() + 4
+            DispatchQueue.main.asyncAfter(deadline: when){
+                alert.dismiss(animated: true, completion: nil)
+            }
+        }
 
     }
     

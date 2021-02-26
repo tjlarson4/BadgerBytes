@@ -52,6 +52,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
         let menuItem = orderItems[indexPath.row]
         menuItemCell.configure(item: menuItem)
+        print("Previewing ordre")
                         
         return menuItemCell
     }
@@ -67,6 +68,9 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func registerCells() {
         collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: "menuItemCell")
+        // time left for delivery
+        // car description
+        // items in order
     }
     
     //
@@ -102,6 +106,8 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         registerCells()
         
+        //self.view.addSubview(collectionView)
+        
         self.view.addSubviews(views: [dismissButton, collectionView, getReceiptButton])
         self.view.backgroundColor = .menu_white
         
@@ -111,6 +117,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         getReceiptButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
 
+        
         
     }
 

@@ -16,6 +16,7 @@ struct User {
     let accountType: String
     let phoneNum: String
     let address: String
+    let payment: [String: String]
     
     init(uid: String, dictionary: [String: Any]) {
         self.uid = uid
@@ -25,7 +26,7 @@ struct User {
         self.accountType = dictionary["accountType"] as? String ?? ""
         self.phoneNum = dictionary["phoneNum"] as? String ?? ""
         self.address = dictionary["address"] as? String ?? ""
-        
+        self.payment = dictionary["payment"] as? [String: String] ?? ["":""]
     }
 
 }
