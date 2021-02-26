@@ -79,6 +79,21 @@ class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
     }
     
+    @objc func handleActiveOrders() {
+        
+        
+    }
+    
+    @objc func handlePastOrders() {
+        
+        
+    }
+    
+    @objc func handleUsageReport() {
+        
+        
+    }
+    
     
     //
     // MARK: CollectionView
@@ -171,6 +186,40 @@ class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         return cv
     }()
     
+    lazy var activeOrdersButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = UIColor(hex: "B80000")
+        btn.add(text: "Prioritize Active Orders", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
+        btn.addTarget(self, action: #selector(handleActiveOrders), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var pastOrdersButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = UIColor(hex: "B80000")
+        btn.add(text: "Manage Past Orders", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
+        btn.addTarget(self, action: #selector(handleActiveOrders), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var usageReportButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = UIColor(hex: "B80000")
+        btn.add(text: "See usage report", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "FFFFFF"))
+        btn.addTarget(self, action: #selector(handleActiveOrders), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var btnStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [activeOrdersButton, pastOrdersButton, usageReportButton])
+        sv.axis = .vertical
+        sv.distribution = .equalSpacing
+        return sv
+    }()
+    
     func setUpViews() {
         
         fetchOrders()
@@ -178,8 +227,11 @@ class ManageVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         collectionView.register(OrderCell.self, forCellWithReuseIdentifier: "orderCell")
         collectionView.register(OrderHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         
-        self.view.addSubview(collectionView)
-        collectionView.fillSuperview()
+        self.view.addSubviews(views: [collectionView, btnStackView])
+        
+        btnStackView.anchor(nil, left: nil, bottom: nil, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 200, heightConstant: 200)
+        btnStackView.anchorCenterSuperview()
+//        collectionView.fillSuperview()
 
     }
 
