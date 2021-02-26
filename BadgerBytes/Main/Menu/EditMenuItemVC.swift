@@ -38,29 +38,36 @@ class EditMenuItemVC: UIViewController {
     var updateItemCallback: (()->Void)?
     
     @objc func handleUpdateItem() {
-        //updateItemCallback?()
-        let values = ["price": priceInputView.input.text, "name": nameInputView.input.text]
         
+        print("update item")
+        
+        guard let price = priceInputView.input.text else { return }
+        guard let name = nameInputView.input.text else { return }
 
-        Database.database().reference().child("menuItems").child(itemToEdit!.id).updateChildValues(values)
-        
-        self.dismiss(animated: true, completion: nil)
-        
+        let values = ["price": price, "name": name] as [String: Any]
+                
+        Database.database().reference().child("menuItems").child(itemToEdit!.id).updateChildValues(values) { (err, ref) in
+            self.updateItemCallback?()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
+    var deleteItemCallback: (()->Void)?
+
     @objc func handleDeleteItem() {
         let menuItemRef = Database.database().reference().child("menuItems").child(itemToEdit!.id)
         menuItemRef.removeValue()
         
-        
         let storageRef = Storage.storage().reference().child("menuItems").child(itemToEdit!.imageURL)
         
-        storageRef.delete(completion: { (err) in
+        storageRef.delete(completion: { [self] (err) in
             if let err = err {
                 print("Storage error: " + err.localizedDescription)
             }
             
             print("File deleted")
+            
+            self.deleteItemCallback?()            
         })
         self.dismiss(animated: true, completion: nil)
         
