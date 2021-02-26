@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4314BC3725E8C7DF00D8FC07 /* PickupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314BC3625E8C7DF00D8FC07 /* PickupDetailsVC.swift */; };
 		43291D3525DE358000BD2764 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3425DE358000BD2764 /* AppDelegate.swift */; };
 		43291D3725DE358000BD2764 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3625DE358000BD2764 /* SceneDelegate.swift */; };
 		43291D3F25DE358000BD2764 /* BadgerBytes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43291D3D25DE358000BD2764 /* BadgerBytes.xcdatamodeld */; };
@@ -75,6 +76,7 @@
 
 /* Begin PBXFileReference section */
 		348D06A2F0B3F23DFCF350E2 /* Pods-BadgerBytesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BadgerBytesTests.debug.xcconfig"; path = "Target Support Files/Pods-BadgerBytesTests/Pods-BadgerBytesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4314BC3625E8C7DF00D8FC07 /* PickupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupDetailsVC.swift; sourceTree = "<group>"; };
 		43291D3125DE358000BD2764 /* BadgerBytes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BadgerBytes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43291D3425DE358000BD2764 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		43291D3625DE358000BD2764 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				43DD7DE825E772C400C8B5CC /* AddToCartVC.swift */,
 				43DD7DDD25E76D3300C8B5CC /* CartOrderVC.swift */,
 				4FA65B6825E81972002BB8DB /* PDFCreator.swift */,
+				4314BC3625E8C7DF00D8FC07 /* PickupDetailsVC.swift */,
 				4FA65B6D25E8197F002BB8DB /* ReceiptBuilderVC.swift */,
 			);
 			path = Menu;
@@ -587,6 +590,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4314BC3725E8C7DF00D8FC07 /* PickupDetailsVC.swift in Sources */,
 				43DD7E2C25E81D0F00C8B5CC /* InformationViewCell.swift in Sources */,
 				FAF5916C25E58E1000A260D1 /* ModifyAccount.swift in Sources */,
 				43291DE725DE476100BD2764 /* LoginVC.swift in Sources */,
