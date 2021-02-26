@@ -31,7 +31,26 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func handleGetReceipt() {
-        print("Getting receipt")
+        
+        let pdfCreator = PDFCreator(menuItems: orderItems)
+        
+        let documentData = pdfCreator.createOrder()
+        
+        let pdfView = PDFView(frame: view.bounds)
+        
+        pdfView.autoScales = true
+        pdfView.restorationIdentifier = "getReceiptButton"
+        
+        view.addSubview(pdfView)
+        
+        pdfView.anchor(collectionView.topAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 10, rightConstant: 30, widthConstant: 0, heightConstant: 45)
+        
+        let pdfDocument = PDFDocument(data: documentData)
+        pdfView.document = pdfDocument
+
+        getReceiptButton.isHidden = true
+        //closeReceiptButton.isHidden = false
+        
     }
     
     //
