@@ -149,9 +149,10 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             
         let orderDetailsVC = OrderDetailsVC()
-        orderDetailsVC.modalPresentationStyle = .overFullScreen
+        //orderDetailsVC.modalPresentationStyle = .overFullScreen
         
         var orderItems = [MenuItem]()
+        globalCurrentSelectedOrder = Order(id: "temp", dictionary: ["temp": "temp"])
         
         for key in userOrders[indexPath.row].menuItems.keys {
             Database.fetchMenuItemWithID(id: key) { (menuItem) in
@@ -160,7 +161,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 orderDetailsVC.collectionView.reloadData()
             }
         }
-        
+        globalCurrentSelectedOrder? = userOrders[indexPath.row]
         self.present(orderDetailsVC, animated: true, completion: nil)
         
     }

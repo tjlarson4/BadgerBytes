@@ -10,6 +10,7 @@ import CoreData
 import Firebase
 
 var globalCurrentUser: User?
+var globalCurrentSelectedOrder: Order? // bad practice i know but were one day from submission
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

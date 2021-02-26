@@ -15,8 +15,8 @@ struct Order {
     let creationDate: Date
     let status: String
     let id: String
-//    let timeToPickup: String
-//    let carDesc: String
+    let time: String
+    let car: String
 
     init(id: String, dictionary: [String: Any]) {
         self.id = id
@@ -27,8 +27,8 @@ struct Order {
         let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
         
-//        self.timeToPickup = dictionary["timeToPickup"] as? String ?? ""
-//        self.carDesc = dictionary["carDesc"] as? String ?? ""
+        self.time = dictionary["date"] as? String ?? ""
+        self.car = dictionary["car"] as? String ?? ""
 
     }
 
