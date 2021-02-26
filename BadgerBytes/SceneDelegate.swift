@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         
-        window?.rootViewController = ReceiptBuilderVC()
+        window?.rootViewController = MenuVC()
 //        window?.rootViewController = MenuItemsVC()
         
         window?.makeKeyAndVisible()

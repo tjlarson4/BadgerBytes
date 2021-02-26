@@ -37,9 +37,7 @@ class ReceiptBuilderVC: UIViewController {
         
 //        let vc = PDFReceiptVC()
     
-        let pdfCreator = PDFCreator(
-            orderId: "htZSa3yUQbbslc10WT8lWLUzT4k1"
-        )
+        let pdfCreator = PDFCreator()
 
         let documentData = pdfCreator.createOrder()
         

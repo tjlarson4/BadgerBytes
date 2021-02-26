@@ -4,18 +4,15 @@ import PDFKit
 import Firebase
 
 class PDFCreator: NSObject {
-    let orderId: String
     var menuItems = [MenuItem]()
     
-    init(orderId: String) {
-        self.orderId = orderId
+    override init() {
     }
     
     func createOrder() -> Data {
       let pdfMetaData = [
         kCGPDFContextCreator: "Flyer Builder",
         kCGPDFContextAuthor: "raywenderlich.com",
-        kCGPDFContextTitle: orderId
       ]
       let format = UIGraphicsPDFRendererFormat()
       format.documentInfo = pdfMetaData as [String: Any]

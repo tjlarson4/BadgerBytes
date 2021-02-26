@@ -109,15 +109,10 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         if indexPath.item == 0 {
             orderCell.separator.isHidden = true
         }
-<<<<<<< HEAD
-        
-        //orderCell.titleLabel.text = userOrders[indexPath.row].id
-        // orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
-=======
                 
         orderCell.titleLabel.text = userOrders[indexPath.row].id
         orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
->>>>>>> main
+
 
         return orderCell
     }
