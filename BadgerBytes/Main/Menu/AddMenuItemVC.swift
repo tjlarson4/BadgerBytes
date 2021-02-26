@@ -71,7 +71,7 @@ class AddMenuItemVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         let menuItemRef = Database.database().reference().child("menuItems")
         let ref = menuItemRef.childByAutoId()
             
-        let values = ["name": name, "price": price, "category": category, "imageURL": imageUrl]  as [String : Any]
+        let values = ["name": name, "price": price, "category": category, "imageURL": imageUrl, "inStock" : true]  as [String : Any]
         
         ref.updateChildValues(values) { (err, ref) in
             if let err = err {
