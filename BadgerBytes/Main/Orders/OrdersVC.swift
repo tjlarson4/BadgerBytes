@@ -116,8 +116,8 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             orderCell.separator.isHidden = true
         }
         
-        orderCell.titleLabel.text = userOrders[indexPath.row].id
-        orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
+        //orderCell.titleLabel.text = userOrders[indexPath.row].id
+        // orderCell.subtitleLabel.text = userOrders[indexPath.row].totalPrice
 
         return orderCell
     }

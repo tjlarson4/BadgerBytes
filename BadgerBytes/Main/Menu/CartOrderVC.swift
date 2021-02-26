@@ -34,7 +34,11 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
 
     @objc func handlePlaceOrder() {
         
+        
+        
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        // let currentUserID = "htZSa3yUQbbslc10WT8lWLUzT4k1"
         
         var menuItems = [String: Int]()
         
@@ -50,17 +54,19 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
             
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
                 
                 let order = [snapshot.key: 1]
-                                            
+                
                 Database.database().reference().child("Users").child(currentUserID).child("orders").updateChildValues(order, withCompletionBlock: { (err, ref) in
                     if let err = err {
                         print("Database info error: " + err.localizedDescription)
                     }
-                                        
+                                  
                     print("Successfully stored user order within userinfo")
                     self.dismiss(animated: true, completion: nil)
                     self.placeOrderCallback?()
+                    
 
                 })
                                                 
@@ -69,6 +75,7 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
             
             print("Successfully stored uploaded order")
+            
         })
         
 

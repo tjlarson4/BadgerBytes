@@ -12,7 +12,6 @@ class PDFCreator: NSObject {
     }
     
     func createOrder() -> Data {
-      // 1
       let pdfMetaData = [
         kCGPDFContextCreator: "Flyer Builder",
         kCGPDFContextAuthor: "raywenderlich.com",
@@ -20,32 +19,39 @@ class PDFCreator: NSObject {
       ]
       let format = UIGraphicsPDFRendererFormat()
       format.documentInfo = pdfMetaData as [String: Any]
-      
-      // 2
       let pageWidth = 8.5 * 72.0
       let pageHeight = 11 * 72.0
       let pageRect = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
-      
-      // 3
       let renderer = UIGraphicsPDFRenderer(bounds: pageRect, format: format)
-      // 4
       let data = renderer.pdfData { (context) in
-        // 5
         context.beginPage()
-        // 6
+        
+        let dC = MenuItem(name: "Double Cheseburger", price: "8", category: "Burgers", imageURL: "", id: "")
+        let gCC = MenuItem(name: "Grilled Chickeen Sandwich", price: "8", category: "Chicken", imageURL: "", id: "")
+        let cGG = MenuItem(name: "Crispy Chicken Sandwich", price: "8", category: "Chicken", imageURL: "", id: "")
+        let cT = MenuItem(name: "Shrimp Basket", price: "9", category: "Seafood", imageURL: "", id: "")
+        
+        self.menuItems.append(dC)
+        self.menuItems.append(gCC)
+        self.menuItems.append(cGG)
+        self.menuItems.append(cT)
+        
+        let receiptString = toString(pageRect: pageRect)
+        
+        let titleBottomY = addTitle(pageRect: pageRect)
+        
+        print(titleBottomY)
+        
+        let orderBottomY = addOrder(receipt: receiptString, pageRect: pageRect, titleBottomY: titleBottomY)
+        
+        print(orderBottomY)
+        
+        // let paymentLineBottomY = addPaymentLine(pageRect: pageRect, orderBottomY: orderBottomY)
         
         
         
-        getItemsFromOrder(orderId: orderId)
         
-
-        
-        print("test")
-        
-        var receiptString = toString()
-        
-        print(receiptString)
-      
+        // getItemsFromOrder(orderId: orderId)
       }
       
       return data
@@ -78,22 +84,86 @@ class PDFCreator: NSObject {
     }
     
     // convert items in order to string
-    func toString() -> String {
-        var receipt = ""
-        
+    func toString(pageRect: CGRect) -> String {
+        var order = ""
+        var total = 0.0
+
         for menuItem in menuItems {
             let name = menuItem.name
             let price = menuItem.price
             
-            let itemToText = name + " " + price
+            total = total + Double(price)!
             
-            receipt = receipt + itemToText + "\n"
+            let itemToString = "$" + price + "    " + name + "\n"
+            
+            order = order + itemToString
         }
         
-        return receipt
+        order = order + "----------------------------------------------------------------\n"
+        
+        order = order + "$" + String(total)
+        
+
+        return order
     }
         
+    
+    func addTitle(pageRect: CGRect) -> CGFloat {
+        let titleFont = UIFont.systemFont(ofSize: 40.0, weight: .bold)
+        let titleAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: titleFont]
+        let attributedTitle = NSAttributedString(
+            string: "BadgerBytes",
+            attributes: titleAttributes
+        )
         
+        let titleStringSize = attributedTitle.size()
+        
+        let titleStringRect = CGRect(
+            x: (pageRect.width - titleStringSize.width) / 2.0,
+            y: 40,
+            width: titleStringSize.width,
+            height: titleStringSize.height
+        )
+        
+        attributedTitle.draw(in: titleStringRect)
+        
+        print(titleStringRect.origin.y)
+        print(titleStringRect.size.height)
+        
+        return titleStringRect.origin.y + titleStringRect.size.height
+    }
+    
+    
+    func addOrder(receipt: String, pageRect: CGRect, titleBottomY: CGFloat) -> CGFloat {
+        let textFont = UIFont.systemFont(ofSize: 20.0, weight: .regular)
+        let style = NSMutableParagraphStyle()
+        style.alignment = .natural
+        style.lineBreakMode = .byWordWrapping
+        let textAttributes = [
+          NSAttributedString.Key.paragraphStyle: style,
+          NSAttributedString.Key.font: textFont
+        ]
+        
+        let attributedText = NSAttributedString(
+          string: receipt,
+          attributes: textAttributes
+        )
+        
+        let orderRect = CGRect(
+          x: 20,
+          y: 75 + titleBottomY,
+          width: pageRect.width - 20,
+          height: pageRect.height - pageRect.height / 20.0
+        )
+        
+        attributedText.draw(in: orderRect)
+        
+        print(orderRect.origin.y)
+        print(orderRect.size.height)
+        
+        return orderRect.origin.y + orderRect.size.height
+    }
+}
         
         
         
@@ -188,4 +258,4 @@ class PDFCreator: NSObject {
 //               attributes: textAttributes
 //        )
 //        attributedText.draw(in: textRect)
-}
+
