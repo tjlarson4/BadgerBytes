@@ -16,6 +16,7 @@ class MenuItemCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,6 +28,10 @@ class MenuItemCell: UICollectionViewCell {
     //
 
     func configure(item: MenuItem) {
+        if(!item.inStock){
+            inStockLabel.isHidden = false
+            openCartButton.isHidden = true
+        }
         itemLabel.text = item.name
         priceLabel.text = "$\(item.price)"
         itemImageView.loadImage(urlString: item.imageURL)
@@ -60,6 +65,14 @@ class MenuItemCell: UICollectionViewCell {
         lbl.textAlignment = .center
         return lbl
     }()
+    
+    let inStockLabel: UILabel = {
+       let lbl = UILabel()
+        lbl.isHidden = true
+        lbl.add(text: "Out of Stock",font: UIFont(boldWithSize: CGFloat(60)), textColor: UIColor(hex: "B50000"))
+       lbl.textAlignment = .center
+       return lbl
+   }()
     
      lazy var priceLabel: UILabel = {
         let lbl = UILabel()
@@ -98,10 +111,12 @@ class MenuItemCell: UICollectionViewCell {
         
         self.backgroundColor = .menu_white
         
-        self.addSubviews(views: [itemImageView, itemLabel, priceLabel, openCartButton, editItemButton])
+        self.addSubviews(views: [itemImageView, itemLabel, inStockLabel,priceLabel, openCartButton, editItemButton])
         
         itemImageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: itemLabel.topAnchor, right: self.rightAnchor, topConstant: 5, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 0)
                 
+        inStockLabel.anchor(self.topAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 0, leftConstant: 5, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 30)
+        
         itemLabel.anchor(nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 0, leftConstant: 5, bottomConstant: 15, rightConstant: 5, widthConstant: 0, heightConstant: 30)
         
         priceLabel.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: nil, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 0, widthConstant: 45, heightConstant: 45)
