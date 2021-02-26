@@ -103,9 +103,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     //
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        print(userOrders.count)
-        
+            
         if section == 0 {
             return activeOrders.count
         } else {
@@ -131,7 +129,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
         let plural = orderItem.menuItems.count == 1 ? "" : "s"
         orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
-
+        
         return orderCell
     }
     
@@ -146,6 +144,8 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionView.elementKindSectionHeader) {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! OrderHeaderCell
+            
+            header.prioritizeButton.isHidden = true
             
             if indexPath.section == 0 {
                 header.titleLabel.text = "Active"

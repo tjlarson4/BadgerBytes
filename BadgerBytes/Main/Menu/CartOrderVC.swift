@@ -46,7 +46,7 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 menuItems.updateValue(1, forKey: item.id)
             }
         
-            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active"] as [String : Any]
+            let values = ["ownerID": currentUserID, "menuItems": menuItems, "totalPrice": totalOrderPrice, "creationDate": Date().timeIntervalSince1970, "status": "active", "priority": "high"] as [String : Any]
             
             ref = Database.database().reference().child("orders").childByAutoId()
         
@@ -148,6 +148,8 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let menuItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuItemCell", for: indexPath) as! MenuItemCell
         let menuItem = cartItems[indexPath.row]
         menuItemCell.configure(item: menuItem)
+        menuItemCell.openCartButton.isHidden = true
+        menuItemCell.editItemButton.isHidden = true
                         
         return menuItemCell
     }

@@ -10,6 +10,8 @@ import Firebase
 
 class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    var manageVC: ManageVC?
+    
     var orders = [Order]()
     var activeOrders = [Order]()
     var pastOrders = [Order]()
@@ -32,6 +34,39 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
     //
     // MARK: Functions
     //
+    
+    @objc func handleReorder() {
+        let prioritizeOrdersVC = PrioritizeOrdersVC()
+        prioritizeOrdersVC.modalPresentationStyle = .fullScreen
+        prioritizeOrdersVC.activeOrders = activeOrders
+        manageVC!.present(prioritizeOrdersVC, animated: false, completion: nil)
+    }
+    
+    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+
+        switch(gesture.state) {
+
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.collectionView.indexPathForItem(at: gesture.location(in: self.collectionView)) else { break }
+            let orderCell = collectionView.cellForItem(at: selectedIndexPath) as! OrderCell
+            orderCell.borderView.isHidden = false
+            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+            
+        case UIGestureRecognizerState.changed:
+            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case UIGestureRecognizerState.ended:
+
+            let orderCells = collectionView.visibleCells as! [OrderCell]
+            for cell in orderCells {
+                cell.borderView.isHidden = true
+            }
+    
+            collectionView.endInteractiveMovement()
+
+        default:
+            collectionView.cancelInteractiveMovement()
+        }
+    }
 
     func fetchOrderItemsFor(order: Order) {
         
@@ -83,14 +118,26 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
+    @objc func handlePrioritize() {
+        let prioritizeOrdersVC = PrioritizeOrdersVC()
+        prioritizeOrdersVC.modalPresentationStyle = .fullScreen
+        prioritizeOrdersVC.activeOrders = activeOrders
+        manageVC!.present(prioritizeOrdersVC, animated: true, completion: nil)
+        
+    }
+    
     //
     // MARK: CollectionView
     //
+    
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        
+    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        print(orders.count)
-        
+            
         if section == 0 {
             return activeOrders.count
         } else {
@@ -115,7 +162,12 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
             
         orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
         let plural = orderItem.menuItems.count == 1 ? "" : "s"
-        orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Total: $\(orderItem.totalPrice).00"
+        orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Priority: \(orderItem.priority.capitalized)"
+        
+        if indexPath.section == 0 {
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
+            self.collectionView.addGestureRecognizer(longPressGesture)
+        }
 
         return orderCell
     }
@@ -134,8 +186,10 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
             
             if indexPath.section == 0 {
                 header.titleLabel.text = "Active"
+                header.prioritizeButton.addTarget(self, action: #selector(handlePrioritize), for: .touchUpInside)
             } else {
                 header.titleLabel.text = "Past"
+                header.prioritizeButton.isHidden = true
             }
             
             return header
@@ -149,27 +203,26 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         return CGSize(width: self.frame.width, height: 40)
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//
-//        let orderDetailsVC = OrderDetailsVC()
-//        //orderDetailsVC.modalPresentationStyle = .overFullScreen
-//
-//        var orderItems = [MenuItem]()
-//        globalCurrentSelectedOrder = Order(id: "temp", dictionary: ["temp": "temp"])
-//
-//        let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
-//
-//        for key in orderArr[indexPath.row].menuItems.keys {
-//            Database.fetchMenuItemWithID(id: key) { (menuItem) in
-//                orderItems.append(menuItem)
-//                orderDetailsVC.orderItems = orderItems
-//                orderDetailsVC.collectionView.reloadData()
-//            }
-//        }
-//
-//        globalCurrentSelectedOrder? = userOrders[indexPath.row]
-//        self.present(orderDetailsVC, animated: true, completion: nil)
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        let manageOrderDetailsVC = ManageOrderDetailsVC()
+
+        var orderItems = [MenuItem]()
+
+        let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
+        manageOrderDetailsVC.order = orderArr[indexPath.row]
+        
+
+        for key in orderArr[indexPath.row].menuItems.keys {
+            Database.fetchMenuItemWithID(id: key) { (menuItem) in
+                orderItems.append(menuItem)
+                manageOrderDetailsVC.orderItems = orderItems
+                manageOrderDetailsVC.collectionView.reloadData()
+            }
+        }
+        
+        manageVC!.present(manageOrderDetailsVC, animated: true, completion: nil)
+    }
 
     //
     // MARK: UI Setup
@@ -196,6 +249,8 @@ class ManageOrdersView: UIView, UICollectionViewDelegate, UICollectionViewDataSo
         
         collectionView.register(OrderCell.self, forCellWithReuseIdentifier: "orderCell")
         collectionView.register(OrderHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
+        
+        
         
         self.addSubview(collectionView)
         collectionView.fillSuperview()

@@ -76,16 +76,19 @@ class ManageVC: UIViewController {
     let containerView = UIView()
     
     let manageOrdersView = ManageOrdersView()
+
     
     func setUpViews() {
         
         self.navigationItem.titleView = titleLabel
+        
+        manageOrdersView.manageVC = self
                 
         self.view.addSubviews(views: [btnStackView, containerView])
         
         btnStackView.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 40)
         
-        containerView.anchor(btnStackView.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 10, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        containerView.anchor(btnStackView.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
         self.containerView.addSubviews(views: [manageOrdersView])
         manageOrdersView.fillSuperview()

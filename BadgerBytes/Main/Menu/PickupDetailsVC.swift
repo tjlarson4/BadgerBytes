@@ -98,9 +98,9 @@ class PickupDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionV
         var car = (self.cv.cellForItem(at: [0,0]) as! SimpleTextInputCell).textInput.text
         if (car == ""){car = "bruh you gotta put your car in next time. how will are we supposed to find you?"}
         
-        let time = (self.cv.cellForItem(at: [0,1]) as! PickupTimeCell).datePicker.date.description
-        
-        let values = ["car": car!, "date": time]
+        let pickupTime = (self.cv.cellForItem(at: [0,1]) as! PickupTimeCell).datePicker.date
+            
+        let values = ["carDesc": car!, "pickupDate": pickupTime.timeIntervalSince1970] as [String : Any]
         
         parentVC.ref.updateChildValues(values)
         

@@ -19,8 +19,6 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
-        print("Hello")
-        print(orderItems)
     }
     
     //
@@ -56,7 +54,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             cell.setTextColor(color: .black)
             cell.addLabelInOrder(label: globalCurrentUser!.firstName + " " + globalCurrentUser!.lastName, isBold: true, size: 20)
             cell.addLabelInOrder(label: "Phone: " + globalCurrentUser!.phoneNum, isBold: false, size: 15)
-            cell.addLabelInOrder(label: "Driving: " + globalCurrentSelectedOrder!.car, isBold: false, size: 15)
+            cell.addLabelInOrder(label: "Driving: " + globalCurrentSelectedOrder!.carDesc, isBold: false, size: 15)
             cell.addLabelInOrder(label: "Pick-up: " + globalCurrentSelectedOrder!.creationDate.toStringWith(format: "h:mm a"), isBold: false, size: 15)
             cell.contentView.backgroundColor = .systemRed
 
@@ -66,7 +64,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let detailItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailItemCell", for: indexPath) as! OrderDetailItemCell
         let menuItem = orderItems[indexPath.row]
         detailItemCell.configure(item: menuItem)
-        
+
         return detailItemCell
     }
     
@@ -76,7 +74,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             return CGSize(width: collectionView.bounds.size.width - 16, height: 85)
         }
         
-        return CGSize(width: self.view.frame.width, height: 150)
+        return CGSize(width: self.view.frame.width, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
