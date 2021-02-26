@@ -49,7 +49,7 @@ class SignUpVC: UIViewController {
             } else {
                 let alert = UIAlertController(title: "Error!", message: "Fill out all of the boxes before creating an account.", preferredStyle: .alert)
                 
-                alert.addAction(UIAlertAction(title: "Dimiss", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
                 
                 self.present(alert, animated: true, completion: nil)
                 let when = DispatchTime.now() + 4

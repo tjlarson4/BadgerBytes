@@ -113,7 +113,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
 
                 let alert = UIAlertController(title: "Order successfully placed!", message: "View your active orders in the Orders tab.", preferredStyle: .alert)
                 
-                alert.addAction(UIAlertAction(title: "Dimiss", style: .cancel, handler: { (alert) in
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (alert) in
                     let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
                     tabBarVC.setUpViewControllers()
                     self.view.endEditing(true)

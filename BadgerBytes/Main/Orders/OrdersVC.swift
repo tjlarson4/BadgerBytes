@@ -83,7 +83,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         self.userOrders = self.orders.filter { (order) -> Bool in
             return order.ownerID.contains(currentUserID)
         }
-        
+                
         self.activeOrders = self.userOrders.filter({ (order) -> Bool in
             return order.status.contains("active")
         })
@@ -95,8 +95,6 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         self.activeOrders = self.activeOrders.sorted { $0.creationDate > $1.creationDate }
         self.pastOrders = self.pastOrders.sorted { $0.creationDate > $1.creationDate }
     }
-    
-    
     
     //
     // MARK: CollectionView

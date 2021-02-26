@@ -82,8 +82,10 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             
         } else {
             
-            let alert = UIAlertController(title: "Error!", message: "No payment information saved.", preferredStyle: .alert)
+            let alert = UIAlertController(title: "No payment info saved!", message: "Add payment in the Account tab", preferredStyle: .alert)
             
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+
             self.present(alert, animated: true, completion: nil)
             let when = DispatchTime.now() + 4
             DispatchQueue.main.asyncAfter(deadline: when){
