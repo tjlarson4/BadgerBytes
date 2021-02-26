@@ -6,7 +6,8 @@ import Firebase
 class PDFCreator: NSObject {
     var menuItems = [MenuItem]()
     
-    override init() {
+    init(menuItems: [MenuItem]) {
+        self.menuItems = menuItems
     }
     
     func createOrder() -> Data {
@@ -23,15 +24,15 @@ class PDFCreator: NSObject {
       let data = renderer.pdfData { (context) in
         context.beginPage()
         
-        let dC = MenuItem(name: "Double Cheseburger", price: "8", category: "Burgers", imageURL: "", id: "")
-        let gCC = MenuItem(name: "Grilled Chickeen Sandwich", price: "8", category: "Chicken", imageURL: "", id: "")
-        let cGG = MenuItem(name: "Crispy Chicken Sandwich", price: "8", category: "Chicken", imageURL: "", id: "")
-        let cT = MenuItem(name: "Shrimp Basket", price: "9", category: "Seafood", imageURL: "", id: "")
-        
-        self.menuItems.append(dC)
-        self.menuItems.append(gCC)
-        self.menuItems.append(cGG)
-        self.menuItems.append(cT)
+//        let dC = MenuItem(name: "Double Cheseburger", price: "8", category: "Burgers", imageURL: "", id: "")
+//        let gCC = MenuItem(name: "Grilled Chickeen Sandwich", price: "8", category: "Chicken", imageURL: "", id: "")
+//        let cGG = MenuItem(name: "Crispy Chicken Sandwich", price: "8", category: "Chicken", imageURL: "", id: "")
+//        let cT = MenuItem(name: "Shrimp Basket", price: "9", category: "Seafood", imageURL: "", id: "")
+//        
+//        self.menuItems.append(dC)
+//        self.menuItems.append(gCC)
+//        self.menuItems.append(cGG)
+//        self.menuItems.append(cT)
         
         let receiptString = toString(pageRect: pageRect)
         

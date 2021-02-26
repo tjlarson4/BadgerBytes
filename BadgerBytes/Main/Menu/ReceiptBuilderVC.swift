@@ -37,15 +37,15 @@ class ReceiptBuilderVC: UIViewController {
         
 //        let vc = PDFReceiptVC()
     
-        let pdfCreator = PDFCreator()
+        //let pdfCreator = PDFCreator()
 
-        let documentData = pdfCreator.createOrder()
+        //let documentData = pdfCreator.createOrder()
         
-        let pdfView = PDFView(frame: view.bounds)
-        view.addSubview(pdfView)
-        
-        let pdfDocument = PDFDocument(data: documentData)
-        pdfView.document = pdfDocument
+//        let pdfView = PDFView(frame: view.bounds)
+//        view.addSubview(pdfView)
+//        
+//        let pdfDocument = PDFDocument(data: documentData)
+//        pdfView.document = pdfDocument
         
         // pdfView.removeFromSuperview()
     }

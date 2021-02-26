@@ -34,16 +34,6 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @objc func handleGetReceipt() {
         print("Getting receipt")
-        
-        let pdfCreator = PDFCreator()
-        
-        let documentData = pdfCreator.createOrder()
-        
-        let pdfView = PDFView(frame: view.bounds)
-        view.addSubview(pdfView)
-        
-        let pdfDocument = PDFDocument(data: documentData)
-        pdfView.document = pdfDocument
     }
     
     //

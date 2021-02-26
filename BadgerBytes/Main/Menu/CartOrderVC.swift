@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PDFKit
 import Firebase
 
 class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -82,7 +83,21 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 alert.dismiss(animated: true, completion: nil)
             }
         }
-
+    }
+    
+    @objc func handleGetReceipt() {
+        print("get receipt button pressed")
+        
+        let pdfCreator = PDFCreator(menuItems: cartItems)
+        
+        let documentData = pdfCreator.createOrder()
+        
+        let pdfView = PDFView(frame: view.bounds)
+        view.addSubview(pdfView)
+        
+        let pdfDocument = PDFDocument(data: documentData)
+        pdfView.document = pdfDocument
+        
     }
     
     var emptyCartCallback: (()->Void)?
@@ -155,6 +170,15 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         return btn
     }()
     
+    let getReceiptButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = .subtitle_label
+        btn.add(text: "Get receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.addTarget(self, action: #selector(handleGetReceipt), for: .touchUpInside)
+        return btn
+    }()
+    
     let emptyCartButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
@@ -168,14 +192,16 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         registerCells()
         
-        self.view.addSubviews(views: [dismissButton, collectionView, placeOrderButton, emptyCartButton])
+        self.view.addSubviews(views: [dismissButton, collectionView, getReceiptButton, placeOrderButton, emptyCartButton])
         self.view.backgroundColor = .menu_white
         
         dismissButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, topConstant: 30, leftConstant: 30, bottomConstant: 0, rightConstant: 0, widthConstant: 18, heightConstant: 18)
         
-        collectionView.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: placeOrderButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        collectionView.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        placeOrderButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
+        getReceiptButton.anchor(collectionView.bottomAnchor, left: view.leftAnchor, bottom: placeOrderButton.topAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 10, rightConstant: 30, widthConstant: 0, heightConstant: 45)
+        
+        placeOrderButton.anchor(getReceiptButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
 
         emptyCartButton.anchor(dismissButton.topAnchor, left: dismissButton.rightAnchor, bottom: nil, right: view.rightAnchor, topConstant: -8.5, leftConstant: 180, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 35)
 
