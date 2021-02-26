@@ -57,29 +57,29 @@ class PDFCreator: NSObject {
     
     
     // retrieve item info in order from DB
-    func getItemsFromOrder(orderId: String) {
-        
-        menuItems = []
-        
-        let ref = Database.database().reference().child("menuItems")
-        
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String: Any] else { return }
-            
-            dictionaries.forEach({ (key, value) in
-                guard let dictionary = value as? [String: Any] else { return}
-                
-                let menuItem = MenuItem(id: key, dictionary: dictionary)
-                
-                print(menuItem.name)
-                
-                self.menuItems.append(menuItem)
-            })
-            
-        }) { (err) in
-            print("Failed to fetch items from menu:", err)
-        }
-    }
+//    func getItemsFromOrder(orderId: String) {
+//
+//        menuItems = []
+//
+//        let ref = Database.database().reference().child("menuItems")
+//
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            guard let dictionaries = snapshot.value as? [String: Any] else { return }
+//
+//            dictionaries.forEach({ (key, value) in
+//                guard let dictionary = value as? [String: Any] else { return}
+//
+//                let menuItem = MenuItem(id: key, dictionary: dictionary)
+//
+//                print(menuItem.name)
+//
+//                self.menuItems.append(menuItem)
+//            })
+//
+//        }) { (err) in
+//            print("Failed to fetch items from menu:", err)
+//        }
+//    }
     
     // convert items in order to string
     func toString(pageRect: CGRect) -> String {
