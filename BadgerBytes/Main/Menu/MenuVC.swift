@@ -228,7 +228,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             // COMMENTED OUT FOR TESTING - DO NOT REMOVE
             // Handles security permission for account types showing edit/add to cart buttons
             
-            if getAccountType() == "customer" {
+            if globalCurrentUser?.accountType == "customer" {
                 menuItemCell.editItemButton.isHidden = true
                 menuItemCell.openCartButton.isHidden = false
             } else {
