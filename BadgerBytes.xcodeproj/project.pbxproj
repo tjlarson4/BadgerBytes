@@ -279,7 +279,6 @@
 				43DD7E2625E7D67400C8B5CC /* EditMenuItemVC.swift */,
 				43DD7DE825E772C400C8B5CC /* AddToCartVC.swift */,
 				43DD7DDD25E76D3300C8B5CC /* CartOrderVC.swift */,
-				4FA65B6825E81972002BB8DB /* PDFCreator.swift */,
 				4314BC3625E8C7DF00D8FC07 /* PickupDetailsVC.swift */,
 				4FA65B6D25E8197F002BB8DB /* ReceiptBuilderVC.swift */,
 			);
@@ -308,6 +307,7 @@
 		4342AF2325E3B64800E8A5BB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4FA65B6825E81972002BB8DB /* PDFCreator.swift */,
 				4342AF2925E3B67300E8A5BB /* User.swift */,
 				4314BC5225E9AFDA00D8FC07 /* UsageItem.swift */,
 				4342AF2425E3B66400E8A5BB /* Order.swift */,

@@ -38,11 +38,7 @@ class PDFCreator: NSObject {
         
         let titleBottomY = addTitle(pageRect: pageRect)
         
-        print(titleBottomY)
-        
-        let orderBottomY = addOrder(receipt: receiptString, pageRect: pageRect, titleBottomY: titleBottomY)
-        
-        print(orderBottomY)
+        addOrder(receipt: receiptString, pageRect: pageRect, titleBottomY: titleBottomY)
         
         // let paymentLineBottomY = addPaymentLine(pageRect: pageRect, orderBottomY: orderBottomY)
         
@@ -125,14 +121,11 @@ class PDFCreator: NSObject {
         
         attributedTitle.draw(in: titleStringRect)
         
-        print(titleStringRect.origin.y)
-        print(titleStringRect.size.height)
-        
         return titleStringRect.origin.y + titleStringRect.size.height
     }
     
     
-    func addOrder(receipt: String, pageRect: CGRect, titleBottomY: CGFloat) -> CGFloat {
+    func addOrder(receipt: String, pageRect: CGRect, titleBottomY: CGFloat) {
         let textFont = UIFont.systemFont(ofSize: 20.0, weight: .regular)
         let style = NSMutableParagraphStyle()
         style.alignment = .natural
@@ -155,11 +148,6 @@ class PDFCreator: NSObject {
         )
         
         attributedText.draw(in: orderRect)
-        
-        print(orderRect.origin.y)
-        print(orderRect.size.height)
-        
-        return orderRect.origin.y + orderRect.size.height
     }
 }
         
