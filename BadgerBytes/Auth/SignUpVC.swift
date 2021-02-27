@@ -29,6 +29,20 @@ class SignUpVC: UIViewController {
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
+    func fetchCurrentUser() {
+        
+        // Checks that there is a current user with an ID
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        // Retrieves user info from Firebase
+        Database.database().reference().child("Users").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
+            
+            // Creates dictionary of user information, instatiates new User object
+            guard let userDict = snapshot.value as? [String: Any] else {return}
+            globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
+        }
+    }
+    
     @objc func handleSignUp() {
         
         guard let email = emailInputView.input.text else {return}
@@ -79,7 +93,7 @@ class SignUpVC: UIViewController {
                 }
 
                 print("Successfully signed in user with id: " + (Auth.auth().currentUser?.uid)!)
-
+                self.fetchCurrentUser()
                 
                 
                 let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC

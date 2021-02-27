@@ -9,7 +9,12 @@ import UIKit
 import CoreData
 import Firebase
 
-var globalCurrentUser: User?
+var globalMenuUI: MenuVC?
+var globalCurrentUser: User? {
+    didSet{
+        globalMenuUI?.addMenuItemButton.isHidden = (globalCurrentUser?.accountType != "admin")
+    }
+}
 var globalCurrentSelectedOrder: Order? // bad practice i know but were one day from submission
 
 @main

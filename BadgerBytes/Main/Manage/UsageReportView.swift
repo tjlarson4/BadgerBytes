@@ -12,10 +12,8 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     var manageVC: ManageVC?
     
-    var orders = [Order]()
-    
-    var orderItems = [MenuItem]()
-        
+    var usageActions = [UsageItem]()
+            
     //
     // MARK: View Lifecycle
     //
@@ -33,35 +31,15 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     // MARK: Functions
     //
     
-    func fetchOrderItemsFor(order: Order) {
-        
-        self.orderItems = []
-        
-        for key in order.menuItems.keys {
-            Database.fetchMenuItemWithID(id: key) { (menuItem) in
-                self.orderItems.append(menuItem)
-            }
-        }
+    func filterSort(_: [UsageItem]) {
+        self.usageActions = self.usageActions.sorted { $0.actionDate > $1.actionDate }
     }
     
-    func filterSort(_: [Order]) {
-//        self.activeOrders = self.orders.filter({ (order) -> Bool in
-//            return order.status.contains("active")
-//        })
-//
-//        self.pastOrders = self.orders.filter({ (order) -> Bool in
-//            return order.status.contains("complete")
-//        })
-//
-//        self.activeOrders = self.activeOrders.sorted { $0.priority < $1.priority }
-//        self.pastOrders = self.pastOrders.sorted { $0.creationDate > $1.creationDate }
-    }
-    
-    func fetchOrders() {
+    func fetchUsageActions() {
         
-        orders = []
+        usageActions = []
                 
-        let orderRef = Database.database().reference().child("orders")
+        let orderRef = Database.database().reference().child("usage")
 
         orderRef.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionaries = snapshot.value as? [String: Any] else { return }
@@ -69,12 +47,12 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
             dictionaries.forEach({ (key, value) in
                 guard let dictionary = value as? [String: Any] else { return }
                 
-                let order = Order(id: key, dictionary: dictionary)
+                let usageItem = UsageItem(id: key, dictionary: dictionary)
                 
-                self.orders.append(order)
+                self.usageActions.append(usageItem)
             })
             
-            self.filterSort(self.orders)
+            self.filterSort(self.usageActions)
             
             self.collectionView.reloadData()
             
@@ -83,20 +61,12 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
-//    @objc func handlePrioritize() {
-//        let prioritizeOrdersVC = PrioritizeOrdersVC()
-//        prioritizeOrdersVC.modalPresentationStyle = .fullScreen
-//        prioritizeOrdersVC.activeOrders = activeOrders
-//        manageVC!.present(prioritizeOrdersVC, animated: true, completion: nil)
-//
-//    }
-    
     //
     // MARK: CollectionView
     //
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return orders.count > 0 ? orders.count : 1
+        return usageActions.count > 0 ? usageActions.count : 1
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -105,35 +75,12 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let orderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "orderCell", for: indexPath) as! OrderCell
-        
-        if orders.count == 0 {
-            orderCell.setHidden(isHidden: true)
-            orderCell.emptyLabel.text = "No orders available"
-        } else {
-            
-            orderCell.setHidden(isHidden: false)
-            
-            let orderItem = orders[indexPath.row]
-            
-            Database.fetchMenuItemWithID(id: orderItem.menuItems.keys.first ?? "") { (menuItem) in
-                orderCell.orderImageView.loadImage(urlString: menuItem.imageURL)
-            }
-                
-            orderCell.titleLabel.text = orderItem.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a")
-            let plural = orderItem.menuItems.count == 1 ? "" : "s"
-            
-            var priority = ""
-            switch orderItem.priority {
-                case 0: priority = "High"
-                case 1: priority = "Medium"
-                default: priority = "Low"
-            }
-            
-            orderCell.subtitleLabel.text = "\(orderItem.menuItems.count) item\(plural) - Priority: \(priority)"
-        }
+        let usageItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "usageItemCell", for: indexPath) as! UsageItemCell
+                    
+        let usageItem = usageActions[indexPath.row]
+        usageItemCell.configure(item: usageItem)
 
-        return orderCell
+        return usageItemCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -141,15 +88,15 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionView.elementKindSectionHeader) {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! OrderHeaderCell
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! UsageHeaderCell
             
-            header.titleLabel.text = "Active"
-            header.prioritizeButton.isHidden = false
+            header.titleLabel.text = "All usage actions:"
+            header.filterButton.isHidden = false
             
             return header
             
@@ -182,13 +129,11 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     }()
     
     func setUpViews() {
+                
+        fetchUsageActions()
         
-        self.backgroundColor = .red
-        
-        fetchOrders()
-        
-        collectionView.register(OrderCell.self, forCellWithReuseIdentifier: "orderCell")
-        collectionView.register(OrderHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
+        collectionView.register(UsageItemCell.self, forCellWithReuseIdentifier: "usageItemCell")
+        collectionView.register(UsageHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerCell")
         
         self.addSubview(collectionView)
         collectionView.fillSuperview()
@@ -196,5 +141,95 @@ class UsageReportView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     }
 
 }
+
+import UIKit
+
+class UsageItemCell: UICollectionViewCell {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUpViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(item: UsageItem) {
+        titleLabel.text = item.actionDate.toStringWith(format: "EEEE, MMM d, h:mm a")
+        subtitleTextView.text = "\(item.type) - \(item.desc)"
+    }
+    
+    let titleLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Item Title", font: UIFont(regularWithSize: 18), textColor: .black)
+        return lbl
+    }()
+    
+    let subtitleTextView: UITextView = {
+        let tv = UITextView()
+        tv.backgroundColor = .clear
+        tv.font = UIFont(regularWithSize: 15)
+        tv.isScrollEnabled = false
+        return tv
+    }()
+
+    let separatorView = LineView(color: .lightGray)
+    
+    func setUpViews() {
+        
+        self.backgroundColor = .menu_white
+        
+        self.addSubviews(views: [separatorView, titleLabel, subtitleTextView])
+                        
+        titleLabel.anchor(self.topAnchor, left: leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 5, leftConstant: 20, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 17)
+        
+        subtitleTextView.anchor(titleLabel.bottomAnchor, left: titleLabel.leftAnchor, bottom: nil, right: titleLabel.rightAnchor, topConstant: 5, leftConstant: -5, bottomConstant: 0, rightConstant: 20, widthConstant: 0, heightConstant: 60)
+        
+        separatorView.anchor(subtitleTextView.bottomAnchor, left: titleLabel.leftAnchor, bottom: nil, right: self.rightAnchor, topConstant: 0, leftConstant: -5, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 1.5)
+    }
+}
+
+class UsageHeaderCell: UICollectionViewCell {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUpViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let titleLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "All usage actions", font: UIFont(boldWithSize: 20), textColor: .black)
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    
+    let filterButton: UIButton = {
+        let btn = UIButton(frame: .zero)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = .subtitle_label
+        btn.add(text: "Filter", font: UIFont(boldWithSize: 17), textColor: UIColor(hex: "565656"))
+        return btn
+    }()
+        
+    func setUpViews() {
+        
+        self.backgroundColor = .clear
+        
+        self.addSubviews(views: [titleLabel])
+        
+        titleLabel.anchor(nil, left: leftAnchor, bottom: nil, right: rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 17)
+        titleLabel.anchorCenterYToSuperview()
+        
+//        filterButton.anchor(topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, topConstant: 7, leftConstant: 0, bottomConstant: 7, rightConstant: 15, widthConstant: 120, heightConstant: 0)
+//        filterButton.anchorCenterYToSuperview()
+
+    }
+}
+
 
 

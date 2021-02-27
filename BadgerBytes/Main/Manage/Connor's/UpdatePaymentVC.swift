@@ -105,6 +105,8 @@ class UpdatePaymentVC:  UIViewController, UICollectionViewDataSource, UICollecti
                 print(err.localizedDescription)
             }
             
+            Database.fetchCurrentUser()
+            
             print("Uploaded payment info")
         }
     }

@@ -43,7 +43,7 @@ class ManageVC: UIViewController {
 //
 //            self.present(alert, animated: true, completion: nil)
 //
-//            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+//            alert.addAction(UIAlertAction(title: "Dimiss", style: .cancel, handler: nil))
 //        } else {
 //            updateView(isOrdersHidden: true)
 //        }

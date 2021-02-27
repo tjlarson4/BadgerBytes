@@ -13,7 +13,7 @@ struct User {
     let email: String
     let firstName: String
     let lastName: String
-    let accountType: String
+    var accountType: String 
     let phoneNum: String
     let address: String
     let payment: [String: String]

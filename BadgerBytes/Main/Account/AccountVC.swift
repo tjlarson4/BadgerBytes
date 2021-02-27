@@ -68,9 +68,8 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
         if (indexPath.row == 0) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Info", for: indexPath) as! InformationViewCell
             
-            
             let name = "\(globalCurrentUser!.firstName) \(globalCurrentUser!.lastName)"
-            let accountType = "\(globalCurrentUser!.accountType) account"
+            let accountType = "Account Type: \(globalCurrentUser!.accountType.capitalized)"
             let address = "Address: \(globalCurrentUser!.address)"
             let phone = "Phone: \(globalCurrentUser!.phoneNum)"
             let email = "Email: \(globalCurrentUser!.email)"
@@ -82,7 +81,6 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
             cell.addLabelInOrder(label: phone, isBold: false, size: 1)
             cell.addLabelInOrder(label: email, isBold: false, size: 1)
             
-            
             return cell
         }
         
@@ -90,12 +88,15 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
             // update password
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Simple", for: indexPath) as! SimpleTextCell
             cell.textLabel.text = "Update Password"
+            cell.textLabel.textColor = .menu_white
             return cell
         }
         
         else if (indexPath.row == 2) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Simple", for: indexPath) as! SimpleTextCell
             cell.textLabel.text = "Update Address"
+            cell.textLabel.textColor = .menu_white
+
             return cell
             // payment info
         }
@@ -103,6 +104,8 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
         else if (indexPath.row == 3){
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Simple", for: indexPath) as! SimpleTextCell
             cell.textLabel.text = "Update Payment Information"
+            cell.textLabel.textColor = .menu_white
+
             return cell
         }
             

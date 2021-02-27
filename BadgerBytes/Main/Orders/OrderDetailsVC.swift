@@ -12,6 +12,15 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     var orderItems = [MenuItem]()
     
+    var order: Order? {
+        didSet {
+            self.carDescLabel.text = "Car Description: \(order!.carDesc)"
+            self.dateLabel.text = "Ordered: \(order!.creationDate.toStringWith(format: "EEEE, MMM d, h:mm a"))"
+            self.pickupLabel.text = "Pickup: \(order!.pickupDate.toStringWith(format: "EEEE, MMM d, h:mm a"))"
+            self.priceLabel.text = "Total Price: \(order!.totalPrice)"
+        }
+    }
+    
     //
     // MARK: View Lifecycle
     //
@@ -140,6 +149,13 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         return lbl
     }()
     
+    let priceLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.add(text: "Pickup: Friday, Feb 26, 4:09 AM", font: UIFont(regularWithSize: 18), textColor: .black)
+        lbl.textAlignment = .left
+        return lbl
+    }()
+    
     let carDescLabel: UILabel = {
         let lbl = UILabel()
         lbl.add(text: "Car Description: Blue Honda", font: UIFont(regularWithSize: 18), textColor: .black)
@@ -166,18 +182,8 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
-        btn.add(text: "Get receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.add(text: "Get receipt ", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
         btn.addTarget(self, action: #selector(handleGetReceipt), for: .touchUpInside)
-        return btn
-    }()
-    
-    let closeReceiptButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.layer.cornerRadius = 9
-        btn.backgroundColor = .subtitle_label
-        btn.add(text: "Close receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
-        btn.addTarget(self, action: #selector(handleCloseReceipt), for: .touchUpInside)
-        btn.isHidden = true
         return btn
     }()
 
@@ -187,8 +193,8 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         //self.view.addSubview(collectionView)
         
-        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton, closeReceiptButton])
-        self.infoContainerView.addSubviews(views: [dateLabel, pickupLabel, carDescLabel])
+        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton])
+        self.infoContainerView.addSubviews(views: [dateLabel, pickupLabel, priceLabel, carDescLabel])
 
         self.view.backgroundColor = .menu_white
         
@@ -196,15 +202,15 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         infoLabel.anchor(dismissButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 10, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
         
-        infoContainerView.anchor(infoLabel.bottomAnchor, left: view.leftAnchor, bottom: itemsLabel.topAnchor, right: view.rightAnchor, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 130)
-
-//        customerLabel.anchor(infoContainerView.topAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        infoContainerView.anchor(infoLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 170)
         
         dateLabel.anchor(infoContainerView.topAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
         
         pickupLabel.anchor(dateLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
         
-        carDescLabel.anchor(pickupLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        priceLabel.anchor(pickupLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
+        
+        carDescLabel.anchor(priceLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
         
         itemsLabel.anchor(infoContainerView.bottomAnchor, left: view.leftAnchor, bottom: collectionView.topAnchor, right: view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
 
