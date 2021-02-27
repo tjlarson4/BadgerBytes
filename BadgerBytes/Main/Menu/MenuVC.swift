@@ -87,6 +87,17 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     @objc func handleCheckCart() {
         
+        if totalCartPrice == 0 {
+            
+            let alert = UIAlertController(title: "No items added to cart", message: "Add items below by pressing the + icon", preferredStyle: .alert)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (alert) in
+                return
+            }))
+        }
+        
         let cartOrderVC = CartOrderVC()
         cartOrderVC.cartItems = self.cartItems
         cartOrderVC.totalOrderPrice = self.totalCartPrice
