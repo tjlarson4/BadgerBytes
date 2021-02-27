@@ -15,6 +15,7 @@ var globalCurrentUser: User? {
         globalMenuUI?.addMenuItemButton.isHidden = (globalCurrentUser?.accountType != "admin")
     }
 }
+
 var globalCurrentSelectedOrder: Order? // bad practice i know but were one day from submission
 
 @main
@@ -28,6 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setAppearances()
 
         return true
+    }
+    
+    func reloadTabBar() {
+        
+        
     }
     
     func fetchCurrentUser() {
@@ -45,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setAppearances() {
+    
                 
         // Changes system nav bar attributes
         UINavigationBar.appearance().barTintColor = UIColor(hex: "f7f7f7")

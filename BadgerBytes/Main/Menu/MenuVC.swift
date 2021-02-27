@@ -23,7 +23,34 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     //
     
     override func viewDidLoad() {
+        
+        if let accountType = globalCurrentUser?.accountType {
+            print("loaded")
+        } else {
+            fetchCurrentUser {
+                self.view.window?.resignKey()
+                let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
+                tabBarVC.setUpViewControllers()
+            }
+        }
+        
+        
         setUpViews()
+    }
+    
+    func fetchCurrentUser(completion: @escaping () -> ()) {
+        
+        // Checks that there is a current user with an ID
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        // Retrieves user info from Firebase
+        Database.database().reference().child("Users").child(currentUserID).observeSingleEvent(of: .value) { (snapshot) in
+            
+            // Creates dictionary of user information, instatiates new User object
+            guard let userDict = snapshot.value as? [String: Any] else {return}
+            globalCurrentUser = User(uid: currentUserID, dictionary: userDict)
+            completion()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
