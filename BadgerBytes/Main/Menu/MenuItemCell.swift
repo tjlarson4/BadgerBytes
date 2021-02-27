@@ -35,6 +35,11 @@ class MenuItemCell: UICollectionViewCell {
             inStockLabel.isHidden = true
             openCartButton.isHidden = false
         }
+        if(globalCurrentUser?.accountType == "customer"){
+            editItemButton.isHidden = true
+        }else{
+            editItemButton.isHidden = false
+        }
         itemLabel.text = item.name
         priceLabel.text = "$\(item.price)"
         itemImageView.loadImage(urlString: item.imageURL)

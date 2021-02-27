@@ -41,9 +41,9 @@ class TabBarVC: UITabBarController {
     }
     
     func setUpViewControllers() {
-                
+                globalMenuUI = MenuVC()
         // Initialize each tab bar view controller
-        let controllers = [add(vc: MenuVC(), name: "Menu", icon: UIImage(named: "menu_icon")!),
+        let controllers = [add(vc: globalMenuUI!, name: "Menu", icon: UIImage(named: "menu_icon")!),
                            add(vc: OrdersVC(), name: "Orders", icon: UIImage(named: "orders_icon")!),
                            add(vc: ManageVC(), name: "Manage", icon: UIImage(named: "manage_icon")!),
                            add(vc: AccountVC(), name: "Account", icon: UIImage(named: "account_icon")!)]
