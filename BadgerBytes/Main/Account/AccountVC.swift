@@ -94,7 +94,7 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
         
         else if (indexPath.row == 2) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Simple", for: indexPath) as! SimpleTextCell
-            cell.textLabel.text = "Update Address"
+            cell.textLabel.text = "Update User Info"
             cell.textLabel.textColor = .menu_white
 
             return cell

@@ -40,8 +40,38 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @objc func handleGetReceipt() {
-        print("Getting receipt")
+        
+        let pdfCreator = PDFCreator(menuItems: orderItems)
+        
+        let documentData = pdfCreator.createOrder()
+        
+        let pdfView = PDFView(frame: collectionView.bounds)
+        
+        pdfView.autoScales = true
+        pdfView.restorationIdentifier = "getReceiptButton"
+        
+        view.addSubview(pdfView)
+        
+        pdfView.anchor(itemsLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 10, rightConstant: 30, widthConstant: 0, heightConstant: collectionView.frame.size.height)
+        
+        let pdfDocument = PDFDocument(data: documentData)
+        pdfView.document = pdfDocument
+
+        getReceiptButton.isHidden = true
+        closeReceiptButton.isHidden = false
     }
+    
+    @objc func handleCloseReceipt() {
+        for subview in self.view.subviews {
+            if (subview.restorationIdentifier == "getReceiptButton") {
+                subview.removeFromSuperview()
+            }
+        }
+        
+        getReceiptButton.isHidden = false
+        closeReceiptButton.isHidden = true
+    }
+    
     
     //
     // MARK: Collection View
@@ -152,8 +182,20 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
-        btn.add(text: "Get receipt ", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.add(text: "Get receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
         btn.addTarget(self, action: #selector(handleGetReceipt), for: .touchUpInside)
+        
+        return btn
+    }()
+    
+    let closeReceiptButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = .subtitle_label
+        btn.add(text: "Close receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.addTarget(self, action: #selector(handleCloseReceipt), for: .touchUpInside)
+        btn.isHidden = true
+        
         return btn
     }()
 
@@ -163,7 +205,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         //self.view.addSubview(collectionView)
         
-        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton])
+        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton, closeReceiptButton])
         self.infoContainerView.addSubviews(views: [dateLabel, pickupLabel, priceLabel, carDescLabel])
 
         self.view.backgroundColor = .menu_white
@@ -182,11 +224,13 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         carDescLabel.anchor(priceLabel.bottomAnchor, left: infoContainerView.leftAnchor, bottom: nil, right: infoContainerView.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 30)
         
-        itemsLabel.anchor(infoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
+        itemsLabel.anchor(infoContainerView.bottomAnchor, left: view.leftAnchor, bottom: collectionView.topAnchor, right: view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
 
         collectionView.anchor(itemsLabel.bottomAnchor, left: view.leftAnchor, bottom: getReceiptButton.topAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
 
         getReceiptButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
+        
+        closeReceiptButton.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 30, bottomConstant: 20, rightConstant: 30, widthConstant: 0, heightConstant: 45)
 
         
         

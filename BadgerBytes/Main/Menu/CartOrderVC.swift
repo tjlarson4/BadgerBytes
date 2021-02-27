@@ -95,7 +95,7 @@ class CartOrderVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @objc func handleGetReceipt() {
-        print("get receipt button pressed")
+        // print("get receipt button pressed")
         
         let pdfCreator = PDFCreator(menuItems: cartItems)
         

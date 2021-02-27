@@ -159,6 +159,10 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         navigationController?.setNavigationBarHidden(false, animated: true)
 
     }
+    
+    func hideAddItem(){
+        self.addMenuItemButton.isHidden = (globalCurrentUser?.accountType == "customer")
+    }
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -301,6 +305,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
 
         return btn
     }()
+    
     
     lazy var addMenuItemButton: UIButton = {
         let btn = UIButton(type: .system)
