@@ -14,8 +14,8 @@ class SimpleTextInputCell: UICollectionViewCell {
     
     let textInput: UITextField = {
         let tf = UITextField()
-        tf.textColor = .main_label
-        tf.tintColor = .main_label
+        tf.textColor = .menu_white
+        tf.tintColor = .menu_white
         tf.font = UIFont(regularWithSize: 16)
         tf.keyboardAppearance = .dark
         tf.autocapitalizationType = .none
@@ -34,7 +34,7 @@ class SimpleTextInputCell: UICollectionViewCell {
             textInput.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
         ])
         self.contentView.layer.cornerRadius = 5
-        self.contentView.backgroundColor = .card_background
+        self.contentView.backgroundColor = .gray
     }
 
     required init?(coder aDecoder: NSCoder) {

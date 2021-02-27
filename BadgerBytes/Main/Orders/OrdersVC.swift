@@ -180,6 +180,7 @@ class OrdersVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         globalCurrentSelectedOrder = Order(id: "temp", dictionary: ["temp": "temp"])
         
         let orderArr = indexPath.section == 0 ? activeOrders : pastOrders
+        orderDetailsVC.order = orderArr[indexPath.row]
         
         for key in orderArr[indexPath.row].menuItems.keys {
             Database.fetchMenuItemWithID(id: key) { (menuItem) in
