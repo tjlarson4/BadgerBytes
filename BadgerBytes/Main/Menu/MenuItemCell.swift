@@ -131,15 +131,15 @@ class MenuItemCell: UICollectionViewCell {
         
         // TEST CONSTRAINTS - REMOVE LATER
         
-        openCartButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
-
-        editItemButton.anchor(openCartButton.bottomAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
+//        openCartButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
+//
+//        editItemButton.anchor(openCartButton.bottomAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
         
         // COMMENTED OUT FOR TESTING - DO NOT REMOVE
         
-//        openCartButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
-//
-//        editItemButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 70, heightConstant: 45)
+        openCartButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 45, heightConstant: 45)
+
+        editItemButton.anchor(self.topAnchor, left: nil, bottom: nil, right: self.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 70, heightConstant: 45)
 
     }
 }

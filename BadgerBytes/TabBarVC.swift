@@ -40,17 +40,40 @@ class TabBarVC: UITabBarController {
         }
     }
     
-    func setUpViewControllers() {
-                globalMenuUI = MenuVC()
-        // Initialize each tab bar view controller
-        let controllers = [add(vc: globalMenuUI!, name: "Menu", icon: UIImage(named: "menu_icon")!),
-                           add(vc: OrdersVC(), name: "Orders", icon: UIImage(named: "orders_icon")!),
-                           add(vc: ManageVC(), name: "Manage", icon: UIImage(named: "manage_icon")!),
-                           add(vc: AccountVC(), name: "Account", icon: UIImage(named: "account_icon")!)]
+    func getAccountType() -> String {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return "" }
+
+        var accountType = ""
+        Database.fetchUserWithUID(uid: userID) { (user) in
+            accountType = user.accountType
+        }
+        return accountType
+    }
     
-        // Add all view controllers
-        self.viewControllers = controllers
-        self.selectedIndex = 0
+    func setUpViewControllers() {
+        
+        globalMenuUI = MenuVC()
+        // Initialize each tab bar view controller
+                
+        if globalCurrentUser?.accountType == "customer" {
+            let controllersCustomer = [add(vc: globalMenuUI!, name: "Menu", icon: UIImage(named: "menu_icon")!),
+                               add(vc: OrdersVC(), name: "Orders", icon: UIImage(named: "orders_icon")!),
+                               add(vc: AccountVC(), name: "Account", icon: UIImage(named: "account_icon")!)]
+            // Add all view controllers
+            self.viewControllers = controllersCustomer
+            self.selectedIndex = 0
+            
+        } else {
+            let controllersAdminStaff = [add(vc: globalMenuUI!, name: "Menu", icon: UIImage(named: "menu_icon")!),
+                               add(vc: ManageVC(), name: "Manage", icon: UIImage(named: "manage_icon")!),
+                               add(vc: AccountVC(), name: "Account", icon: UIImage(named: "account_icon")!)]
+            
+            // Add all view controllers
+            self.viewControllers = controllersAdminStaff
+            self.selectedIndex = 0
+        }
+
     }
     
     func add(vc: UIViewController, name: String, icon: UIImage) -> UINavigationController {

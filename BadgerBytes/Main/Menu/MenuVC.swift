@@ -201,14 +201,14 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             // COMMENTED OUT FOR TESTING - DO NOT REMOVE
             // Handles security permission for account types showing edit/add to cart buttons
             
-//            if getAccountType() == "customer" {
-//                menuItemCell.editItemButton.isHidden = true
-//                menuItemCell.openCartButton.isHidden = false
-//            } else {
-//                menuItemCell.editItemButton.isHidden = false
-//                menuItemCell.openCartButton.isHidden = true
-//
-//            }
+            if getAccountType() == "customer" {
+                menuItemCell.editItemButton.isHidden = true
+                menuItemCell.openCartButton.isHidden = false
+            } else {
+                menuItemCell.editItemButton.isHidden = false
+                menuItemCell.openCartButton.isHidden = true
+
+            }
             
             menuItemCell.openCartCallback = {
                                                 
@@ -306,7 +306,6 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         return btn
     }()
     
-    
     lazy var addMenuItemButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.add(text: " + Add new menu item", font: UIFont(boldWithSize: 15), textColor: .white)
@@ -322,20 +321,20 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         // COMMENTED OUT FOR TESTING - DO NOT REMOVE
         // BELOW CODE CHANGES BUTTON VISIBILITY FOR ACCOUNT TYPE PERMISSIONS
         
-//        if getAccountType() == "customer" {
-//            self.navigationItem.titleView = viewCartButton
-//        } else {
-//            self.navigationItem.titleView = addMenuItemButton
-//        }
-//
-//        if getAccountType() == "staff" {
-//            addMenuItemButton.isEnabled = false
-//            addMenuItemButton.backgroundColor = .gray
-//        }
+        if getAccountType() == "customer" {
+            self.navigationItem.titleView = viewCartButton
+        } else {
+            self.navigationItem.titleView = addMenuItemButton
+        }
+
+        if getAccountType() == "staff" {
+            addMenuItemButton.isEnabled = false
+            addMenuItemButton.backgroundColor = .gray
+        }
         
         // TEST CODE - DO NOT REMOVE
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: addMenuItemButton)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: viewCartButton)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: addMenuItemButton)
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: viewCartButton)
 
         registerCells()
         fetchMenu()

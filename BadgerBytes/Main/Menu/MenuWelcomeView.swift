@@ -57,7 +57,7 @@ class MenuWelcomeView: UICollectionViewCell {
     let startOrderButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
-        btn.add(text: "Start your order", font: UIFont(boldWithSize: 18), textColor: .black)
+        btn.add(text: "View menu", font: UIFont(boldWithSize: 18), textColor: .black)
         btn.backgroundColor = .white
         btn.alpha = 0.8
 

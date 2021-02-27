@@ -146,18 +146,9 @@ class LoginVC: UIViewController {
         return btn
     }()
     
-    let forgotPasswordButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.add(text: "Forgot your password? Reset here", font: UIFont(regularWithSize: 14), textColor: .subtitle_label)
-        btn.addTarget(self, action: #selector(handleForgotPassword), for: .touchUpInside)
-        return btn
-    }()
-    
     func setUpViews() {
         
-        
-                
-        self.containerView.addSubviews(views: [titleLabel, inputBackgroundView, emailInputView, passwordInputView, signInButton, signUpButton, forgotPasswordButton])
+        self.containerView.addSubviews(views: [titleLabel, inputBackgroundView, emailInputView, passwordInputView, signInButton, signUpButton])
         self.view.addSubviews(views: [backgroundImageView, containerView])
         
         backgroundImageView.fillSuperview()
@@ -179,7 +170,6 @@ class LoginVC: UIViewController {
         
         signUpButton.anchor(signInButton.bottomAnchor, left: emailInputView.leftAnchor, bottom: nil, right: emailInputView.rightAnchor, topConstant: 13, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 40)
         
-        forgotPasswordButton.anchor(signUpButton.bottomAnchor, left: emailInputView.leftAnchor, bottom: nil, right: emailInputView.rightAnchor, topConstant: 7, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 19)
         
     }
 }
