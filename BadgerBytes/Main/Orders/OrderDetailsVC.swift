@@ -182,8 +182,20 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let btn = UIButton(type: .system)
         btn.layer.cornerRadius = 9
         btn.backgroundColor = .subtitle_label
-        btn.add(text: "Get receipt ", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.add(text: "Get receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
         btn.addTarget(self, action: #selector(handleGetReceipt), for: .touchUpInside)
+        
+        return btn
+    }()
+    
+    let closeReceiptButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.layer.cornerRadius = 9
+        btn.backgroundColor = .subtitle_label
+        btn.add(text: "Close receipt", font: UIFont(boldWithSize: 18), textColor: UIColor(hex: "565656"))
+        btn.addTarget(self, action: #selector(handleCloseReceipt), for: .touchUpInside)
+        btn.isHidden = true
+        
         return btn
     }()
 
@@ -193,7 +205,7 @@ class OrderDetailsVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         //self.view.addSubview(collectionView)
         
-        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton])
+        self.view.addSubviews(views: [dismissButton, infoLabel, infoContainerView, itemsLabel, collectionView, getReceiptButton, closeReceiptButton])
         self.infoContainerView.addSubviews(views: [dateLabel, pickupLabel, priceLabel, carDescLabel])
 
         self.view.backgroundColor = .menu_white
