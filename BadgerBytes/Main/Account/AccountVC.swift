@@ -70,7 +70,7 @@ class AccountVC: UIViewController, UICollectionViewDataSource, UICollectionViewD
             
             let name = "\(globalCurrentUser!.firstName) \(globalCurrentUser!.lastName)"
             let accountType = "Account Type: \(globalCurrentUser!.accountType.capitalized)"
-            let address = "Address: \(globalCurrentUser!.address)"
+            let address = "Edit User: \(globalCurrentUser!.address)"
             let phone = "Phone: \(globalCurrentUser!.phoneNum)"
             let email = "Email: \(globalCurrentUser!.email)"
             
