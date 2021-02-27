@@ -31,11 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func reloadTabBar() {
-        
-        
-    }
-    
     func fetchCurrentUser() {
         
         // Checks that there is a current user with an ID

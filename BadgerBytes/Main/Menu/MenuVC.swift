@@ -24,17 +24,17 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     override func viewDidLoad() {
         
-        if let accountType = globalCurrentUser?.accountType {
-            print("loaded")
+        if let _ = globalCurrentUser?.accountType {
+
         } else {
             fetchCurrentUser {
                 self.view.window?.resignKey()
                 let tabBarVC = UIApplication.shared.keyWindow?.rootViewController as! TabBarVC
                 tabBarVC.setUpViewControllers()
+                
             }
         }
-        
-        
+            
         setUpViews()
     }
     
@@ -348,7 +348,7 @@ class MenuVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         // COMMENTED OUT FOR TESTING - DO NOT REMOVE
         // BELOW CODE CHANGES BUTTON VISIBILITY FOR ACCOUNT TYPE PERMISSIONS
         
-        if getAccountType() == "customer" {
+        if globalCurrentUser?.accountType == "customer" {
             self.navigationItem.titleView = viewCartButton
         } else {
             self.navigationItem.titleView = addMenuItemButton
