@@ -11,7 +11,7 @@ Pre-reqs
 
 Steps
 1. Download repo
-2. Open terminal, change directory into download folder
+2. Open terminal, change directory into BadgerBytes folder
 3. Run **pod install** 
 4. Open application through BadgerBytes.xcworkspace file
 5. Run with simulator (iPhone 12 tested and working) 
